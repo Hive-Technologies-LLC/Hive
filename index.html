@@ -243,6 +243,24 @@ footer {
         width: 100%;
     }
 }
+.bio-photo-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2em;
+  flex-wrap: nowrap; /* Prevents stacking */
+  overflow-x: auto;  /* Allows side scroll if screen is too small */
+  padding: 1em 0;
+}
+
+.bio-photo-container::-webkit-scrollbar {
+  height: 6px;
+}
+.bio-photo-container::-webkit-scrollbar-thumb {
+  background: #FFB800;
+  border-radius: 5px;
+}
+
     </style>
 </head>
 <body>
@@ -291,7 +309,7 @@ footer {
     <h2>About Us</h2>
     <p>Hive Technologies is pioneering a future where clean energy is accessible anywhere. We design modular, off-grid EV charging stations powered entirely by solar energy and supported by advanced battery storage. Inspired by the natural efficiency of a beehive, our stations operate independently of traditional utilities—enabling sustainable power in cities and rural areas
         Every Hive Power Station is built to be self-sufficient, scalable, and environmentally responsible, using smart control systems and immersion-cooled energy storage. Our mission is to democratize clean infrastructure, reduce carbon impact, and lead the global shift toward resilient, nature-powered technology.</p>
-        <div style="display: flex; justify-content: center; gap: 3em; flex-wrap: wrap; align-items: center; text-align: center;">
+          <div class="bio-photo-container"></div>
             <div class="bio-photo">
               <img src="resources/founder.kashawn.coleman.jpg" alt="Kashawn Coleman">
               <div class="bio-caption">Founder & Systems Architect – Hive Technologies</div>
@@ -411,12 +429,12 @@ footer {
 <footer>
     <div class="footer-contact">
         <strong>Contact Us</strong><br>
-        Email: Hivetechcom@gmail.com<br>
-        Social: ...coming soon...
+        Email: contact@hivepowerstation.com<br>
+        Social: @HivePowerStation
     </div>
 
     <div class="footer-center">
-        <img class="footer-logo" src="resources/HiveTech_logo.png" alt="Hive Power Station Logo" style="max-width: 150px; width: 100%; height: auto;">
+        <img class="footer-logo" src="resources/HiveTech_logo.png" alt="Hive Power Station Logo" style="max-width: 200px; width: 100%; height: auto;">
     </div>
 
     <div class="footer-right">
