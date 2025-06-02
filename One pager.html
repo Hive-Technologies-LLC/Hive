@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #0B0B0B;
+            color: white;
+            scroll-behavior: smooth;
+        }
+        header {
+    background-color: rgba(11, 11, 11, 0.5); /* 50% transparent */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 1em 2em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+        nav a {
+            color: #FFB800;
+            margin-left: 1.5em;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        section {
+            padding: 4em 2em;
+            max-width: 1000px;
+            margin: auto;
+        }
+        h1, h2 {
+            color: #FFB800;
+        }
+        .btn {
+            display: inline-block;
+            background: #FFB800;
+            color: black;
+            padding: 0.6em 1.2em;
+            margin: 1em 0;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5em;
+            margin-top: 2em;
+        }
+        .solution-box {
+    background: rgba(28, 28, 28, 0.6); /* Dark with 60% opacity */
+    padding: 1em;
+    border-radius: 8px;
+    text-align: center;
+}
+        .center-img {
+            display: block;
+            margin: 2em auto;
+            max-width: 90%;
+            border-radius: 10px;
+        }
+        footer {
+            background-color: #1c1c1c;
+            text-align: center;
+            padding: 2em;
+            font-size: 0.9em;
+        }
+        .solution-box img {
+    width: 55px;
+    margin-bottom: 0.5em;
+}
+.founder-photo {
+    width: 150px; /* Adjust size as needed */
+    height: 150px;
+    border-radius: 50%; /* Makes the image circular */
+    border: 4px solid #FFB800; /* Golden border */
+    object-fit: cover;
+    display: block;
+    margin: 2em auto;
+    box-shadow: 0 0 12px rgba(255, 184, 0, 0.4);
+}
+.logo-img {
+    height: 40px;   /* Adjust this value to resize */
+    display: block;
+ 
+}
+.background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.4; /* You can adjust visibility here */
+}
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: -1;
+}
+.bio-photo {
+  position: relative;
+  display: inline-block;
+  margin: 1em;
+  text-align: center;
+}
+
+.bio-photo img {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #FFB800;
+  box-shadow: 0 0 12px rgba(255, 184, 0, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.bio-photo:hover img {
+  transform: scale(1.05);
+}
+
+.bio-caption {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  color: #FFB800;
+  font-size: 0.9em;
+  margin-top: 0.5em;
+}
+
+.bio-photo:hover .bio-caption {
+  opacity: 1;
+}
+.jobs-scroll-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 1.5em;
+  padding-bottom: 1em;
+  scroll-behavior: smooth;
+}
+
+.jobs-scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+.jobs-scroll-container::-webkit-scrollbar-thumb {
+  background: #FFB800;
+  border-radius: 10px;
+}
+.jobs-scroll-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.card {
+  width: 280px;                         /* Smaller card width */
+  background: rgba(28, 28, 28, 0.6);
+  border-radius: 10px;
+  padding: 1.5em;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  margin-right: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  word-wrap: break-word;
+}
+
+.scroll-btn {
+  background: #FFB800;
+  border: none;
+  color: black;
+  font-weight: bold;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  margin: 0 0.5em;
+  border-radius: 5px;
+}
+.scroll-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1em;
+}
+footer {
+    background-color: rgba(28, 28, 28, 0.6); /* Semi-transparent dark */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2em;
+    font-size: 0.9em;
+    flex-wrap: wrap;
+    text-align: center;
+}
+.footer-contact {
+    text-align: left;
+    color: #ccc;
+    line-height: 1.6;
+    flex: 1;
+    min-width: 200px;
+}
+.footer-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 200px;
+}
+.footer-right {
+    flex: 1;
+    text-align: right;
+    color: #ccc;
+    min-width: 200px;
+}
+.footer-logo {
+    height: 60px;
+    margin-bottom: 0.5em;
+}
+
+    </style>
+</head>
+<body>
+    <video autoplay muted loop playsinline class="background-video">
+        <source src="resources/Field_Video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+<header>
+    <div><strong>Hive Power Station</strong></div>
+    <nav>
+        <a href="#about">About</a>
+        <a href="#solutions">Solutions</a>
+        <a href="#jobs">Jobs</a>
+        <a href="#contact">Contact</a>
+    </nav>
+</header>
+
+<!-- HERO SECTION -->
+<section id="hero" style="position: relative; text-align: center;">
+    <!-- Background Text Image -->
+    <img class="center-img" src="resources/nature_powers_usV2.png" alt="Nature Powers Us">
+
+    <!-- Overlay Live Bee -->
+    <img src="resources/Live_bee.png" alt="Live Bee" style="
+        position: absolute;
+        top: 15%;
+        left: 88%;
+        transform: translate(-50%, -50%);
+        width: 200px;
+        max-width: 30vw;
+        z-index: 2;
+        pointer-events: none;
+    ">
+
+    <!-- Tagline & Button -->
+    <p style="margin-top: 1em;">Off-grid EV charging and sustainable infrastructure</p>
+    <a class="btn" href="#contact">Join the Mission</a>
+    <a class="btn" href="resources/HiveStation Master_Pitch.pptx" target="_blank">View Pitch Deck</a>
+
+</section>
+
+
+<!-- ABOUT SECTION -->
+<section id="about">
+    <h2>About Us</h2>
+    <p>Hive Technologies is pioneering a future where clean energy is accessible anywhere. We design modular, off-grid EV charging stations powered entirely by solar energy and supported by advanced battery storage. Inspired by the natural efficiency of a beehive, our stations operate independently of traditional utilities—enabling sustainable power in cities and rural areas
+        Every Hive Power Station is built to be self-sufficient, scalable, and environmentally responsible, using smart control systems and immersion-cooled energy storage. Our mission is to democratize clean infrastructure, reduce carbon impact, and lead the global shift toward resilient, nature-powered technology.</p>
+        <div style="display: flex; justify-content: center; gap: 3em; flex-wrap: wrap; align-items: center; text-align: center;">
+            <div class="bio-photo">
+              <img src="resources/founder.kashawn.coleman.jpg" alt="Kashawn Coleman">
+              <div class="bio-caption">Founder & Systems Architect – Hive Technologies</div>
+            </div>
+          
+            <div class="bio-photo">
+              <img src="resources/kashawn.military.jpg" alt="Kashawn Coleman Military">
+              <div class="bio-caption">U.S. Army Veteran – 94F Computer Detection Systems Repairer</div>
+            </div>
+          </div>
+          
+</section>
+
+<!-- Solutions Section -->
+<section id="solutions">
+    <h2>Our Advantages</h2>
+    <!-- Replace with HivePod diagram or visual -->
+    <div class="solutions-grid">
+        <div class="solution-box">
+            <img src="resources/Hivepod_logo.jpg" alt="HivePods">
+            <h3>HivePods</h3>
+            <p>Immersion-cooled modular energy storage.</p>
+        </div>
+        <div class="solution-box">
+            <img src="resources/solar_integration_logo.png" alt="Solar Integration">
+            <h3>Solar Integration</h3>
+            <p>Solar energy harvesting combined with battery swapping technology creates a closed-loop energy system with no dependency on the traditional grid.</p>
+        </div>
+        <div class="solution-box">
+            <img src="resources/smart_control_logo.png" alt="Smart Control">
+            <h3>Smart Control Systems</h3>
+            <p>Autonomous load balancing and power routing backed by real-time human oversight to ensure safety and flexibility at every level.</p>
+        </div>
+        <div class="solution-box">
+            <img src="resources/power_station_logo.png" alt="Grid-Free">
+            <h3>Grid-Free Deployment</h3>
+            <p>Our stations work <b>anywhere</b>, even in places with no utility connections.</p>
+        </div>
+    </div>
+</section>
+
+<!-- JOBS SECTION -->
+<section id="jobs">
+    <h2>Join the Hive</h2>
+    <p>Upcoming jobs post funding. Swarm to a cause and join the Hive!</p>
+  
+    <div class="jobs-scroll-container" id="jobScroll">
+        <div class="card">
+          <h3>Lead Embedded Software Engineer</h3>
+          <p><strong>Type:</strong> Remote Contract (6–8 months)</p>
+          <p><strong>Rate:</strong> $55–$75/hr</p>
+          <p>Coordinate BMS firmware development across all system tiers. Must have STM32/ESP32 and team leadership experience.</p>
+          <a class="btn" href="mailto:careers@hivepowerstation.com?subject=Lead%20Embedded%20Firmware%20Engineer%20Application">Apply Now</a>
+        </div>
+      
+        <div class="card">
+          <h3>Embedded Firmware Engineer – Tray Level</h3>
+          <p><strong>Type:</strong> Remote Contract (5–6 months)</p>
+          <p><strong>Rate:</strong> $35–$50/hr</p>
+          <p>Develop low-level STM32 firmware for 100-cell battery trays using LTC6813 ICs and CAN bus safety monitoring.</p>
+          <a class="btn" href="mailto:careers@hivepowerstation.com?subject=Tray%20Firmware%20Engineer%20Application">Apply Now</a>
+        </div>
+      
+        <div class="card">
+            <h3>Mobile App Developer (React Native or Flutter)</h3>
+            <p><strong>Type:</strong> Contract (3–4 months)</p>
+            <p><strong>Rate:</strong> $45–$65/hr</p>
+            <p>Build cross-platform HiveStation customer & worker apps. Includes account, rewards, charger control, and live notifications. Firebase/Supabase integration preferred.</p>
+            <a class="btn" href="mailto:careers@hivepowerstation.com?subject=Mobile%20App%20Developer%20Application">Apply Now</a>
+          </div>
+          
+          <div class="card">
+            <h3>Web Dashboard Engineer (Admin Portal)</h3>
+            <p><strong>Type:</strong> Remote Contract (4–6 months)</p>
+            <p><strong>Rate:</strong> $40–$60/hr</p>
+            <p>Develop internal admin tools in React or Vue.js for viewing logs, pod health, and approving worker activity. Must be secure and mobile-friendly.</p>
+            <a class="btn" href="mailto:careers@hivepowerstation.com?subject=Web%20Dashboard%20Engineer%20Application">Apply Now</a>
+          </div>
+          
+          <div class="card">
+            <h3>Master Controller Software Developer</h3>
+            <p><strong>Type:</strong> Contract (4 months)</p>
+            <p><strong>Rate:</strong> $50–$70/hr</p>
+            <p>Write Python or Go services for Raspberry Pi. Manage relay logic, cooling control, and CAN bus aggregation. Real-time safety & cloud sync required.</p>
+            <a class="btn" href="mailto:careers@hivepowerstation.com?subject=Master%20Controller%20Software%20Developer%20Application">Apply Now</a>
+          </div>
+          
+          <div class="card">
+            <h3>API & Serverless Backend Developer</h3>
+            <p><strong>Type:</strong> Remote Contract (2–3 months)</p>
+            <p><strong>Rate:</strong> $40–$55/hr</p>
+            <p>Develop Firebase/Supabase/AWS Lambda backend microservices. Includes auth, logs, rewards, and real-time triggers for mobile/web/app integration.</p>
+            <a class="btn" href="mailto:careers@hivepowerstation.com?subject=Serverless%20Backend%20Developer%20Application">Apply Now</a>
+          </div>
+          
+          <div class="card">
+            <h3>Access & Payment Middleware Developer</h3>
+            <p><strong>Type:</strong> Contract (3 months)</p>
+            <p><strong>Rate:</strong> $45–$60/hr</p>
+            <p>Develop Python or Node.js middleware for QR/NFC access control, Stripe billing, and physical system integration (bathroom locks, charger logic).</p>
+            <a class="btn" href="mailto:careers@hivepowerstation.com?subject=Access%20Middleware%20Engineer%20Application">Apply Now</a>
+          </div>
+          
+        <!-- Add more cards here -->
+      </div>
+      
+      <div class="scroll-wrapper">
+        <button class="scroll-btn" onclick="scrollJobs(-1)">←</button>
+        <button class="scroll-btn" onclick="scrollJobs(1)">→</button>
+      </div>
+      
+  
+    <!-- Repeat for each additional role... -->
+  </section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-contact">
+        <strong>Contact Us</strong><br>
+        Email: contact@hivepowerstation.com<br>
+        Social: @HivePowerStation
+    </div>
+
+    <div class="footer-center">
+        <img class="footer-logo" src="resources/HiveTech_logo.png" alt="Hive Power Station Logo" style="max-width: 200px; width: 100%; height: auto;">
+    </div>
+
+    <div class="footer-right">
+        &copy; 2025 Hive Technologies<br>
+        Leave No Trace.
+    </div>
+</footer>
+
+<script>
+    const jobScroll = document.getElementById('jobScroll');
+  
+    let scrollSpeed = 2.5; // pixels per interval
+    let autoScrollInterval;
+  
+    function startAutoScroll() {
+      autoScrollInterval = setInterval(() => {
+        jobScroll.scrollLeft += scrollSpeed;
+  
+        // Loop back to start for infinite scroll feel
+        if (jobScroll.scrollLeft + jobScroll.clientWidth >= jobScroll.scrollWidth) {
+          jobScroll.scrollLeft = 0;
+        }
+      }, 30); // lower = smoother but more CPU usage
+    }
+  
+    function stopAutoScroll() {
+      clearInterval(autoScrollInterval);
+    }
+  
+    // Optional: pause on hover
+    jobScroll.addEventListener('mouseenter', stopAutoScroll);
+    jobScroll.addEventListener('mouseleave', startAutoScroll);
+  
+    // Start when page loads
+    window.addEventListener('load', startAutoScroll);
+  </script>
+  
+  
+</body>
+</html>
