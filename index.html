@@ -24,12 +24,25 @@
     top: 0;
     z-index: 1000;
 }
-        nav a {
-            color: #FFB800;
-            margin-left: 1.5em;
-            text-decoration: none;
-            font-weight: bold;
-        }
+
+nav a {
+  color: #FFB800;
+  margin-left: 1em;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+}
+
+@media (max-width: 768px) {
+  nav {
+    justify-content: center;
+  }
+
+  nav a {
+    font-size: 1rem;
+    margin: 0.5em;
+  }
+}
         section {
             padding: 4em 2em;
             max-width: 1000px;
@@ -309,7 +322,7 @@ footer {
     <h2>About Us</h2>
     <p>Hive Technologies is pioneering a future where clean energy is accessible anywhere. We design modular, off-grid EV charging stations powered entirely by solar energy and supported by advanced battery storage. Inspired by the natural efficiency of a beehive, our stations operate independently of traditional utilities—enabling sustainable power in cities and rural areas
         Every Hive Power Station is built to be self-sufficient, scalable, and environmentally responsible, using smart control systems and immersion-cooled energy storage. Our mission is to democratize clean infrastructure, reduce carbon impact, and lead the global shift toward resilient, nature-powered technology.</p>
-          <div class="bio-photo-container"></div>
+        <div class="bio-photo-container">
             <div class="bio-photo">
               <img src="resources/founder.kashawn.coleman.jpg" alt="Kashawn Coleman">
               <div class="bio-caption">Founder & Systems Architect – Hive Technologies</div>
@@ -320,7 +333,7 @@ footer {
               <div class="bio-caption">U.S. Army Veteran – 94F Computer Detection Systems Repairer</div>
             </div>
           </div>
-          
+        </div>
 </section>
 
 <!-- Solutions Section -->
