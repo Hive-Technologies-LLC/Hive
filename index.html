@@ -24,7 +24,6 @@
     top: 0;
     z-index: 1000;
 }
-
 nav a {
   color: #FFB800;
   margin-left: 1em;
@@ -32,12 +31,10 @@ nav a {
   font-weight: bold;
   font-size: clamp(0.9rem, 2vw, 1.2rem);
 }
-
 @media (max-width: 768px) {
   nav {
     justify-content: center;
   }
-
   nav a {
     font-size: 1rem;
     margin: 0.5em;
@@ -61,17 +58,31 @@ nav a {
             font-weight: bold;
             border-radius: 5px;
         }
-        .solutions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5em;
-            margin-top: 2em;
-        }
+       .solutions-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 1.5em;
+  padding: 1em 0;
+  justify-content: flex-start;
+  scroll-snap-type: x mandatory;
+}
+.solutions-grid::-webkit-scrollbar {
+  height: 6px;
+}
+.solutions-grid::-webkit-scrollbar-thumb {
+  background: #FFB800;
+  border-radius: 5px;
+}
         .solution-box {
-    background: rgba(28, 28, 28, 0.6); /* Dark with 60% opacity */
-    padding: 1em;
-    border-radius: 8px;
-    text-align: center;
+  min-width: 200px;
+  background: rgba(28, 28, 28, 0.6);
+  border-radius: 10px;
+  padding: 1.5em;
+  text-align: center;
+  scroll-snap-align: start;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
 }
         .center-img {
             display: block;
@@ -86,8 +97,10 @@ nav a {
             font-size: 0.9em;
         }
         .solution-box img {
-    width: 55px;
-    margin-bottom: 0.5em;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  margin-bottom: 0.5em;
 }
 .founder-photo {
     width: 150px; /* Adjust size as needed */
