@@ -74,8 +74,9 @@ nav a {
   background: #FFB800;
   border-radius: 5px;
 }
-        .solution-box {
-  min-width: 200px;
+       .solution-box {
+  min-width: 220px;              /* Smaller fixed width */
+  max-width: 250px;              /* Prevent overly wide cards */
   background: rgba(28, 28, 28, 0.6);
   border-radius: 10px;
   padding: 1.5em;
@@ -83,6 +84,8 @@ nav a {
   scroll-snap-align: start;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   flex-shrink: 0;
+  word-wrap: break-word;         /* Ensures text breaks lines */
+  white-space: normal;           /* Ensures normal wrapping */
 }
         .center-img {
             display: block;
