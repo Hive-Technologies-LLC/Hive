@@ -260,16 +260,23 @@ footer {
 /* 📱 Mobile view behavior */
 @media (max-width: 768px) {
     footer {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
         text-align: center;
+        padding: 1.5em 1em;
     }
-
     .footer-contact,
     .footer-center,
     .footer-right {
-        flex: none;
-        width: 100%;
+        flex: 1 1 100px;
+        min-width: 100px;
+        max-width: 33%;
+        padding: 0.5em;
+    }
+    .footer-logo {
+        height: 50px;
+        width: auto;
     }
 }
 .bio-photo-container {
@@ -462,7 +469,7 @@ footer {
     </div>
 
     <div class="footer-center">
-        <img class="footer-logo" src="resources/HiveTech_logo.png" alt="Hive Power Station Logo" style="max-width: 125px; width: 100%; height: auto;">
+        <img class="footer-logo" src="resources/HiveTech_logo.png" alt="Hive Power Station Logo" style="width: 100px; max-width: 100%; height: auto;">
     </div>
 
     <div class="footer-right">
