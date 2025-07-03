@@ -1,489 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Hive Technologies</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Base styling */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #0B0B0B; /* Deep Black */
+      color: white;
+      scroll-behavior: smooth;
+    }
 
-    <!-- =======================
-         CSS STYLING
-    ========================== -->
-    <style>
-        /* === Global Body Styles === */
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #0B0B0B;
-            color: white;
-            scroll-behavior: smooth;
-        }
+    /* Header with logo/menu icon */
+    header {
+      display: flex;
+      justify-content: flex-end;
+      padding: 1em 2em;
+      position: sticky;
+      top: 0;
+      background-color: rgba(11, 11, 11, 0.5); /* semi-transparent header */
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+    }
 
-        /* === Header Styling === */
-        header {
-            background-color: rgba(11, 11, 11, 0.5); /* Semi-transparent black */
-            backdrop-filter: blur(10px);              /* Blur background */
-            -webkit-backdrop-filter: blur(10px);
-            padding: 1em 2em;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+    .menu-icon {
+      cursor: pointer;
+      font-size: 1.5rem;
+      color: #00FF00; /* Electric Green */
+    }
 
-        /* === Navigation Links === */
-        nav a {
-            color: #FFB800;
-            margin-left: 1em;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: clamp(0.9rem, 2vw, 1.2rem);
-        }
+    /* Fullscreen Menu Panel */
+    .fullscreen-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(255, 184, 0, 0.9); /* Honey Gold overlay */
+      color: black;
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
 
-        /* === Mobile Navigation Adjustments === */
-        @media (max-width: 768px) {
-            nav {
-                justify-content: center;
-            }
-            nav a {
-                font-size: 1rem;
-                margin: 0.5em;
-            }
-        }
+    .fullscreen-menu a {
+      color: black;
+      font-size: 2rem;
+      margin: 1em;
+      text-decoration: none;
+    }
 
-        /* === General Section Styling === */
-        section {
-            padding: 4em 2em;
-            max-width: 1000px;
-            margin: auto;
-        }
+    /* Horizontal Timeline Section */
+    section#progress {
+      padding: 3em 2em;
+      position: relative;
+      overflow: hidden;
+    }
 
-        h1, h2 {
-            color: #FFB800;
-        }
+    section#progress h2 {
+      color: #00FF00; /* Electric Green */
+      font-size: 2rem;
+      margin-bottom: 0.5em;
+      text-align: center;
+    }
 
-        /* === Reusable Button Styling === */
-        .btn {
-            display: inline-block;
-            background: #FFB800;
-            color: black;
-            padding: 0.6em 1.2em;
-            margin: 1em 0;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 5px;
-        }
+    section#progress p {
+      color: #ffffff;
+      text-align: center;
+      margin-bottom: 2em;
+    }
 
-        /* === Horizontal Scrollable Grid of Solutions === */
-        .solutions-grid {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            gap: 1.5em;
-            padding: 1em 0;
-            justify-content: flex-start;
-            scroll-snap-type: x mandatory;
-        }
+    .timeline-container {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
 
-        .solutions-grid::-webkit-scrollbar {
-            height: 6px;
-        }
+    .timeline-container::-webkit-scrollbar {
+      display: none;
+    }
 
-        .solutions-grid::-webkit-scrollbar-thumb {
-            background: #FFB800;
-            border-radius: 5px;
-        }
+    .timeline-item {
+      flex: 0 0 auto;
+      width: 300px;
+      margin-right: 2em;
+      background: rgba(255, 184, 0, 0.15); /* Honey Gold highlight */
+      border-left: 5px solid #FFB800;
+      padding: 1.5em;
+      border-radius: 8px;
+      color: #ffffff;
+    }
 
-        /* === Individual Solution Box === */
-        .solution-box {
-            min-width: 220px;
-            max-width: 250px;
-            background: rgba(28, 28, 28, 0.6);
-            border-radius: 10px;
-            padding: 1.5em;
-            text-align: center;
-            scroll-snap-align: start;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            flex-shrink: 0;
-            word-wrap: break-word;
-            white-space: normal;
-        }
+    .timeline-item h3 {
+      color: #FFB800; /* Honey Gold titles */
+      margin-top: 0;
+      font-size: 1.2rem;
+    }
 
-        /* === Centered Images (Hero section) === */
-        .center-img {
-            display: block;
-            margin: 2em auto;
-            max-width: 90%;
-            border-radius: 10px;
-        }
+    .timeline-arrows {
+      text-align: center;
+      margin-top: 1.5em;
+    }
 
-        /* === Footer Section === */
-        footer {
-            background-color: #1c1c1c;
-            text-align: center;
-            padding: 2em;
-            font-size: 0.9em;
-        }
+    .arrow {
+      font-size: 2rem;
+      color: #FFB800;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
 
-        /* === Image in Solution Box === */
-        .solution-box img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            margin-bottom: 0.5em;
-        }
+    .arrow:hover {
+      transform: scale(1.2);
+    }
 
-        /* === Circular Founder Image === */
-        .founder-photo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 4px solid #FFB800;
-            object-fit: cover;
-            display: block;
-            margin: 2em auto;
-            box-shadow: 0 0 12px rgba(255, 184, 0, 0.4);
-        }
+    /* Contact Footer */
+    footer {
+      background-color: rgba(255, 184, 0, 0.15); /* Semi-transparent Honey Gold */
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 1em 0;
+    }
 
-        .logo-img {
-            height: 40px;
-            display: block;
-        }
+    .contact-icon {
+      text-align: center;
+      color: white;
+    }
 
-        /* === Fullscreen Background Video === */
-        .background-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            z-index: -1;
-            opacity: 0.4;
-        }
+    .contact-icon i {
+      font-size: 1.5rem;
+      display: block;
+    }
 
-        /* === Dark Overlay Over Video === */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.45);
-            z-index: -1;
-        }
-
-        /* === Bio Section Photos & Captions === */
-        .bio-photo {
-            position: relative;
-            display: inline-block;
-            margin: 1em;
-            text-align: center;
-        }
-
-        .bio-photo img {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #FFB800;
-            box-shadow: 0 0 12px rgba(255, 184, 0, 0.4);
-            transition: transform 0.3s ease;
-        }
-
-        .bio-photo:hover img {
-            transform: scale(1.05);
-        }
-
-        .bio-caption {
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            color: #FFB800;
-            font-size: 0.9em;
-            margin-top: 0.5em;
-        }
-
-        .bio-photo:hover .bio-caption {
-            opacity: 1;
-        }
-
-        /* === Horizontally Scrollable Job Cards === */
-        .jobs-scroll-container {
-            display: flex;
-            overflow-x: auto;
-            gap: 1.5em;
-            padding-bottom: 1em;
-            scroll-behavior: smooth;
-        }
-
-        .jobs-scroll-container::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .jobs-scroll-container::-webkit-scrollbar-thumb {
-            background: #FFB800;
-            border-radius: 10px;
-        }
-
-        .jobs-scroll-container::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        /* === Individual Job Card === */
-        .card {
-            width: 280px;
-            background: rgba(28, 28, 28, 0.6);
-            border-radius: 10px;
-            padding: 1.5em;
-            flex-shrink: 0;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-            margin-right: 1em;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            text-align: left;
-            word-wrap: break-word;
-        }
-
-        /* === Scroll Button Styling (Not used but kept for future) === */
-        .scroll-btn {
-            background: #FFB800;
-            border: none;
-            color: black;
-            font-weight: bold;
-            padding: 0.5em 1em;
-            cursor: pointer;
-            margin: 0 0.5em;
-            border-radius: 5px;
-        }
-
-        .scroll-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 1em;
-        }
-
-        /* === Footer Styling (Overridden for blur) === */
-        footer {
-            background-color: rgba(28, 28, 28, 0.6);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2em;
-            font-size: 0.9em;
-            flex-wrap: wrap;
-            text-align: center;
-        }
-
-        /* === Footer Sections === */
-        .footer-contact, .footer-center, .footer-right {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .footer-contact {
-            text-align: left;
-            color: #ccc;
-            line-height: 1.6;
-        }
-
-        .footer-center {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .footer-right {
-            text-align: right;
-            color: #ccc;
-        }
-
-        .footer-logo {
-            height: 60px;
-            margin-bottom: 0.5em;
-        }
-
-        /* === Responsive Footer Layout === */
-        @media (max-width: 768px) {
-            footer {
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: center;
-                text-align: center;
-                padding: 1.5em 1em;
-            }
-            .footer-contact,
-            .footer-center,
-            .footer-right {
-                flex: 1 1 100px;
-                min-width: 100px;
-                max-width: 33%;
-                padding: 0.5em;
-            }
-            .footer-logo {
-                height: 50px;
-                width: auto;
-            }
-        }
-
-        /* === Bio Photos Scrolling (About Section) === */
-        .bio-photo-container {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            gap: 2em;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            padding: 1em 0;
-        }
-
-        .bio-photo-container::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        .bio-photo-container::-webkit-scrollbar-thumb {
-            background: #FFB800;
-            border-radius: 5px;
-        }
-
-    </style>
+    .contact-icon span {
+      font-size: 0.8rem;
+      display: block;
+      margin-top: 0.25em;
+    }
+  </style>
 </head>
-
 <body>
 
-    <!-- === Background Video === -->
-    <video autoplay muted loop playsinline class="background-video">
-        <source src="resources/Field_Video.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+  <!-- Top Header with Menu Icon -->
+  <header>
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+  </header>
 
-    <!-- === Header and Navigation === -->
-    <header>
-        <div><strong>Hive Power Station</strong></div>
-        <nav>
-            <a href="#about">About</a>
-            <a href="#solutions">Solutions</a>
-            <a href="#jobs">Jobs</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
+  <!-- Fullscreen Honey Gold Menu -->
+  <div class="fullscreen-menu" id="menu">
+    <a href="#progress">Progress</a>
+    <a href="#contact">Contact</a>
+    <a href="#">About</a>
+  </div>
 
-    <!-- === HERO SECTION === -->
-    <section id="hero" style="position: relative; text-align: center;">
-        <!-- Background Tagline -->
-        <img class="center-img" src="resources/Nature_powers_us.png" alt="Nature Powers Us">
+  <!-- Horizontal Scrolling Timeline Section -->
+  <section id="progress">
+    <h2>Our Progress</h2>
+    <p>We’re not just building tech — we’re hitting real milestones every step of the way.</p>
 
-        <!-- Floating Bee Image -->
-        <img src="resources/Live_bee.png" alt="Live Bee" style="
-            position: absolute;
-            top: 15%;
-            left: 88%;
-            transform: translate(-50%, -50%);
-            width: 200px;
-            max-width: 30vw;
-            z-index: 2;
-            pointer-events: none;
-        ">
+    <div class="timeline-container" id="timeline">
+      <div class="timeline-item">
+        <h3>Jan 2024</h3>
+        <p>Concept for Hive Power Station created</p>
+      </div>
+      <div class="timeline-item">
+        <h3>Mar 2024</h3>
+        <p>BMS architecture finalized</p>
+      </div>
+      <div class="timeline-item">
+        <h3>Jun 2024</h3>
+        <p>Tray-level firmware (Tier 1) completed</p>
+      </div>
+      <div class="timeline-item">
+        <h3>Jul 2024</h3>
+        <p>Presented at 1 Million Cups Orlando</p>
+      </div>
+      <div class="timeline-item">
+        <h3>Sep 2024</h3>
+        <p>MVP HivePod prototype 3D printed</p>
+      </div>
+      <div class="timeline-item">
+        <h3>Dec 2024</h3>
+        <p>First grant application submitted (PUCT Texas)</p>
+      </div>
+      <div class="timeline-item">
+        <h3>Feb 2025</h3>
+        <p>Crate-level firmware (Tier 2) complete</p>
+      </div>
+      <div class="timeline-item">
+        <h3>Jun 2025</h3>
+        <p>Full investor pitch deck finalized</p>
+      </div>
+    </div>
 
-        <!-- Mission Tagline and Buttons -->
-        <p style="margin-top: 1em;">Off-grid EV charging and sustainable infrastructure</p>
-        <a class="btn" href="#contact">Join the Mission</a>
-        <a class="btn" href="resources/HiveStation Master_Pitch.pptx" target="_blank">View Pitch Deck</a>
-    </section>
+    <!-- Optional Manual Scroll Arrows -->
+    <div class="timeline-arrows">
+      <span class="arrow" onclick="scrollTimeline(-300)">&#x25C0;</span>
+      &nbsp;&nbsp;
+      <span class="arrow" onclick="scrollTimeline(300)">&#x25B6;</span>
+    </div>
+  </section>
 
-    <!-- === ABOUT SECTION === -->
-    <section id="about">
-        <h2>About Us</h2>
-        <p>Hive Technologies is pioneering a future where clean energy is accessible anywhere. ...</p>
+  <!-- Bottom Contact Icons Footer -->
+  <footer id="contact">
+    <div class="contact-icon">
+      <i>📞</i>
+      <span>(555) 123-4567</span>
+    </div>
+    <div class="contact-icon">
+      <i>✉️</i>
+      <span>hello@hivetechnologies.com</span>
+    </div>
+    <div class="contact-icon">
+      <i>🌐</i>
+      <span>@HiveTech</span>
+    </div>
+  </footer>
 
-        <!-- Bio Photos Row -->
-        <div class="bio-photo-container">
-            <div class="bio-photo">
-                <img src="resources/founder.kashawn.coleman.jpg" alt="Kashawn Coleman">
-                <div class="bio-caption">Founder & Systems Architect – Hive Technologies</div>
-            </div>
+  <!-- Script to control menu and timeline -->
+  <script>
+    // Toggle fullscreen menu
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+    }
 
-            <div class="bio-photo">
-                <img src="resources/kashawn.military.jpg" alt="Kashawn Coleman Military">
-                <div class="bio-caption">U.S. Army Veteran – 94F Computer Detection Systems Repairer</div>
-            </div>
-        </div>
-    </section>
+    // Timeline auto-scroll + manual override
+    const timeline = document.getElementById('timeline');
+    let autoScroll = true;
 
-    <!-- === SOLUTIONS SECTION === -->
-    <section id="solutions">
-        <h2>Our Advantages</h2>
-        <div class="solutions-grid">
-            <!-- Repeatable solution boxes -->
-            <div class="solution-box">
-                <img src="resources/Hivepod_logo.jpg" alt="HivePods">
-                <h3>HivePods</h3>
-                <p>Immersion-cooled modular energy storage.</p>
-            </div>
-            <!-- Add more solutions as needed -->
-        </div>
-    </section>
+    function scrollTimeline(amount) {
+      timeline.scrollBy({ left: amount, behavior: 'smooth' });
+      autoScroll = false; // disable auto-scroll on interaction
+    }
 
-    <!-- === JOBS SECTION === -->
-    <section id="jobs">
-        <h2>Join the Hive</h2>
-        <p>Upcoming jobs post funding. Swarm to a cause and join the Hive!</p>
+    function autoScrollTimeline() {
+      if (autoScroll) {
+        timeline.scrollBy({ left: 1, behavior: 'smooth' });
+      }
+    }
 
-        <!-- Scrollable Job Cards -->
-        <div class="jobs-scroll-container" id="jobScroll">
-            <!-- Individual job cards repeated -->
-            <div class="card">
-                <h3>Lead Embedded Software Engineer</h3>
-                <p><strong>Type:</strong> Remote Contract (6–8 months)</p>
-                <p><strong>Rate:</strong> $55–$75/hr</p>
-                <p>Coordinate BMS firmware development across all system tiers...</p>
-                <a class="btn" href="mailto:careers@hivepowerstation.com?subject=Lead%20Embedded%20Firmware%20Engineer%20Application">Apply Now</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- === FOOTER === -->
-    <footer>
-        <div class="footer-contact">
-            <strong>Contact Us</strong><br>
-            Email: contact@hivepowerstation.com<br>
-            Social: @HivePowerStation
-        </div>
-        <div class="footer-center">
-            <img class="footer-logo" src="resources/HiveTech_logo.png" alt="Hive Power Station Logo" style="width: 100px; max-width: 100%; height: auto;">
-        </div>
-        <div class="footer-right">
-            &copy; 2025 Hive Technologies<br>
-            Leave No Trace.
-        </div>
-    </footer>
-
-    <!-- === AUTO SCROLL JOB CARDS SCRIPT === -->
-    <script>
-        const jobScroll = document.getElementById('jobScroll');
-        let scrollSpeed = 2.5;
-        let autoScrollInterval;
-
-        function startAutoScroll() {
-            autoScrollInterval = setInterval(() => {
-                jobScroll.scrollLeft += scrollSpeed;
-                if (jobScroll.scrollLeft + jobScroll.clientWidth >= jobScroll.scrollWidth) {
-                    jobScroll.scrollLeft = 0;
-                }
-            }, 30);
-        }
-
-        function stopAutoScroll() {
-            clearInterval(autoScrollInterval);
-        }
-
-        jobScroll.addEventListener('mouseenter', stopAutoScroll);
-        jobScroll.addEventListener('mouseleave', startAutoScroll);
-        window.addEventListener('load', startAutoScroll);
-    </script>
+    // Set auto-scroll speed (1 pixel every 50ms)
+    setInterval(autoScrollTimeline, 50);
+  </script>
 
 </body>
 </html>
