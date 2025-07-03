@@ -1,255 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Hive Technologies</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hive Energy</title>
   <style>
-    /* Base styling */
+    /* === Global Styles === */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #0B0B0B; /* Deep Black */
+      background-color: #000000;
       color: white;
       scroll-behavior: smooth;
     }
 
-    /* Header with logo/menu icon */
-    header {
-      display: flex;
-      justify-content: flex-end;
-      padding: 1em 2em;
-      position: sticky;
-      top: 0;
-      background-color: rgba(11, 11, 11, 0.5); /* semi-transparent header */
-      backdrop-filter: blur(10px);
+    .menu-icon {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
       z-index: 1000;
     }
 
-    .menu-icon {
-      cursor: pointer;
-      font-size: 1.5rem;
-      color: #00FF00; /* Electric Green */
-    }
-
-    /* Fullscreen Menu Panel */
-    .fullscreen-menu {
+    .menu-popup {
       display: none;
       position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: rgba(255, 184, 0, 0.9); /* Honey Gold overlay */
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 184, 0, 0.9);
       color: black;
       z-index: 999;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-    }
-
-    .fullscreen-menu a {
-      color: black;
+      flex-direction: column;
       font-size: 2rem;
-      margin: 1em;
-      text-decoration: none;
     }
 
-    /* Horizontal Timeline Section */
-    section#progress {
-      padding: 3em 2em;
-      position: relative;
-      overflow: hidden;
-    }
-
-    section#progress h2 {
-      color: #00FF00; /* Electric Green */
-      font-size: 2rem;
-      margin-bottom: 0.5em;
-      text-align: center;
-    }
-
-    section#progress p {
-      color: #ffffff;
-      text-align: center;
-      margin-bottom: 2em;
-    }
-
-    .timeline-container {
+    .menu-popup.active {
       display: flex;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
     }
 
-    .timeline-container::-webkit-scrollbar {
-      display: none;
-    }
-
-    .timeline-item {
-      flex: 0 0 auto;
-      width: 300px;
-      margin-right: 2em;
-      background: rgba(255, 184, 0, 0.15); /* Honey Gold highlight */
-      border-left: 5px solid #FFB800;
-      padding: 1.5em;
-      border-radius: 8px;
-      color: #ffffff;
-    }
-
-    .timeline-item h3 {
-      color: #FFB800; /* Honey Gold titles */
-      margin-top: 0;
-      font-size: 1.2rem;
-    }
-
-    .timeline-arrows {
+    .hero {
       text-align: center;
-      margin-top: 1.5em;
+      padding: 10vh 2em;
     }
 
-    .arrow {
-      font-size: 2rem;
-      color: #FFB800;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-
-    .arrow:hover {
-      transform: scale(1.2);
-    }
-
-    /* Contact Footer */
-    footer {
-      background-color: rgba(255, 184, 0, 0.15); /* Semi-transparent Honey Gold */
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 1em 0;
-    }
-
-    .contact-icon {
-      text-align: center;
+    .hero h1 {
+      font-size: 2.5rem;
       color: white;
     }
 
-    .contact-icon i {
-      font-size: 1.5rem;
-      display: block;
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 1em auto;
     }
 
-    .contact-icon span {
+    .button {
+      background-color: #FFB800;
+      color: black;
+      border: none;
+      padding: 0.75em 1.5em;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    /* === Timeline Section (Floating Line + Dots) === */
+    .scroll-section {
+      background-color: transparent;
+      color: white;
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 4em 1em 2em;
+      gap: 4em;
+      position: relative;
+      animation: scrollLeft 30s linear infinite;
+    }
+
+    .scroll-section::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      height: 4px;
+      width: 100%;
+      background-color: #FFB800;
+      z-index: 0;
+    }
+
+    .scroll-item {
+      flex: 0 0 auto;
+      width: 250px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      color: white;
+    }
+
+    .scroll-item::before {
+      content: '';
+      width: 16px;
+      height: 16px;
+      background-color: #FFB800;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+
+    .scroll-item p {
+      margin-top: 2em;
+      font-size: 1rem;
+      line-height: 1.3em;
+    }
+
+    .scroll-item .date {
+      margin-bottom: 2em;
+      font-weight: bold;
+    }
+
+    @keyframes scrollLeft {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .battery-section {
+      background-color: #000000;
+      color: white;
+      padding: 3em 1em;
+      text-align: center;
+    }
+
+    .battery-section h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5em;
+    }
+
+    .battery-columns {
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+      gap: 2em;
+    }
+
+    .column {
+      flex: 1 1 300px;
+      max-width: 400px;
+    }
+
+    .column h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5em;
+    }
+
+    .footer-bar {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: rgba(255, 184, 0, 0.2);
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      padding: 0.5em 0;
+    }
+
+    .footer-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: black;
       font-size: 0.8rem;
-      display: block;
-      margin-top: 0.25em;
+    }
+
+    .footer-item img {
+      width: 20px;
+      height: 20px;
+      margin-bottom: 0.25em;
     }
   </style>
 </head>
 <body>
-
-  <!-- Top Header with Menu Icon -->
-  <header>
-    <div class="menu-icon" onclick="toggleMenu()">☰</div>
-  </header>
-
-  <!-- Fullscreen Honey Gold Menu -->
-  <div class="fullscreen-menu" id="menu">
-    <a href="#progress">Progress</a>
-    <a href="#contact">Contact</a>
+  <img src="menu_icon_resized.png" class="menu-icon" onclick="toggleMenu()" alt="Menu" />
+  <div class="menu-popup" id="menuPopup">
+    <div onclick="toggleMenu()">Close</div>
     <a href="#">About</a>
+    <a href="#">Solutions</a>
+    <a href="#">Contact</a>
   </div>
 
-  <!-- Horizontal Scrolling Timeline Section -->
-  <section id="progress">
-    <h2>Our Progress</h2>
-    <p>We’re not just building tech — we’re hitting real milestones every step of the way.</p>
+  <section class="hero">
+    <h1>Off-Grid Energy EV Charging, Powered by Nature</h1>
+    <p>The Hive Power Station, Powered By The FOREVER Battery.</p>
+    <button class="button">Learn More</button>
+  </section>
 
-    <div class="timeline-container" id="timeline">
-      <div class="timeline-item">
-        <h3>Jan 2024</h3>
-        <p>Concept for Hive Power Station created</p>
-      </div>
-      <div class="timeline-item">
-        <h3>Mar 2024</h3>
-        <p>BMS architecture finalized</p>
-      </div>
-      <div class="timeline-item">
-        <h3>Jun 2024</h3>
-        <p>Tray-level firmware (Tier 1) completed</p>
-      </div>
-      <div class="timeline-item">
-        <h3>Jul 2024</h3>
-        <p>Presented at 1 Million Cups Orlando</p>
-      </div>
-      <div class="timeline-item">
-        <h3>Sep 2024</h3>
-        <p>MVP HivePod prototype 3D printed</p>
-      </div>
-      <div class="timeline-item">
-        <h3>Dec 2024</h3>
-        <p>First grant application submitted (PUCT Texas)</p>
-      </div>
-      <div class="timeline-item">
-        <h3>Feb 2025</h3>
-        <p>Crate-level firmware (Tier 2) complete</p>
-      </div>
-      <div class="timeline-item">
-        <h3>Jun 2025</h3>
-        <p>Full investor pitch deck finalized</p>
-      </div>
+  <section class="scroll-section">
+    <div class="scroll-item">
+      <div class="date">Feb 2023</div>
+      <p>Concept initiated and core architecture drafted.</p>
     </div>
-
-    <!-- Optional Manual Scroll Arrows -->
-    <div class="timeline-arrows">
-      <span class="arrow" onclick="scrollTimeline(-300)">&#x25C0;</span>
-      &nbsp;&nbsp;
-      <span class="arrow" onclick="scrollTimeline(300)">&#x25B6;</span>
+    <div class="scroll-item">
+      <div class="date">Mar 2023</div>
+      <p>Early schematic prototypes and simulations complete.</p>
+    </div>
+    <div class="scroll-item">
+      <div class="date">Aug 2023</div>
+      <p>Partner discussions and rough 3D tray model finalized.</p>
+    </div>
+    <div class="scroll-item">
+      <div class="date">Dec 2023</div>
+      <p>Firmware MVP for Tier 1 BMS completed and tested.</p>
     </div>
   </section>
 
-  <!-- Bottom Contact Icons Footer -->
-  <footer id="contact">
-    <div class="contact-icon">
-      <i>📞</i>
+  <section class="battery-section">
+    <h2>The Hive's Forever Battery</h2>
+    <div class="battery-columns">
+      <div class="column">
+        <h3>Hardware</h3>
+        <p>[Add your hardware content here]</p>
+      </div>
+      <div class="column">
+        <h3>Software</h3>
+        <p>[Add your software content here]</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer-bar">
+    <div class="footer-item">
+      <img src="icon_email.png" alt="Email">
+      <span>info@hiveenergy.com</span>
+    </div>
+    <div class="footer-item">
+      <img src="icon_phone.png" alt="Phone">
       <span>(555) 123-4567</span>
     </div>
-    <div class="contact-icon">
-      <i>✉️</i>
-      <span>hello@hivetechnologies.com</span>
+    <div class="footer-item">
+      <img src="icon_instagram.png" alt="Instagram">
+      <span>@hivepower</span>
     </div>
-    <div class="contact-icon">
-      <i>🌐</i>
-      <span>@HiveTech</span>
-    </div>
-  </footer>
+  </div>
 
-  <!-- Script to control menu and timeline -->
   <script>
-    // Toggle fullscreen menu
     function toggleMenu() {
-      const menu = document.getElementById('menu');
-      menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+      const menu = document.getElementById("menuPopup");
+      menu.classList.toggle("active");
     }
-
-    // Timeline auto-scroll + manual override
-    const timeline = document.getElementById('timeline');
-    let autoScroll = true;
-
-    function scrollTimeline(amount) {
-      timeline.scrollBy({ left: amount, behavior: 'smooth' });
-      autoScroll = false; // disable auto-scroll on interaction
-    }
-
-    function autoScrollTimeline() {
-      if (autoScroll) {
-        timeline.scrollBy({ left: 1, behavior: 'smooth' });
-      }
-    }
-
-    // Set auto-scroll speed (1 pixel every 50ms)
-    setInterval(autoScrollTimeline, 50);
   </script>
-
 </body>
 </html>
