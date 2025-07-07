@@ -149,33 +149,27 @@
   transform: scale(1.05);
 }
 
- /* === SIDEBAR MENU === */
+/* === SLIM SIDEBAR MENU (fully hidden when inactive) === */
 .menu-popup {
-  display: flex;
-  flex-direction: column;
   position: fixed;
   top: 0;
-  right: -300px; /* Initially hidden off-screen */
-  width: 280px;
+  right: 0;
   height: 100vh;
+  width: 280px;
   background-color: rgba(255, 184, 0, 0.95);
   color: black;
   z-index: 999;
   padding: 2em 1.5em;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.4);
-  transition: right 0.3s ease-in-out;
+  transform: translateX(100%); /* Completely hidden */
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
 }
 
-/* === When menu is active, slide in === */
+/* === When active, slide into view === */
 .menu-popup.active {
-  right: 0;
-}
-
-/* === Menu Link Styles === */
-.menu-popup a {
-  margin: 1em 0;
-  font-weight: bold;
-  font-size: 1.1rem;
+  transform: translateX(0);
 }
 
 /* === Close button styling === */
@@ -185,6 +179,13 @@
   font-weight: bold;
   cursor: pointer;
   margin-bottom: 2em;
+}
+
+/* === Menu link styling === */
+.menu-popup a {
+  margin: 1em 0;
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
     /* === 📞 FOOTER CONTACT BAR === */
