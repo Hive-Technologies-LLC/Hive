@@ -210,6 +210,70 @@
         font-size: 0.65rem;
       }
     }
+
+    /* === POPUP BUBBLE STYLES === */
+    .popup-bubble {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      background-color: rgba(255, 184, 0, 0.95);
+      color: black;
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 1em;
+    }
+
+    .popup-bubble.active {
+      display: flex;
+    }
+
+    .popup-content {
+      background-color: white;
+      color: black;
+      width: 600px;
+      height: 400px;
+      max-width: 90vw;
+      max-height: 80vh;
+      overflow-y: auto;
+      border-radius: 8px;
+      padding: 1.5em;
+      position: relative;
+      box-shadow: 0 0 20px #333;
+      animation: zoomIn 0.3s ease;
+      scrollbar-width: thin;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      color: black;
+    }
+
+    @keyframes zoomIn {
+      0% {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .popup-content {
+        width: 90vw;
+        height: 70vh;
+      }
+    }
   </style>
 </head>
 <body>
@@ -217,7 +281,7 @@
   <!-- 🔳 Menu Button -->
   <img src="hive_logo.png" class="menu-icon" onclick="toggleMenu()" alt="Menu Logo" />
 
-  <!-- 🟨 Menu Popup with Section Links -->
+  <!-- 🟨 Menu Popup -->
   <div class="menu-popup" id="menuPopup">
     <div onclick="toggleMenu()" style="margin-bottom: 1em;">✖ Close</div>
     <a href="#about" onclick="toggleMenu()">About</a>
@@ -230,7 +294,7 @@
     <div class="container">
       <h1>Did you know you're poisoning your water and food?</h1>
       <p>Battery waste leaks toxic metals into the ground — the same ground we grow our food in, and the same water we drink.</p>
-      <button class="button">Learn More</button>
+      <button class="button" onclick="openBubble()">Learn More</button>
     </div>
   </section>
 
@@ -252,22 +316,10 @@
     <div class="container">
       <h2>The Journey</h2>
       <div class="timeline">
-        <div class="timeline-event">
-          <h4>Feb 2023</h4>
-          <p>Concept initiated and core architecture drafted.</p>
-        </div>
-        <div class="timeline-event">
-          <h4>Mar 2023</h4>
-          <p>Early schematic prototypes and simulations complete.</p>
-        </div>
-        <div class="timeline-event">
-          <h4>Aug 2023</h4>
-          <p>Partner discussions and rough 3D tray model finalized.</p>
-        </div>
-        <div class="timeline-event">
-          <h4>Dec 2023</h4>
-          <p>Firmware MVP for Tier 1 BMS completed and tested.</p>
-        </div>
+        <div class="timeline-event"><h4>Feb 2023</h4><p>Concept initiated and core architecture drafted.</p></div>
+        <div class="timeline-event"><h4>Mar 2023</h4><p>Early schematic prototypes and simulations complete.</p></div>
+        <div class="timeline-event"><h4>Aug 2023</h4><p>Partner discussions and rough 3D tray model finalized.</p></div>
+        <div class="timeline-event"><h4>Dec 2023</h4><p>Firmware MVP for Tier 1 BMS completed and tested.</p></div>
       </div>
     </div>
   </section>
@@ -294,7 +346,7 @@
     </div>
   </section>
 
-  <!-- 📞 Footer Section -->
+  <!-- 📞 Footer -->
   <footer class="footer-bar" id="contact">
     <div class="footer-item">
       <div class="footer-icon">📧</div>
@@ -310,10 +362,51 @@
     </div>
   </footer>
 
-  <!-- JS for Toggle & Floating Footer -->
+  <!-- 📖 Reusable Popup Article Bubble -->
+  <div class="popup-bubble" id="popupBubble">
+    <div class="popup-content">
+      <span class="close-btn" onclick="closeBubble()">✖</span>
+      <span class="close-btn" onclick="closeBubble()">✖</span>
+<h2>You’re Not Just Throwing Away Batteries — You’re Poisoning the Planet</h2>
+
+<p>
+We live in a world where convenience has quietly turned into contamination. Every time a battery is tossed into the trash, it doesn’t just disappear — it begins to leak. Whether it’s a common alkaline battery or a powerful lithium-ion pack, what seeps out is toxic: mercury, lead, cadmium, nickel, and lithium. These metals bleed into the soil, into the groundwater, and ultimately... into us.
+</p>
+
+<p>
+In 2018, U.S. landfills received over <strong>740,000 tons of nonferrous metals</strong> — much of it from improperly discarded batteries (<a href="https://www.epa.gov/facts-and-figures-about-materials-waste-and-recycling" target="_blank">EPA</a>). These metals don't just pollute the Earth — they make their way into the crops we eat, the water we drink, and the air we breathe.
+</p>
+
+<p>
+And if you think bottled water protects you — think again. Multiple reports have revealed that <strong>many bottled water brands simply use tap water</strong>, sometimes without any filtration at all. What does that mean? The same contaminants leaking from batteries into groundwater might be showing up in the bottle you bought for “purity.” It’s not just a flaw in the system. It <em>is</em> the system.
+</p>
+
+<p>
+This isn’t just about landfills. It’s about our food chain. It’s about your health. And it’s about a global cycle of neglect that’s been normalized for decades. Call2Recycle collected nearly <strong>8 million pounds</strong> of batteries in 2022, but that’s still only a fraction of what gets buried every year (<a href="https://www.call2recycle.org/2022-annual-report/" target="_blank">Call2Recycle</a>).
+</p>
+
+<p>
+At Hive Technologies, we refuse to accept that. Our Forever Battery is designed to outlive this crisis — to eliminate waste before it begins. Instead of discarding entire packs due to a few bad cells, we isolate, repair, and reuse. Our system is modular, upgradeable, and made to protect not just your devices — but your water, your soil, and your future.
+</p>
+
+<p>
+Because you shouldn’t need a lab test to trust what’s in your glass. And if batteries are powering the world, they shouldn’t be poisoning it too.
+</p>
+    </div>
+  </div>
+
+  <!-- 🧠 JS -->
   <script>
     function toggleMenu() {
       document.getElementById("menuPopup").classList.toggle("active");
+    }
+
+    function openBubble() {
+      document.getElementById("popupBubble").classList.add("active");
+    }
+
+    function closeBubble() {
+      document.getElementById("popupBubble").classList.remove("active");
     }
 
     let lastScrollTop = 0;
