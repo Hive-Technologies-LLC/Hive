@@ -35,6 +35,7 @@
 
     /* === ✨ HERO SECTION === */
     .hero {
+       padding-top: 6em; /* Creates space under the fixed top bar */
       text-align: center;
       padding: 4em 2em;
     }
@@ -156,7 +157,7 @@
   right: 0;
   height: 100vh;
   width: 90px;
-  background-color: rgba(255, 184, 0, 0.95);
+  background-color: rgba(255, 184, 0, 0.2);
   color: black;
   z-index: 999;
   padding: 2em 1.5em;
@@ -241,7 +242,7 @@
 
     /* === 🕓 TIMELINE SCROLLING FLOAT === */
     .scroll-section {
-      background-color: transparent;
+      background-color: black;
       color: white;
       display: flex;
       overflow-x: auto;
@@ -318,12 +319,12 @@
 
     /* === 📷 INDIVIDUAL IMAGES IN POPUP SIDES === */
     .popup-images img {
-      width: 100px;
+      width: 200px;
       height: auto;
-      max-height: 45%;
+      max-height: 55%;
       object-fit: cover;
-      border-radius: 6px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.2);
     }
 
     /* === 💬 POPUP BUBBLE STYLES === */
@@ -334,7 +335,7 @@
       left: 0;
       height: 100vh;
       width: 100vw;
-      background-color: rgba(255, 184, 0, 0.95);
+      background-color: rgba(255, 184, 0, 0.6);
       color: black;
       z-index: 2000;
       align-items: center;
@@ -462,9 +463,27 @@
   }
 }
 
+/* === Section Backgrounds === */
+#solutions {
+  background-color: rgba(255, 184, 0, 0.6); /* Hive Gold at 60% opacity */
+}
+
+/* === 🔶 Top Transparent Gold Bar === */
+.top-bar {
+  width: 100%;
+  height: 20px; /* Match the logo height */
+  background-color: rgba(255, 184, 0, 0.2); /* Hive Gold with 60% transparency */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 500; /* Ensure it's above background, but below menu */
+}
+
   </style>
 </head>
 <body>
+
+<div class="top-bar"></div>
 
   <!-- 🔳 Menu Button -->
   <img src="resources/hive_logo.png" class="menu-icon" onclick="toggleMenu()" alt="Menu Logo" />
@@ -521,14 +540,14 @@
       <div class="battery-diagram">[Forever Battery Diagram Placeholder]</div>
     </div>
   </section>
-  
+
   <!-- Company Section -->
    <section class="section company" id="company">
 
    </section>
 
   <!-- 🧠 Founder Section -->
-  <section class="section founder" id="about">
+  <h5 class="section founder" id="about">
   <div style="position: relative; display: flex; align-items: center; justify-content: center;">
     
     <!-- 🟡 Left Floating Quotes -->
@@ -549,7 +568,7 @@
 
   </div>
 
- <div style="text-align: center; max-width: 800px; margin: auto;">
+  <div style="text-align: center; max-width: 800px; margin: auto;">
   <h2>The Founder’s Vision</h2>
   <p class="quote">"Nature never wastes. Why do we?"</p>
   <p>Kashawn Coleman – military veteran and systems planner with experience in electrical systems. </p>
@@ -624,8 +643,8 @@
  <div class="popup-bubble" id="popupBubble">
   <div class="popup-flex">
     <div class="popup-images">
-      <img src="left1.jpg" />
-      <img src="left2.jpg" />
+      <img src="resources/landfill.jpg" />
+      <img src="resources/car_battery.jpg" />
     </div>
 
     <div class="popup-content">
@@ -658,8 +677,8 @@ Because you shouldn’t need a lab test to trust what’s in your glass. And if 
     </div>
 
     <div class="popup-images">
-      <img src="right1.jpg" />
-      <img src="right2.jpg" />
+      <img src="resources/alkaline_battery.jpg" />
+      <img src="resources/phone_battery.jpg" />
     </div>
   </div>
 </div>
@@ -690,7 +709,7 @@ Because you shouldn’t need a lab test to trust what’s in your glass. And if 
       lastScrollTop = st <= 0 ? 0 : st;
     }, false);
 
-  function toggleFounderBio() {
+function toggleFounderBio() {
   const bio = document.getElementById("founderBio");
   const button = document.getElementById("readMoreBtn");
   const isHidden = bio.style.display === "none";
@@ -698,7 +717,6 @@ Because you shouldn’t need a lab test to trust what’s in your glass. And if 
   bio.style.display = isHidden ? "block" : "none";
   button.innerText = isHidden ? "Read Less" : "Read More";
 }
-  </script>
-
+</script>
 </body>
 </html>
