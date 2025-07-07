@@ -412,6 +412,56 @@
   box-shadow: 0 0 12px rgba(255, 184, 0, 0.3); /* subtle gold glow */
 }
 
+    /* === Floating Quote Containers (Left & Right) === */
+.floating-quotes {
+  position: absolute;
+  width: 120px;
+  height: 180px; /* Matches height of image */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+
+.left-quotes {
+  left: -140px;
+  top: 0;
+}
+
+.right-quotes {
+  right: -140px;
+  top: 0;
+}
+
+/* === Individual Quote Style === */
+.quote-bubble {
+  opacity: 0;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #FFB800;
+  animation: floatUp 8s ease-in-out infinite;
+  position: relative;
+}
+
+/* === Floating Animation === */
+@keyframes floatUp {
+  0% {
+    transform: translateY(300%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -437,17 +487,36 @@
   </section>
 
   <!-- 🧠 Founder Section -->
-  <section class="section founder" id="about">
-    <img src="resources/founder.kashawn.coleman.jpg" alt="Founder Photo" />
-    <h2>The Founder’s Vision</h2>
-    <p class="quote">"Nature never wastes. Why do we?"</p>
-    <p>Kashawn Coleman – military veteran, systems planner</p>
-    <ul>
-      <li>Inspired by the efficiency of bees</li>
-      <li>Passionate about sustainable design</li>
-      <li>Building smarter energy systems</li>
-    </ul>
-  </section>
+ <section class="section founder" id="about">
+  <div style="position: relative; display: flex; align-items: center; justify-content: center;">
+    
+    <!-- 🟡 Left Floating Quotes -->
+    <div class="floating-quotes left-quotes">
+      <div class="quote-bubble">"Efficiency is nature’s rhythm."</div>
+      <div class="quote-bubble" style="animation-delay: 3s;">"The planet doesn’t get do-overs."</div>
+    </div>
+
+    <!-- 👤 Founder Image -->
+    <img src="images/Personal_photo.jpeg" alt="Founder Photo" />
+    
+    <!-- 🟡 Right Floating Quotes -->
+    <div class="floating-quotes right-quotes">
+      <div class="quote-bubble" style="animation-delay: 1.5s;">"Innovation is built on care."</div>
+      <div class="quote-bubble" style="animation-delay: 4.5s;">"Bees don’t waste — neither should we."</div>
+    <div class="quote-bubble" style="animation-delay: 2.5s;">"Proper preparation prevents piss poor performance."</div>
+    </div>
+
+  </div>
+
+  <h2>The Founder’s Vision</h2>
+  <p class="quote">"Nature never wastes. Why do we?"</p>
+  <p>Kashawn Coleman – military veteran, systems planner</p>
+  <ul>
+    <li>Inspired by the efficiency of bees</li>
+    <li>Passionate about sustainable design</li>
+    <li>Building smarter energy systems</li>
+  </ul>
+</section>
 
   <!-- 📈 Timeline Section -->
   <section class="scroll-section">
