@@ -3,15 +3,127 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hive Energy</title>
+  <title>Hive Technologies</title>
   <style>
-    /* === Global Styles === */
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background-color: #000000;
       color: white;
-      scroll-behavior: smooth;
+    }
+
+    h1, h2, h3 {
+      color: white;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .container {
+      padding: 2em;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 4em 2em;
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      color: #FFB800;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin: 1em 0;
+    }
+
+    .button {
+      background-color: #FFB800;
+      color: black;
+      border: none;
+      padding: 0.75em 1.5em;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .section {
+      padding: 3em 2em;
+    }
+
+    .founder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .founder img {
+      width: 180px;
+      border-radius: 8px;
+      margin-bottom: 1em;
+    }
+
+    .quote {
+      font-style: italic;
+      color: #FFB800;
+      margin: 0.5em 0;
+    }
+
+    .timeline {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      border-top: 2px solid #FFB800;
+      padding-top: 1em;
+    }
+
+    .timeline-event {
+      flex: 1 1 45%;
+      margin: 1em 0;
+    }
+
+    .timeline-event h4 {
+      color: #FFB800;
+    }
+
+    .problem ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .problem li {
+      margin: 1em 0;
+    }
+
+    .problem li::before {
+      content: "⚠️ ";
+      margin-right: 0.5em;
+      color: #FFB800;
+    }
+
+    .battery-diagram {
+      margin-top: 2em;
+      width: 100%;
+      height: 200px;
+      background-color: #1a1a1a;
+      border: 1px solid #FFB800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFB800;
+      font-size: 1.2rem;
     }
 
     .menu-icon {
@@ -44,125 +156,9 @@
       display: flex;
     }
 
-    .hero {
-      text-align: center;
-      padding: 10vh 2em;
-    }
-
-    .hero h1 {
-      font-size: 2.5rem;
-      color: white;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      max-width: 600px;
-      margin: 1em auto;
-    }
-
-    .button {
-      background-color: #FFB800;
-      color: black;
-      border: none;
-      padding: 0.75em 1.5em;
+    .menu-popup a {
+      margin: 0.5em 0;
       font-weight: bold;
-      cursor: pointer;
-      border-radius: 5px;
-      font-size: 1rem;
-    }
-
-    /* === Timeline Section (Floating Line + Dots) === */
-    .scroll-section {
-      background-color: transparent;
-      color: white;
-      display: flex;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      padding: 4em 1em 2em;
-      gap: 4em;
-      position: relative;
-      animation: scrollLeft 30s linear infinite;
-    }
-
-    .scroll-section::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 0;
-      height: 4px;
-      width: 100%;
-      background-color: #FFB800;
-      z-index: 0;
-    }
-
-    .scroll-item {
-      flex: 0 0 auto;
-      width: 250px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      color: white;
-    }
-
-    .scroll-item::before {
-      content: '';
-      width: 16px;
-      height: 16px;
-      background-color: #FFB800;
-      border-radius: 50%;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 2;
-    }
-
-    .scroll-item p {
-      margin-top: 2em;
-      font-size: 1rem;
-      line-height: 1.3em;
-    }
-
-    .scroll-item .date {
-      margin-bottom: 2em;
-      font-weight: bold;
-    }
-
-    @keyframes scrollLeft {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-
-    .battery-section {
-      background-color: #000000;
-      color: white;
-      padding: 3em 1em;
-      text-align: center;
-    }
-
-    .battery-section h2 {
-      font-size: 2rem;
-      margin-bottom: 1.5em;
-    }
-
-    .battery-columns {
-      display: flex;
-      justify-content: space-evenly;
-      flex-wrap: wrap;
-      gap: 2em;
-    }
-
-    .column {
-      flex: 1 1 300px;
-      max-width: 400px;
-    }
-
-    .column h3 {
-      font-size: 1.5rem;
-      margin-bottom: 0.5em;
     }
 
     .footer-bar {
@@ -171,94 +167,167 @@
       width: 100%;
       background-color: rgba(255, 184, 0, 0.2);
       display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-      padding: 0.5em 0;
+      justify-content: space-around;
+      align-items: stretch;
+      padding: 0.3em 0;
+      z-index: 500;
+      flex-wrap: nowrap;
+      transition: transform 0.4s ease;
+    }
+
+    .footer-bar.hide {
+      transform: translateY(100%);
     }
 
     .footer-item {
+      flex: 1;
+      min-width: 80px;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       align-items: center;
+      text-align: center;
+      padding: 0.2em;
       color: black;
-      font-size: 0.8rem;
     }
 
-    .footer-item img {
-      width: 20px;
-      height: 20px;
-      margin-bottom: 0.25em;
+    .footer-icon {
+      font-size: 1.2rem;
+      margin-bottom: 0.1em;
+    }
+
+    .footer-text {
+      font-size: 0.75rem;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 500px) {
+      .footer-icon {
+        font-size: 1rem;
+      }
+
+      .footer-text {
+        font-size: 0.65rem;
+      }
     }
   </style>
 </head>
 <body>
-  <img src="/hive_logo.png" class="menu-icon" onclick="toggleMenu()" alt="Menu Logo" />
+
+  <!-- 🔳 Menu Button -->
+  <img src="hive_logo.png" class="menu-icon" onclick="toggleMenu()" alt="Menu Logo" />
+
+  <!-- 🟨 Menu Popup with Section Links -->
   <div class="menu-popup" id="menuPopup">
-    <div onclick="toggleMenu()">Close</div>
-    <a href="#">About</a>
-    <a href="#">Solutions</a>
-    <a href="#">Contact</a>
+    <div onclick="toggleMenu()" style="margin-bottom: 1em;">✖ Close</div>
+    <a href="#about" onclick="toggleMenu()">About</a>
+    <a href="#solutions" onclick="toggleMenu()">Solutions</a>
+    <a href="#contact" onclick="toggleMenu()">Contact</a>
   </div>
 
+  <!-- 🌟 Hero Section -->
   <section class="hero">
-    <h1>Did you know you’re poisoning your water and food?</h1>
-    <p>Battery waste leaks toxic metals into the ground — the same ground we grow our food in, and the same water we drink</p>
-    <button class="button">Learn More</button>
-  </section>
-
-  <section class="scroll-section">
-    <div class="scroll-item">
-      <div class="date">Feb 2023</div>
-      <p>Concept initiated and core architecture drafted.</p>
-    </div>
-    <div class="scroll-item">
-      <div class="date">Mar 2023</div>
-      <p>Early schematic prototypes and simulations complete.</p>
-    </div>
-    <div class="scroll-item">
-      <div class="date">Aug 2023</div>
-      <p>Partner discussions and rough 3D tray model finalized.</p>
-    </div>
-    <div class="scroll-item">
-      <div class="date">Dec 2023</div>
-      <p>Firmware MVP for Tier 1 BMS completed and tested.</p>
+    <div class="container">
+      <h1>Did you know you're poisoning your water and food?</h1>
+      <p>Battery waste leaks toxic metals into the ground — the same ground we grow our food in, and the same water we drink.</p>
+      <button class="button">Learn More</button>
     </div>
   </section>
 
-  <section class="battery-section">
-    <h2>The Hive's Forever Battery</h2>
-    <div class="battery-columns">
-      <div class="column">
-        <h3>Hardware</h3>
-        <p>[Add your hardware content here]</p>
+  <!-- 🧠 Founder Section -->
+  <section class="section founder" id="about">
+    <img src="founder_photo.jpg" alt="Founder Photo" />
+    <h2>The Founder’s Vision</h2>
+    <p class="quote">"Nature never wastes. Why do we?"</p>
+    <p>Kashawn Coleman – military veteran, systems planner</p>
+    <ul>
+      <li>Inspired by the efficiency of bees</li>
+      <li>Passionate about sustainable design</li>
+      <li>Building smarter energy systems</li>
+    </ul>
+  </section>
+
+  <!-- 📈 Timeline Section -->
+  <section class="section">
+    <div class="container">
+      <h2>The Journey</h2>
+      <div class="timeline">
+        <div class="timeline-event">
+          <h4>Feb 2023</h4>
+          <p>Concept initiated and core architecture drafted.</p>
+        </div>
+        <div class="timeline-event">
+          <h4>Mar 2023</h4>
+          <p>Early schematic prototypes and simulations complete.</p>
+        </div>
+        <div class="timeline-event">
+          <h4>Aug 2023</h4>
+          <p>Partner discussions and rough 3D tray model finalized.</p>
+        </div>
+        <div class="timeline-event">
+          <h4>Dec 2023</h4>
+          <p>Firmware MVP for Tier 1 BMS completed and tested.</p>
+        </div>
       </div>
-      <div class="column">
-        <h3>Software</h3>
-        <p>[Add your software content here]</p>
-      </div>
     </div>
   </section>
 
-  <div class="footer-bar">
-    <div class="footer-item">
-      <img src="icon_email.png" alt="Email">
-      <span>info@hiveenergy.com</span>
+  <!-- 🛑 Problem Section -->
+  <section class="section problem">
+    <div class="container">
+      <h2>The Problem</h2>
+      <p>Most batteries are thrown away — even when 95% of the cells are still good.</p>
+      <ul>
+        <li>Leaks toxic metals into our food and water</li>
+        <li>Costs millions in waste annually</li>
+        <li>Only 5% of lithium batteries are recycled</li>
+      </ul>
     </div>
-    <div class="footer-item">
-      <img src="icon_phone.png" alt="Phone">
-      <span>(555) 123-4567</span>
-    </div>
-    <div class="footer-item">
-      <img src="icon_instagram.png" alt="Instagram">
-      <span>@hivepower</span>
-    </div>
-  </div>
+  </section>
 
+  <!-- 🔋 Forever Battery Section -->
+  <section class="section" id="solutions">
+    <div class="container">
+      <h2>The Hive’s Forever Battery</h2>
+      <p>A modular battery system that extends life, reduces waste, and changes how energy is managed.</p>
+      <div class="battery-diagram">[Forever Battery Diagram Placeholder]</div>
+    </div>
+  </section>
+
+  <!-- 📞 Footer Section -->
+  <footer class="footer-bar" id="contact">
+    <div class="footer-item">
+      <div class="footer-icon">📧</div>
+      <span class="footer-text">info@hiveenergy.com</span>
+    </div>
+    <div class="footer-item">
+      <div class="footer-icon">📞</div>
+      <span class="footer-text">(555) 123-4567</span>
+    </div>
+    <div class="footer-item">
+      <div class="footer-icon">📸</div>
+      <span class="footer-text">@hivepower</span>
+    </div>
+  </footer>
+
+  <!-- JS for Toggle & Floating Footer -->
   <script>
     function toggleMenu() {
-      const menu = document.getElementById("menuPopup");
-      menu.classList.toggle("active");
+      document.getElementById("menuPopup").classList.toggle("active");
     }
+
+    let lastScrollTop = 0;
+    window.addEventListener("scroll", function () {
+      const footer = document.getElementById("contact");
+      let st = window.pageYOffset || document.documentElement.scrollTop;
+      if (st > lastScrollTop) {
+        footer.classList.add("hide");
+      } else {
+        footer.classList.remove("hide");
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    }, false);
   </script>
+
 </body>
 </html>
