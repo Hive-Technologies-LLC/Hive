@@ -549,14 +549,36 @@
 
   </div>
 
+ <div style="text-align: center; max-width: 800px; margin: auto;">
   <h2>The Founder’s Vision</h2>
   <p class="quote">"Nature never wastes. Why do we?"</p>
-  <p>Kashawn Coleman – military veteran, systems planner</p>
-  <ul>
-    <li>Inspired by the efficiency of bees</li>
-    <li>Passionate about sustainable design</li>
-    <li>Building smarter energy systems</li>
-  </ul>
+  <p>Kashawn Coleman – military veteran and systems planner with experience in electrical systems. </p>
+    <p>Army Computer Detection Systems Repairer (94F) for 4+ years working with electric and radiation systems.</p>
+    <p>Inspired by the efficiency of bees and nature.</p>
+    <p>Passionate about sustainable design.</p>
+
+ <!-- 📖 Read More Button -->
+<p style="margin-top: 1em;">
+  <a id="readMoreBtn" onclick="toggleFounderBio()" style="color: #FFB800; font-weight: bold; cursor: pointer;">Read More</a>
+</p>
+
+<!-- 👤 Full Bio Hidden by Default -->
+<div id="founderBio" style="display: none; max-width: 700px; text-align: left; margin-top: 1em;">
+  <p><strong>Kashawn Coleman, Founder & CEO of Hive Technologies LLC</strong>, was born in New York in 1994. Raised as one of six siblings by parents still in high school, Kashawn grew up in low-income households where he quickly learned the importance of both hard work and responsibility.</p>
+  
+  <p>His father, who took parenting seriously, skipped college and taught himself to code on a dare — a decision that immersed Kashawn in the world of technology from a young age during the tech boom of the '90s and early 2000s. This early exposure would spark a lifelong curiosity for future-forward innovation.</p>
+
+  <p>After graduating from Tavares High School in Florida, Kashawn attended Monroe College in New York on a cross-country and track scholarship. After two semesters, he enlisted in the U.S. Army, where he trained in electrical systems and sharpened core values like leadership, resilience, and adaptability.</p>
+
+  <p>While stationed in Oahu, Hawaii, Kashawn gained a deep appreciation for the harmony and resourcefulness found in nature. That perspective was shaken — and expanded — during his deployment to Iraq, where he witnessed how many communities around the world live without access to basic necessities like electricity and clean water.</p>
+
+  <p>This contrast lit a fire in him: to use his skills to solve critical problems and bring sustainable infrastructure to underserved areas.</p>
+
+  <p>After his honorable discharge, Kashawn worked in various industries — including retail management and technical recruiting for companies like Rivian and Waymo. Through conversations with battery scientists and startup founders, he gained a behind-the-scenes view of innovation in the energy space.</p>
+
+  <p>All of this experience culminated in the founding of Hive Technologies in early 2025 — a company dedicated to building smarter, longer-lasting, and more sustainable energy systems.</p>
+</div>
+</div>
 </section>
 
   <!-- 📈 Timeline Section -->
@@ -667,6 +689,15 @@ Because you shouldn’t need a lab test to trust what’s in your glass. And if 
       }
       lastScrollTop = st <= 0 ? 0 : st;
     }, false);
+
+  function toggleFounderBio() {
+  const bio = document.getElementById("founderBio");
+  const button = document.getElementById("readMoreBtn");
+  const isHidden = bio.style.display === "none";
+
+  bio.style.display = isHidden ? "block" : "none";
+  button.innerText = isHidden ? "Read Less" : "Read More";
+}
   </script>
 
 </body>
