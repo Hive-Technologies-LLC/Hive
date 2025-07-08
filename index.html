@@ -152,25 +152,64 @@
 
 /* === SLIM SIDEBAR MENU (fully hidden when inactive) === */
 .menu-popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: fixed;
   top: 0;
   right: 0;
-  height: 100vh;
-  width: 90px;
-  background-color: rgba(255, 184, 0, 0.2);
-  color: black;
-  z-index: 999;
-  padding: 2em 1.5em;
+  width: 200px;
+  max-height: 90vh;
+  background-color: rgba(255, 184, 0, 0.2); /* Hive Gold 20% */
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.4);
-  transform: translateX(100%); /* Completely hidden */
-  transition: transform 0.3s ease-in-out;
-  display: flex;
-  flex-direction: column;
+  padding-top: 4em;
+  padding-bottom: 2em;
+  z-index: 999;
+  transform: translateX(100%);
+  transition: transform 0.4s ease-in-out;
+  overflow-y: auto;
 }
 
-/* === When active, slide into view === */
+/* === Active State === */
 .menu-popup.active {
   transform: translateX(0);
+}
+
+.menu-popup .close-btn {
+  align-self: flex-end;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 1em;
+  color: black;
+  cursor: pointer;
+}
+
+/* === Menu links === */
+.menu-popup a {
+  margin: 1em 0;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: black;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* === Animate in order === */
+.menu-popup.active a:nth-child(2) {
+  transition-delay: 0.1s;
+  opacity: 1;
+  transform: translateY(0);
+}
+.menu-popup.active a:nth-child(3) {
+  transition-delay: 0.2s;
+  opacity: 1;
+  transform: translateY(0);
+}
+.menu-popup.active a:nth-child(4) {
+  transition-delay: 0.3s;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* === Close button styling === */
@@ -185,8 +224,13 @@
 /* === Menu link styling === */
 .menu-popup a {
   margin: 1em 0;
+  color: white;
   font-weight: bold;
   font-size: 1.1rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  z-index: 1001;
 }
 
     /* === 📞 FOOTER CONTACT BAR === */
@@ -494,7 +538,7 @@
   <a href="#about" onclick="toggleMenu()">About</a>
   <a href="#solutions" onclick="toggleMenu()">Solutions</a>
   <a href="#contact" onclick="toggleMenu()">Contact</a>
-</div
+</div>
   
   <!-- 🌟 Hero Section -->
   <section class="hero">
@@ -627,15 +671,15 @@
   <footer class="footer-bar" id="contact">
     <div class="footer-item">
       <div class="footer-icon">📧</div>
-      <span class="footer-text">info@hiveenergy.com</span>
+      <span class="footer-text">Hivetechcom@gmail.com</span>
     </div>
     <div class="footer-item">
       <div class="footer-icon">📞</div>
-      <span class="footer-text">(555) 123-4567</span>
+      <span class="footer-text">(407) 319-7697</span>
     </div>
     <div class="footer-item">
       <div class="footer-icon">📸</div>
-      <span class="footer-text">@hivepower</span>
+      <span class="footer-text">...coming soon...</span>
     </div>
   </footer>
 
