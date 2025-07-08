@@ -160,7 +160,7 @@
   right: 0;
   width: 200px;
   max-height: 90vh;
-  background-color: rgba(255, 184, 0, 0.2); /* Hive Gold 20% */
+  background-color: rgba(255, 184, 0, 0.05); /* Hive Gold 20% */
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.4);
   padding-top: 4em;
   padding-bottom: 2em;
@@ -545,27 +545,23 @@ html, body {
   overflow-x: hidden;
 }
 
-/* 📸 Layout Wrapper */
+/* === 🔋 Forever Battery Collage Layout === */
 .battery-collage-layout {
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-top: 2em;
+  align-items: center;
   gap: 1em;
   flex-wrap: wrap;
+  margin-top: 2em;
 }
 
-/* 📸 Main Center Image */
 .battery-main img {
-  width: 400px;
-  max-width: 90vw;
+  max-width: 280px;
+  height: auto;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-  position: relative;
-  z-index: 1;
 }
 
-/* 📸 Side Image Columns */
 .battery-side {
   display: flex;
   flex-direction: column;
@@ -573,19 +569,39 @@ html, body {
 }
 
 .battery-side img {
-  width: 120px;
+  max-width: 130px;
+  height: auto;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  z-index: 2;
-  transition: transform 0.3s ease;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
 }
 
-.battery-side img:hover {
-  transform: scale(1.05);
+/* === 🏠 Scroll-to-Top Hive Logo Button === */
+.scroll-home-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 60px;
+  height: auto;
+  display: none;
+  z-index: 1000;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-home-btn img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
 }
   </style>
 </head>
 <body>
+<!-- 🏠 Floating Home Logo Button (Scroll to Top) -->
+<a href="#" class="scroll-home-btn" title="Back to top">
+  <img src="resources/HiveTech_logo.png" alt="Hive Logo" />
+</a>
 
 <div class="top-bar"></div>
 
@@ -698,7 +714,7 @@ html, body {
     </div>
 
     <!-- 👤 Founder Image -->
-    <img src="resources/founder.kashawn.coleman.jpg" alt="Founder Photo" />
+    <img src="resources/Personal_photo.jpeg" alt="Founder Photo" />
     
     <!-- 🟡 Right Floating Quotes -->
     <div class="floating-quotes right-quotes">
@@ -823,39 +839,65 @@ Because you shouldn’t need a lab test to trust what’s in your glass. And if 
 </div>
 
   <!-- 🧠 JS -->
-  <script>
-    function toggleMenu() {
-      document.getElementById("menuPopup").classList.toggle("active");
+<script>
+  // === 🍔 Toggle the side menu popup ===
+  function toggleMenu() {
+    document.getElementById("menuPopup").classList.toggle("active");
+  }
+
+  // === 💬 Open the Learn More popup bubble ===
+  function openBubble() {
+    document.getElementById("popupBubble").classList.add("active");
+  }
+
+  // === ❌ Close the Learn More popup bubble ===
+  function closeBubble() {
+    document.getElementById("popupBubble").classList.remove("active");
+  }
+
+  // === ⬆️ Hide footer on scroll down, show on scroll up ===
+  let lastScrollTop = 0;
+  window.addEventListener("scroll", function () {
+    const footer = document.getElementById("contact");
+    let st = window.pageYOffset || document.documentElement.scrollTop;
+    if (st > lastScrollTop) {
+      footer.classList.add("hide");
+    } else {
+      footer.classList.remove("hide");
     }
+    lastScrollTop = st <= 0 ? 0 : st;
+  }, false);
 
-    function openBubble() {
-      document.getElementById("popupBubble").classList.add("active");
+  // === 👤 Toggle Founder Bio visibility and button text ===
+  function toggleFounderBio() {
+    const bio = document.getElementById("founderBio");
+    const button = document.getElementById("readMoreBtn");
+    const isHidden = bio.style.display === "none";
+
+    bio.style.display = isHidden ? "block" : "none";
+    button.innerText = isHidden ? "Read Less" : "Read More";
+  }
+
+  // === 🏠 Smooth scroll to top when clicking Hive logo ===
+  document.addEventListener("DOMContentLoaded", function () {
+    const logo = document.querySelector(".home-logo-wrapper a");
+    if (logo) {
+      logo.addEventListener("click", function (e) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
     }
+  });
 
-    function closeBubble() {
-      document.getElementById("popupBubble").classList.remove("active");
-    }
-
-    let lastScrollTop = 0;
-    window.addEventListener("scroll", function () {
-      const footer = document.getElementById("contact");
-      let st = window.pageYOffset || document.documentElement.scrollTop;
-      if (st > lastScrollTop) {
-        footer.classList.add("hide");
-      } else {
-        footer.classList.remove("hide");
-      }
-      lastScrollTop = st <= 0 ? 0 : st;
-    }, false);
-
-function toggleFounderBio() {
-  const bio = document.getElementById("founderBio");
-  const button = document.getElementById("readMoreBtn");
-  const isHidden = bio.style.display === "none";
-
-  bio.style.display = isHidden ? "block" : "none";
-  button.innerText = isHidden ? "Read Less" : "Read More";
-}
+  // === 👀 Show scroll-home logo button after scrolling down ===
+window.addEventListener("scroll", function () {
+  const scrollBtn = document.querySelector(".scroll-home-btn");
+  if (window.scrollY > 200) {
+    scrollBtn.style.display = "block";
+  } else {
+    scrollBtn.style.display = "none";
+  }
+});
 </script>
 </body>
 </html>
