@@ -343,33 +343,48 @@
       font-weight: bold;
     }
 
-    /* === 🔳 POPUP FLEX WRAPPER FOR SIDE IMAGES === */
-    .popup-flex {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1em;
-      flex-wrap: wrap;
-      max-width: 100vw;
-    }
+   /* === Bubble Layout Wrapper === */
+.popup-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  max-width: 95vw;
+  width: 100%;
+  gap: 1em;
+}
 
-    /* === 🖼️ IMAGE CONTAINERS ON LEFT + RIGHT === */
-    .popup-images {
-      display: flex;
-      flex-direction: column;
-      gap: 1em;
-      align-items: center;
-    }
+/* === Image Columns === */
+.popup-images {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
 
-    /* === 📷 INDIVIDUAL IMAGES IN POPUP SIDES === */
-    .popup-images img {
-      width: 200px;
-      height: auto;
-      max-height: 55%;
-      object-fit: cover;
-      border-radius: 8px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.2);
-    }
+.popup-images img {
+  width: 120px;
+  height: auto;
+  max-height: 45%;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+/* === Mobile Handling === */
+@media (max-width: 768px) {
+  .popup-wrapper {
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+
+  .popup-images img {
+    width: 80px;
+  }
+
+  .popup-content {
+    font-size: 0.9rem;
+    padding: 1em;
+  }
+}
 
     /* === 💬 POPUP BUBBLE STYLES === */
     .popup-bubble {
@@ -523,6 +538,51 @@
   z-index: 500; /* Ensure it's above background, but below menu */
 }
 
+/* Prevents horizontal scrolling caused by overflowing elements.
+   Ensures the layout stays within the viewport width. */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* 📸 Layout Wrapper */
+.battery-collage-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2em;
+  gap: 1em;
+  flex-wrap: wrap;
+}
+
+/* 📸 Main Center Image */
+.battery-main img {
+  width: 400px;
+  max-width: 90vw;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+/* 📸 Side Image Columns */
+.battery-side {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.battery-side img {
+  width: 120px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.battery-side img:hover {
+  transform: scale(1.05);
+}
   </style>
 </head>
 <body>
@@ -543,9 +603,11 @@
   <!-- 🌟 Hero Section -->
   <section class="hero">
     <div class="container">
-      <h1>Did you know you're poisoning your water and food?</h1>
-      <p>Battery waste leaks toxic metals into the ground — the same ground we grow our food in, and the same water we drink.</p>
-      <button class="button" onclick="openBubble()">Learn More</button>
+      <h1>Most people don’t realize they’re poisoning their water and food — are you?</h1>
+      <br><p>Battery waste leaks toxic metals into the ground — the same ground we grow our food in, and the same water we drink. <br>
+      <br><em>The real danger? Most people have no idea it's already happening.</em><br>
+      <br><button class="button" onclick="openBubble()">Learn More</button>
+    </p>
     </div>
   </section>
 
@@ -553,13 +615,18 @@
   <section class="section problem">
   <div class="container problem-flex">
     <div class="problem-text">
-      <h2>The Problem</h2>
+      <h2><center>The Problem</center></h2>
       <p>Most batteries are thrown away — even when 95% of the cells are still good.</p>
       <ul>
-        <li>Leaks toxic metals into our food and water</li>
-        <li>Costs millions in waste annually</li>
-        <li>Only 5% of lithium batteries are recycled</li>
+        <li>In America roughly 8,000,000 batteries are discarded every single day according to Earth911 and the EPA (Environmental Protection Agency)</li>
+        <li>Discarded batteries can leak toxins into soil and water</li>
+        <li>This waste costs billions annually with lithium-ion fires imposing over $1200,000,000/year</li>
+        <li>$11.3 - $40.3 billion in lost recycling potential (Economic & Environmental combined)</li>
       </ul>
+      <p style="font-size: 0.8em; color: #999; margin-top: 2em;">
+  *Sources: EPA<sup><a href="https://www.epa.gov/recycle/used-household-batteries" target="_blank" style="color:#FFB800;">[1]</a></sup>, Earth911<sup><a href="https://earth911.com/recycling-guide/how-to-recycle-single-use-batteries/" target="_blank" style="color:#FFB800;">[2]</a></sup>, Waste360<sup><a href="https://www.waste360.com/waste-management-business/li-ion-battery-fires-unfairly-cost-waste-recycling-and-scrap-operators-over-1-2-billion-annually" target="_blank" style="color:#FFB800;">[3]</a></sup>, Rocky Mountain Institute (RMI)<sup><a href="https://rmi.org/battery-recycling-how-accounting-for-social-and-environmental-benefits-boosts-returns" target="_blank" style="color:#FFB800;">[4]</a></sup>
+</p>
+
     </div>
 
     <div class="problem-video">
@@ -576,14 +643,44 @@
   </div>
 </section>
 
- <!-- 🔋 Forever Battery Section -->
-  <section class="section" id="solutions">
-    <div class="container">
-      <h2>The Hive’s Forever Battery</h2>
-      <p>A modular battery system that extends life, reduces waste, and changes how energy is managed.</p>
-      <div class="battery-diagram">[Forever Battery Diagram Placeholder]</div>
+<!-- 🔋 Forever Battery Section -->
+<section class="section" id="solutions" style="color: black;">
+  <div class="container" style="max-width: 900px; margin: auto; text-align: center;">
+    <h2 style="color: black;">The Hive’s Forever Battery</h2>
+
+    <p style="font-size: 1.1em;">
+      <strong>The Hive’s Forever Battery</strong> is a <em>modular, reconfigurable energy system</em> designed to last longer, waste less, and work smarter.
+    </p>
+
+    <p style="font-size: 1.05em;">
+      Instead of tossing out entire packs when a few cells fail, our system isolates and replaces only what’s needed — <em>preserving healthy cells</em> and giving batteries a true second life.
+    </p>
+
+    <p style="font-size: 1.05em;">
+      It’s built to power everything from <strong>residential homes</strong> and <strong>commercial buildings</strong> to <strong>industrial sites</strong> and <strong>EV charging stations</strong>, all with a core focus on sustainability and intelligent performance.
+    </p>
+
+    <!-- 🖼️ Side Collage Layout -->
+    <div class="battery-collage-layout">
+      <!-- Left-side images -->
+      <div class="battery-side">
+        <img src="resources/Hivepowerstation.png" alt="EV Integration" />
+        <img src="resources/Hiveresidential.png" alt="Home Integration" />
+      </div>
+
+      <!-- Main image -->
+      <div class="battery-main">
+        <img src="resources/fb_uses.png" alt="Forever Battery Use Cases" />
+      </div>
+
+      <!-- Right-side images -->
+      <div class="battery-side">
+        <img src="resources/Hive_grid.png" alt="Microgrid Integration" />
+        <img src="resources/Hive_commercial.png" alt="Modular System" />
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- Company Section -->
    <section class="section company" id="company">
@@ -645,6 +742,7 @@
 </section>
 
   <!-- 📈 Timeline Section -->
+   <h1><b><center>Progress</center></b></h1><br>
   <section class="scroll-section">
   <div class="scroll-item">
     <div class="date">Feb 2023</div>
@@ -661,9 +759,6 @@
   <div class="scroll-item">
     <div class="date">Dec 2023</div>
     <p>Firmware MVP for Tier 1 BMS completed and tested.</p>
-  </div>
-  <div class="scroll-item" style="margin-left: 10em;"></div>
-  <div class="scroll-item">
   </div>
 </section>
 
@@ -685,10 +780,10 @@
 
   <!-- 📖 Reusable Popup Article Bubble -->
  <div class="popup-bubble" id="popupBubble">
-  <div class="popup-flex">
-    <div class="popup-images">
-      <img src="resources/landfill.jpg" />
-      <img src="resources/car_battery.jpg" />
+  <div class="popup-wrapper">
+    <div class="popup-images left">
+      <img src="resources/alkaline_battery.jpg" alt="Alkaline battery waste" />
+      <img src="resources/car_battery.jpg" alt="Car battery waste" />
     </div>
 
     <div class="popup-content">
@@ -720,9 +815,9 @@ Because you shouldn’t need a lab test to trust what’s in your glass. And if 
 </p>
     </div>
 
-    <div class="popup-images">
-      <img src="resources/alkaline_battery.jpg" />
-      <img src="resources/phone_battery.jpg" />
+    <div class="popup-images right">
+      <img src="resources/landfill.jpg" alt="Landfill waste" />
+      <img src="resources/phone_battery.jpg" alt="phone battery waste" />
     </div>
   </div>
 </div>
