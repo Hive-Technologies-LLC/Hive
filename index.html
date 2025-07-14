@@ -4,900 +4,118 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hive Technologies</title>
+
   <style>
-    /* === 🌐 GLOBAL LAYOUT & TYPOGRAPHY === */
+    /* === Global Styles === */
     html {
       scroll-behavior: smooth;
     }
 
-    body {
+    body, html {
       margin: 0;
+      padding: 0;
+      height: 100%;
       font-family: Arial, sans-serif;
-      background-color: #000000;
-      color: white;
-    }
-
-    h1, h2, h3 {
-      color: white;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-      cursor: pointer;
-    }
-
-    .container {
-      padding: 2em;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    /* === ✨ HERO SECTION === */
-    .hero {
-       padding-top: 6em; /* Creates space under the fixed top bar */
-      text-align: center;
-      padding: 4em 2em;
-    }
-
-    .hero h1 {
-      font-size: 2.2rem;
-      color: #FFB800;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      margin: 1em 0;
-    }
-
-    .button {
-      background-color: #FFB800;
-      color: black;
-      border: none;
-      padding: 0.75em 1.5em;
-      font-weight: bold;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-
-    /* === 👤 ABOUT SECTION === */
-    .section {
-      padding: 3em 2em;
-    }
-
-    .founder {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    .founder img {
-      width: 180px;
-      border-radius: 8px;
-      margin-bottom: 1em;
-    }
-
-    .quote {
-      font-style: italic;
-      color: #FFB800;
-      margin: 0.5em 0;
-    }
-
-    /* === 📅 TIMELINE STYLE === */
-    .timeline {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      border-top: 2px solid #FFB800;
-      padding-top: 1em;
-    }
-
-    .timeline-event {
-      flex: 1 1 45%;
-      margin: 1em 0;
-    }
-
-    .timeline-event h4 {
-      color: #FFB800;
-    }
-
-    /* === ⚠️ PROBLEM LIST === */
-    .problem ul {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .problem li {
-      margin: 1em 0;
-    }
-
-    .problem li::before {
-      content: "⚠️ ";
-      margin-right: 0.5em;
-      color: #FFB800;
-    }
-
-    /* === 🔋 BATTERY PLACEHOLDER === */
-    .battery-diagram {
-      margin-top: 2em;
-      width: 100%;
-      height: 200px;
-      background-color: #1a1a1a;
-      border: 1px solid #FFB800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #FFB800;
-      font-size: 1.2rem;
-    }
-
-    /* === 🍔 MENU ICON === */
-    .menu-icon {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      width: 50px;
-      height: 50px;
-      cursor: pointer;
-      z-index: 1000;
-      object-fit: contain; /* Keeps glow from being cropped */
-      transition: transform 0.2s ease;
-    }
-
-    .menu-icon:hover {
-  transform: scale(1.05);
-}
-
-/* === SLIM SIDEBAR MENU (fully hidden when inactive) === */
-.menu-popup {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 200px;
-  max-height: 90vh;
-  background-color: rgba(255, 184, 0, 0.05); /* Hive Gold 20% */
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.4);
-  padding-top: 4em;
-  padding-bottom: 2em;
-  z-index: 999;
-  transform: translateX(100%);
-  transition: transform 0.4s ease-in-out;
-  overflow-y: auto;
-}
-
-/* === Active State === */
-.menu-popup.active {
-  transform: translateX(0);
-}
-
-.menu-popup .close-btn {
-  align-self: flex-end;
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin: 1em;
-  color: black;
-  cursor: pointer;
-}
-
-/* === Menu links === */
-.menu-popup a {
-  margin: 1em 0;
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: black;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
-/* === Animate in order === */
-.menu-popup.active a:nth-child(2) {
-  transition-delay: 0.1s;
-  opacity: 1;
-  transform: translateY(0);
-}
-.menu-popup.active a:nth-child(3) {
-  transition-delay: 0.2s;
-  opacity: 1;
-  transform: translateY(0);
-}
-.menu-popup.active a:nth-child(4) {
-  transition-delay: 0.3s;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* === Close button styling === */
-.menu-popup .close-btn {
-  align-self: flex-end;
-  font-size: 1.5rem;
-  font-weight: bold;
-  cursor: pointer;
-  margin-bottom: 2em;
-}
-
-/* === Menu link styling === */
-.menu-popup a {
-  margin: 1em 0;
-  color: white;
-  font-weight: bold;
-  font-size: 1.1rem;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  z-index: 1001;
-}
-
-    /* === 📞 FOOTER CONTACT BAR === */
-    .footer-bar {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background-color: rgba(255, 184, 0, 0.2);
-      display: flex;
-      justify-content: space-around;
-      align-items: stretch;
-      padding: 0.3em 0;
-      z-index: 500;
-      flex-wrap: nowrap;
-      transition: transform 0.4s ease;
-    }
-
-    .footer-bar.hide {
-      transform: translateY(100%);
-    }
-
-    .footer-item {
-      flex: 1;
-      min-width: 80px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 0.2em;
-      color: black;
-    }
-
-    .footer-icon {
-      font-size: 1.2rem;
-      margin-bottom: 0.1em;
-    }
-
-    .footer-text {
-      font-size: 0.75rem;
-      white-space: nowrap;
-    }
-
-    @media (max-width: 500px) {
-      .footer-icon {
-        font-size: 1rem;
-      }
-
-      .footer-text {
-        font-size: 0.65rem;
-      }
-    }
-
-    /* === 🕓 TIMELINE SCROLLING FLOAT === */
-    .scroll-section {
       background-color: black;
       color: white;
-      display: flex;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      padding: 4em 1em 2em;
-      gap: 4em;
-      position: relative;
+      overflow-x: hidden;
     }
 
-    .scroll-section::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 0;
-      height: 4px;
+    /* === Background Video === */
+    .background-video {
+      position: fixed;
+      top: 0; left: 0;
       width: 100%;
-      background-color: #FFB800;
+      height: 100%;
+      object-fit: cover;
       z-index: 0;
     }
 
-    .scroll-item {
-      flex: 0 0 auto;
-      width: 250px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      color: white;
-    }
+    /* === Top-Left Logo === */
+.logo {
+  position: fixed;
+  top: 16%;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 150px;
+  width: auto;
+  z-index: 2;
 
-    .scroll-item::before {
-      content: '';
-      width: 16px;
-      height: 16px;
-      background-color: #FFB800;
-      border-radius: 50%;
-      position: absolute;
+  /* ✅ Add subtle black glow */
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.6));
+}
+
+    /* === Hero Content Centered === */
+    .hero-content {
+      position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      z-index: 2;
+      text-align: center;
+      z-index: 1;
     }
 
-    .scroll-item p {
-      margin-top: 2em;
-      font-size: 1rem;
-      line-height: 1.3em;
-    }
-
-    .scroll-item .date {
-      margin-bottom: 2em;
-      font-weight: bold;
-    }
-
-   /* === Bubble Layout Wrapper === */
-.popup-wrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  max-width: 95vw;
-  width: 100%;
-  gap: 1em;
-}
-
-/* === Image Columns === */
-.popup-images {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-}
-
-.popup-images img {
-  width: 120px;
-  height: auto;
-  max-height: 45%;
-  border-radius: 5px;
-  object-fit: cover;
-}
-
-/* === Mobile Handling === */
-@media (max-width: 768px) {
-  .popup-wrapper {
-    flex-direction: row;
-    flex-wrap: nowrap;
-  }
-
-  .popup-images img {
-    width: 80px;
-  }
-
-  .popup-content {
-    font-size: 0.9rem;
-    padding: 1em;
-  }
-}
-
-    /* === 💬 POPUP BUBBLE STYLES === */
-    .popup-bubble {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: 100vw;
-      background-color: rgba(255, 184, 0, 0.6);
-      color: black;
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-      padding: 1em;
-    }
-
-    .popup-bubble.active {
-      display: flex;
-    }
-
-    .popup-content {
-      background-color: white;
-      color: black;
-      width: 600px;
-      height: 400px;
-      max-width: 90vw;
-      max-height: 80vh;
-      overflow-y: auto;
-      border-radius: 8px;
-      padding: 1.5em;
-      position: relative;
-      box-shadow: 0 0 20px #333;
-      animation: zoomIn 0.3s ease;
-      scrollbar-width: thin;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 1.5rem;
-      font-weight: bold;
-      cursor: pointer;
-      color: black;
-    }
-
-    @keyframes zoomIn {
-      0% {
-        transform: scale(0.9);
-        opacity: 0;
-      }
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .popup-content {
-        width: 90vw;
-        height: 70vh;
-      }
-    }
-
-    /* === 🔍 PROBLEM SECTION FLEX LAYOUT + YOUTUBE PLAYER === */
-.problem-flex {
-  display: flex;
-  flex-wrap: wrap;                   /* Stack on mobile */
-  gap: 2em;
-  align-items: flex-start;
-}
-
-.problem-text {
-  flex: 1 1 300px;                   /* Allows text to take flexible width */
-}
-
-.problem-video {
-  flex: 1 1 400px;                   /* YouTube player container */
-  aspect-ratio: 16 / 9;              /* Maintain standard video aspect ratio */
-  max-width: 640px;
-  width: 100%;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 0 12px rgba(255, 184, 0, 0.3); /* subtle gold glow */
-}
-
-/* === Floating Quote Containers (Left & Right) === */
-.floating-quotes {
-  position: absolute;
-  width: 120px;
-  height: 180px; /* Matches height of image */
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  pointer-events: none;
-}
-
-.left-quotes {
-  left: -140px;
-  top: 0;
-}
-
-.right-quotes {
-  right: -140px;
-  top: 0;
-}
-
-/* === Individual Quote Style === */
-.quote-bubble {
-  opacity: 0;
-  font-size: 0.85rem;
-  font-style: italic;
+.hero-content h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
   color: #FFB800;
-  animation: floatUp 8s ease-in-out infinite;
-  position: relative;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7); /* ✅ soft black glow */
 }
 
-/* === Floating Animation === */
-@keyframes floatUp {
-  0% {
-    transform: translateY(300%);
-    opacity: 0;
-  }
-  30% {
-    opacity: 1;
-  }
-  70% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-}
+    .cta-button {
+      background-color: #FFB800;
+      color: black;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
 
-/* === Section Backgrounds === */
-#solutions {
-  background-color: rgba(255, 184, 0, 0.6); /* Hive Gold at 60% opacity */
-}
+    .cta-button:hover {
+      background-color: #e6a800;
+    }
 
-/* === 🔶 Top Transparent Gold Bar === */
-.top-bar {
-  width: 100%;
-  height: 20px; /* Match the logo height */
-  background-color: rgba(255, 184, 0, 0.2); /* Hive Gold with 60% transparency */
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 500; /* Ensure it's above background, but below menu */
-}
+    /* === Main Content Section === */
+    main {
+      background-color: black;
+      padding: 100px 20px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
 
-/* Prevents horizontal scrolling caused by overflowing elements.
-   Ensures the layout stays within the viewport width. */
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
+    main h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
 
-/* === 🔋 Forever Battery Collage Layout === */
-.battery-collage-layout {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1em;
-  flex-wrap: wrap;
-  margin-top: 2em;
-}
-
-.battery-main img {
-  max-width: 280px;
-  height: auto;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-}
-
-.battery-side {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-}
-
-.battery-side img {
-  max-width: 130px;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-}
-
-/* === 🏠 Scroll-to-Top Hive Logo Button === */
-.scroll-home-btn {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  width: 60px;
-  height: auto;
-  display: none;
-  z-index: 1000;
-  cursor: pointer;
-  opacity: 0.9;
-  transition: opacity 0.3s ease;
-}
-
-.scroll-home-btn img {
-  width: 100%;
-  height: auto;
-  border-radius: 50%;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
-}
+    main p {
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
   </style>
 </head>
+
 <body>
-<!-- 🏠 Floating Home Logo Button (Scroll to Top) -->
-<a href="#" class="scroll-home-btn" title="Back to top">
-  <img src="resources/HiveTech_logo.png" alt="Hive Logo" />
-</a>
 
-<div class="top-bar"></div>
+  <!-- 🔶 Background Video -->
+  <video autoplay muted loop playsinline class="background-video">
+    <source src="resources/Field_Video.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
 
-  <!-- 🔳 Menu Button -->
-  <img src="resources/hive_logo.png" class="menu-icon" onclick="toggleMenu()" alt="Menu Logo" />
+  <!-- 🐝 HiveTech Logo -->
+  <img src="resources/HiveTech_logo.png" alt="HiveTech Logo" class="logo" />
 
-  <!-- 🟨 Menu Popup -->
-<div class="menu-popup" id="menuPopup">
-  <div class="close-btn" onclick="toggleMenu()">✖</div>
-  <a href="#about" onclick="toggleMenu()">About</a>
-  <a href="#solutions" onclick="toggleMenu()">Solutions</a>
-  <a href="#contact" onclick="toggleMenu()">Contact</a>
-</div>
-  
-  <!-- 🌟 Hero Section -->
-  <section class="hero">
-    <div class="container">
-      <h1>Most people don’t realize they’re poisoning their water and food — are you?</h1>
-      <br><p>Battery waste leaks toxic metals into the ground — the same ground we grow our food in, and the same water we drink. <br>
-      <br><em>The real danger? Most people have no idea it's already happening.</em><br>
-      <br><button class="button" onclick="openBubble()">Learn More</button>
-    </p>
-    </div>
-  </section>
-
-<!-- 🛑 Problem Section -->
-  <section class="section problem">
-  <div class="container problem-flex">
-    <div class="problem-text">
-      <h2><center>The Problem</center></h2>
-      <p>Most batteries are thrown away — even when 95% of the cells are still good.</p>
-      <ul>
-        <li>In America roughly 8,000,000 batteries are discarded every single day according to Earth911 and the EPA (Environmental Protection Agency)</li>
-        <li>Discarded batteries can leak toxins into soil and water</li>
-        <li>This waste costs billions annually with lithium-ion fires imposing over $1200,000,000/year</li>
-        <li>$11.3 - $40.3 billion in lost recycling potential (Economic & Environmental combined)</li>
-      </ul>
-      <p style="font-size: 0.8em; color: #999; margin-top: 2em;">
-  *Sources: EPA<sup><a href="https://www.epa.gov/recycle/used-household-batteries" target="_blank" style="color:#FFB800;">[1]</a></sup>, Earth911<sup><a href="https://earth911.com/recycling-guide/how-to-recycle-single-use-batteries/" target="_blank" style="color:#FFB800;">[2]</a></sup>, Waste360<sup><a href="https://www.waste360.com/waste-management-business/li-ion-battery-fires-unfairly-cost-waste-recycling-and-scrap-operators-over-1-2-billion-annually" target="_blank" style="color:#FFB800;">[3]</a></sup>, Rocky Mountain Institute (RMI)<sup><a href="https://rmi.org/battery-recycling-how-accounting-for-social-and-environmental-benefits-boosts-returns" target="_blank" style="color:#FFB800;">[4]</a></sup>
-</p>
-
-    </div>
-
-    <div class="problem-video">
-      <iframe 
-        width="100%" 
-        height="100%" 
-        src="https://www.youtube.com/embed/gRnQk5Gan2U?si=-axAKTRmBebOcl7V" 
-        title="YouTube video player" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        allowfullscreen>
-      </iframe>
-    </div>
+  <!-- 🌿 Centered Text and Button -->
+  <div class="hero-content">
+    <h1>Nature Powers Us</h1>
+    <a href="home.html" class="cta-button">Continue to Hive Tech</a>
   </div>
-</section>
-
-<!-- 🔋 Forever Battery Section -->
-<section class="section" id="solutions" style="color: black;">
-  <div class="container" style="max-width: 900px; margin: auto; text-align: center;">
-    <h2 style="color: black;">The Hive’s Forever Battery</h2>
-
-    <p style="font-size: 1.1em;">
-      <strong>The Hive’s Forever Battery</strong> is a <em>modular, reconfigurable energy system</em> designed to last longer, waste less, and work smarter.
-    </p>
-
-    <p style="font-size: 1.05em;">
-      Instead of tossing out entire packs when a few cells fail, our system isolates and replaces only what’s needed — <em>preserving healthy cells</em> and giving batteries a true second life.
-    </p>
-
-    <p style="font-size: 1.05em;">
-      It’s built to power everything from <strong>residential homes</strong> and <strong>commercial buildings</strong> to <strong>industrial sites</strong> and <strong>EV charging stations</strong>, all with a core focus on sustainability and intelligent performance.
-    </p>
-
-    <!-- 🖼️ Side Collage Layout -->
-    <div class="battery-collage-layout">
-      <!-- Left-side images -->
-      <div class="battery-side">
-        <img src="resources/Hivepowerstation.png" alt="EV Integration" />
-        <img src="resources/Hiveresidential.png" alt="Home Integration" />
-      </div>
-
-      <!-- Main image -->
-      <div class="battery-main">
-        <img src="resources/fb_uses.png" alt="Forever Battery Use Cases" />
-      </div>
-
-      <!-- Right-side images -->
-      <div class="battery-side">
-        <img src="resources/Hive_grid.png" alt="Microgrid Integration" />
-        <img src="resources/Hive_commercial.png" alt="Modular System" />
-      </div>
-    </div>
-  </div>
-</section>
-
-  <!-- Company Section -->
-   <section class="section company" id="company">
-
-   </section>
-
-  <!-- 🧠 Founder Section -->
-  <h5 class="section founder" id="about">
-  <div style="position: relative; display: flex; align-items: center; justify-content: center;">
-    
-    <!-- 🟡 Left Floating Quotes -->
-    <div class="floating-quotes left-quotes">
-      <div class="quote-bubble">"Efficiency is nature’s rhythm."</div>
-      <div class="quote-bubble" style="animation-delay: 3s;">"The planet doesn’t get do-overs."</div>
-    </div>
-
-    <!-- 👤 Founder Image -->
-    <img src="resources/Personal_photo.jpg" alt="Founder Photo" />
-    
-    <!-- 🟡 Right Floating Quotes -->
-    <div class="floating-quotes right-quotes">
-      <div class="quote-bubble" style="animation-delay: 1.5s;">"Innovation is built on care."</div>
-      <div class="quote-bubble" style="animation-delay: 4.5s;">"Bees don’t waste — neither should we."</div>
-    <div class="quote-bubble" style="animation-delay: 2.5s;">"Proper preparation prevents piss poor performance."</div>
-    </div>
-
-  </div>
-
-  <div style="text-align: center; max-width: 800px; margin: auto;">
-  <h2>The Founder’s Vision</h2>
-  <p class="quote">"Nature never wastes. Why do we?"</p>
-  <p>Kashawn Coleman – military veteran and systems planner with experience in electrical systems. </p>
-    <p>Army Computer Detection Systems Repairer (94F) for 4+ years working with electric and radiation systems.</p>
-    <p>Inspired by the efficiency of bees and nature.</p>
-    <p>Passionate about sustainable design.</p>
-
- <!-- 📖 Read More Button -->
-<p style="margin-top: 1em;">
-  <a id="readMoreBtn" onclick="toggleFounderBio()" style="color: #FFB800; font-weight: bold; cursor: pointer;">Read More</a>
-</p>
-
-<!-- 👤 Full Bio Hidden by Default -->
-<div id="founderBio" style="display: none; max-width: 700px; text-align: left; margin-top: 1em;">
-  <p><strong>Kashawn Coleman, Founder & CEO of Hive Technologies LLC</strong>, was born in New York in 1994. Raised as one of six siblings by parents still in high school, Kashawn grew up in low-income households where he quickly learned the importance of both hard work and responsibility.</p>
-  
-  <p>His father, who took parenting seriously, skipped college and taught himself to code on a dare — a decision that immersed Kashawn in the world of technology from a young age during the tech boom of the '90s and early 2000s. This early exposure would spark a lifelong curiosity for future-forward innovation.</p>
-
-  <p>After graduating from Tavares High School in Florida, Kashawn attended Monroe College in New York on a cross-country and track scholarship. After two semesters, he enlisted in the U.S. Army, where he trained in electrical systems and sharpened core values like leadership, resilience, and adaptability.</p>
-
-  <p>While stationed in Oahu, Hawaii, Kashawn gained a deep appreciation for the harmony and resourcefulness found in nature. That perspective was shaken — and expanded — during his deployment to Iraq, where he witnessed how many communities around the world live without access to basic necessities like electricity and clean water.</p>
-
-  <p>This contrast lit a fire in him: to use his skills to solve critical problems and bring sustainable infrastructure to underserved areas.</p>
-
-  <p>After his honorable discharge, Kashawn worked in various industries — including retail management and technical recruiting for companies like Rivian and Waymo. Through conversations with battery scientists and startup founders, he gained a behind-the-scenes view of innovation in the energy space.</p>
-
-  <p>All of this experience culminated in the founding of Hive Technologies in early 2025 — a company dedicated to building smarter, longer-lasting, and more sustainable energy systems.</p>
-</div>
-</div>
-</section>
-
-  <!-- 📈 Timeline Section -->
-   <h1><b><center>Progress</center></b></h1><br>
-  <section class="scroll-section">
-  <div class="scroll-item">
-    <div class="date">Feb 2023</div>
-    <p>Concept initiated and core architecture drafted.</p>
-  </div>
-  <div class="scroll-item">
-    <div class="date">Mar 2023</div>
-    <p>Early schematic prototypes and simulations complete.</p>
-  </div>
-  <div class="scroll-item">
-    <div class="date">Aug 2023</div>
-    <p>Partner discussions and rough 3D tray model finalized.</p>
-  </div>
-  <div class="scroll-item">
-    <div class="date">Dec 2023</div>
-    <p>Firmware MVP for Tier 1 BMS completed and tested.</p>
-  </div>
-</section>
-
-  <!-- 📞 Footer -->
-  <footer class="footer-bar" id="contact">
-    <div class="footer-item">
-      <div class="footer-icon">📧</div>
-      <span class="footer-text">Hivetechcom@gmail.com</span>
-    </div>
-    <div class="footer-item">
-      <div class="footer-icon">📞</div>
-      <span class="footer-text">(407) 319-7697</span>
-    </div>
-    <div class="footer-item">
-      <div class="footer-icon">📸</div>
-      <span class="footer-text">...coming soon...</span>
-    </div>
-  </footer>
-
-  <!-- 📖 Reusable Popup Article Bubble -->
- <div class="popup-bubble" id="popupBubble">
-  <div class="popup-wrapper">
-    <div class="popup-images left">
-      <img src="resources/alkaline_battery.jpg" alt="Alkaline battery waste" />
-      <img src="resources/car_battery.jpg" alt="Car battery waste" />
-    </div>
-
-    <div class="popup-content">
-      <span class="close-btn" onclick="closeBubble()">✖</span>
-      <h2>You’re Not Just Throwing Away Batteries — You’re Poisoning the Planet</h2>
-
-<p>
-We live in a world where convenience has quietly turned into contamination. Every time a battery is tossed into the trash, it doesn’t just disappear — it begins to leak. Whether it’s a common alkaline battery or a powerful lithium-ion pack, what seeps out is toxic: mercury, lead, cadmium, nickel, and lithium. These metals bleed into the soil, into the groundwater, and ultimately... into us.
-</p>
-
-<p>
-In 2018, U.S. landfills received over <strong>740,000 tons of nonferrous metals</strong> — much of it from improperly discarded batteries (<a href="https://www.epa.gov/facts-and-figures-about-materials-waste-and-recycling" target="_blank">EPA</a>). These metals don't just pollute the Earth — they make their way into the crops we eat, the water we drink, and the air we breathe.
-</p>
-
-<p>
-And if you think bottled water protects you — think again. Multiple reports have revealed that <strong>many bottled water brands simply use tap water</strong>, sometimes without any filtration at all. What does that mean? The same contaminants leaking from batteries into groundwater might be showing up in the bottle you bought for “purity.” It’s not just a flaw in the system. It <em>is</em> the system.
-</p>
-
-<p>
-This isn’t just about landfills. It’s about our food chain. It’s about your health. And it’s about a global cycle of neglect that’s been normalized for decades. Call2Recycle collected nearly <strong>8 million pounds</strong> of batteries in 2022, but that’s still only a fraction of what gets buried every year (<a href="https://www.call2recycle.org/2022-annual-report/" target="_blank">Call2Recycle</a>).
-</p>
-
-<p>
-At Hive Technologies, we refuse to accept that. Our Forever Battery is designed to outlive this crisis — to eliminate waste before it begins. Instead of discarding entire packs due to a few bad cells, we isolate, repair, and reuse. Our system is modular, upgradeable, and made to protect not just your devices — but your water, your soil, and your future.
-</p>
-
-<p>
-Because you shouldn’t need a lab test to trust what’s in your glass. And if batteries are powering the world, they shouldn’t be poisoning it too.
-</p>
-    </div>
-
-    <div class="popup-images right">
-      <img src="resources/landfill.jpg" alt="Landfill waste" />
-      <img src="resources/phone_battery.jpg" alt="phone battery waste" />
-    </div>
-  </div>
-</div>
-
-  <!-- 🧠 JS -->
-<script>
-  // === 🍔 Toggle the side menu popup ===
-  function toggleMenu() {
-    document.getElementById("menuPopup").classList.toggle("active");
-  }
-
-  // === 💬 Open the Learn More popup bubble ===
-  function openBubble() {
-    document.getElementById("popupBubble").classList.add("active");
-  }
-
-  // === ❌ Close the Learn More popup bubble ===
-  function closeBubble() {
-    document.getElementById("popupBubble").classList.remove("active");
-  }
-
-  // === ⬆️ Hide footer on scroll down, show on scroll up ===
-  let lastScrollTop = 0;
-  window.addEventListener("scroll", function () {
-    const footer = document.getElementById("contact");
-    let st = window.pageYOffset || document.documentElement.scrollTop;
-    if (st > lastScrollTop) {
-      footer.classList.add("hide");
-    } else {
-      footer.classList.remove("hide");
-    }
-    lastScrollTop = st <= 0 ? 0 : st;
-  }, false);
-
-  // === 👤 Toggle Founder Bio visibility and button text ===
-  function toggleFounderBio() {
-    const bio = document.getElementById("founderBio");
-    const button = document.getElementById("readMoreBtn");
-    const isHidden = bio.style.display === "none";
-
-    bio.style.display = isHidden ? "block" : "none";
-    button.innerText = isHidden ? "Read Less" : "Read More";
-  }
-
-  // === 🏠 Smooth scroll to top when clicking Hive logo ===
-  document.addEventListener("DOMContentLoaded", function () {
-    const logo = document.querySelector(".home-logo-wrapper a");
-    if (logo) {
-      logo.addEventListener("click", function (e) {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-    }
-  });
-
-  // === 👀 Show scroll-home logo button after scrolling down ===
-window.addEventListener("scroll", function () {
-  const scrollBtn = document.querySelector(".scroll-home-btn");
-  if (window.scrollY > 200) {
-    scrollBtn.style.display = "block";
-  } else {
-    scrollBtn.style.display = "none";
-  }
-});
-</script>
 </body>
 </html>
