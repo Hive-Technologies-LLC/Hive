@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hive Technologies</title>
+  <style>
+      /* === 🌐 GLOBAL LAYOUT & TYPOGRAPHY === */
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #000000;
+  color: white;
+}
+h1, h2, h3 {
+  color: white;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+.container {
+  padding: 2em;
+  max-width: 1200px;
+  margin: auto;
+}
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* === 🔶 TOP TEXT BAR === */
+.top-text {
+  width: 100%;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: black;
+  background-color: rgba(255, 184, 0, 0.03); /* Light at top */
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 0.4em 0;
+  z-index: 500;
+  transition: background-color 0.3s ease, transform 0.4s ease, opacity 0.4s ease;
+}
+
+/* Darkens when scrolling */
+.top-text.scrolled {
+  background-color: rgba(255, 184, 0, 0.2);
+}
+
+/* Hides when scrolling down */
+.top-text.hide {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+/* === 🍔 MENU SYSTEM === */
+.menu-icon {
+  position: fixed;
+  top: 0.01px;
+  right: 10px;
+  width: 30px;
+  height: 50px;
+  cursor: pointer;
+  z-index: 1000;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+.menu-icon:hover {
+  transform: scale(1.05);
+}
+.menu-popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100px;
+  max-height: 90vh;
+  background-color: rgba(255, 184, 0, 0.05);
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.4);
+  padding-top: 0.02em;
+  padding-bottom: 2em;
+  z-index: 999;
+  transform: translateX(100%);
+  transition: transform 0.4s ease-in-out;
+  overflow-y: auto;
+}
+.menu-popup.active {
+  transform: translateX(0);
+}
+.menu-popup .close-btn {
+  align-self: flex-end;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 1em;
+}
+.menu-popup a {
+  margin: 1em 0;
+  color: white;
+  font-weight: bold;
+  font-size: 0.85rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  z-index: 1001;
+}
+.menu-popup.active a:nth-child(2) {
+  transition-delay: 0.1s;
+  opacity: 1;
+  transform: translateY(0);
+}
+.menu-popup.active a:nth-child(3) {
+  transition-delay: 0.2s;
+  opacity: 1;
+  transform: translateY(0);
+}
+.menu-popup.active a:nth-child(4) {
+  transition-delay: 0.3s;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Gap between full-width image sections */
+.section-gap {
+  margin-bottom: 10px; /* or 2em / adjust as needed */
+}
+
+@media (min-width: 768px) {
+  .section-gap {
+    margin-bottom: 10px;
+  }
+}
+
+/* === 🌌 Full-Image Showcase Section (SpaceX Style) === */
+.showcase-section {
+  position: relative;
+  width: 100%;
+  height: 80vh; /* Full screen height */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4em 2em;
+}
+
+.showcase-overlay {
+  background: rgba(0, 0, 0, 0.5); /* semi-transparent overlay */
+  padding: 2em 3em;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 800px;
+  color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+}
+
+.showcase-overlay h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5em;
+  color: #FFB800; /* Hive Gold */
+  text-shadow: 1px 1px 3px black;
+}
+
+.showcase-overlay p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #f0f0f0;
+  text-shadow: 1px 1px 2px black;
+}
+
+/* === 🧃 Engagement Section (Apple-style Card Layout) === */
+.engagement-section {
+  background-color: #FFB800;  /* Base gold color */
+  background-image: url("https://www.transparenttextures.com/patterns/carbon-fibre.png");
+  background-repeat: repeat;
+  background-size: 20px 20px;  /* Smaller = more dense pattern */
+  padding: 4em 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  max-width: 1150px;     /* Adjust width as needed */
+  margin: 2em auto;       /* Adds 4em space to top and bottom, and centers horizontally */
+  margin-bottom: 4em; /* Adjust as needed */
+}
+
+/* 🔲 Overlay to darken carbon fiber for readability */
+.engagement-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6); /* Darkens the background */
+  z-index: 0;
+}
+
+.engagement-card {
+background-color: rgba(0, 0, 0, 0.1);  /* Soft transparent black */
+  border-radius: 20px;
+  padding: 2em;
+  max-width: 1200px;
+  width: 100%;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2em;
+  backdrop-filter: blur(10px);
+  z-index: 1; /* Keeps card above overlay */
+}
+
+.engagement-image {
+  max-width: 40%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.engagement-text {
+  flex: 1;
+}
+
+.engagement-text h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5em;
+  color: #FFB800;
+}
+
+.engagement-text p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5em;
+  color: #eee;
+}
+
+.engagement-buttons {
+  display: flex;
+  gap: 1em;
+  flex-wrap: wrap;
+}
+
+.engage-btn {
+  padding: 0.7em 1.5em;
+  border-radius: 30px;
+  background-color: #FFB800;
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.engage-btn:hover {
+  background-color: #e0a800;
+}
+
+.engage-btn.secondary {
+  background-color: rgba(255,255,255,0.1);
+  color: white;
+  border: 1px solid #FFB800;
+}
+
+.engage-btn.secondary:hover {
+  background-color: rgba(255,255,255,0.2);
+}
+
+/* 📱 Responsive Behavior */
+@media (max-width: 768px) {
+  .engagement-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .engagement-image {
+    max-width: 100%;
+  }
+}
+
+/* === 📰 News Scroll Section === */
+/* Container for horizontally scrollable news cards */
+.news-scroll-section {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  display: flex;
+  gap: 1em;
+  padding: 2em;
+  scroll-behavior: smooth;
+  background-color: #000; /* Can swap for gradient or background image */
+}
+
+/* === 🗞️ News Card === */
+/* Each card supports a background image with a soft blur overlay */
+.news-card {
+  position: relative;
+  flex: 0 0 25%;
+  min-width: 250px;
+  max-width: 300px;
+  scroll-snap-align: start;
+  color: white;
+  padding: 1.5em;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: none;
+  --bg: none; /* fallback if not overridden inline */
+}
+
+/* 🧱 Image + blur + dark overlay */
+.news-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  background-image: var(--bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: scale(1);             /* ✅ Default state */
+  transition: transform 0.6s ease;
+  z-index: 0;
+}
+
+/* ✨ Zoom on hover */
+.news-card:hover::before {
+  transform: scale(1.1);
+}
+
+/* Ensure text stays on top */
+.news-card * {
+  position: relative;
+  z-index: 1;
+}
+
+/* === 🔤 News Card Text Styling === */
+/* Place text above overlay */
+.news-card h3,
+.news-card p,
+.news-card a {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); /* subtle black shadow */
+  position: relative;
+  z-index: 1;
+}
+
+.news-card h3 {
+  font-size: 1.2rem;
+  color: #FFB800; /* Electric yellow */
+}
+
+.news-card p {
+  font-size: 0.9rem;
+  color: #ccc; /* Light gray for readability */
+  margin: 1em 0;
+}
+
+.news-card a {
+  color: #FFB800;
+  font-weight: bold;
+  font-size: 0.85rem;
+  text-decoration: underline;
+}
+
+/* === 🔲 Optional Video Card Enhancements === */
+.video-card h3,
+.video-card p,
+.video-card a {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.news-card.video-card {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  color: white;
+}
+
+.news-card.video-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5); /* dark overlay for readability */
+  border-radius: 15px;
+}
+
+.news-card.video-card * {
+  position: relative; /* ensures text is above overlay */
+}
+
+/* === 📢 Founder Section Styles: Consistent spacing + center alignment === */
+
+.founder-section {
+  background-color: #111;         /* Or use a gradient, image, etc. */
+  color: white;
+  padding: 4em 2em;
+  max-width: 1000px;
+  margin: 4em auto;               /* Adds spacing on top/bottom, centers horizontally */
+  text-align: center;
+  border-radius: 12px;            /* Optional: smooth corner */
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);  /* Optional: subtle shadow */
+}
+
+.founder-section h2 {
+  font-size: 2rem;
+  color: #FFB800;
+  margin-bottom: 1em;
+}
+
+.founder-section p {
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
+
+/* === FOUNDER SECTION === */
+.section {
+  padding: 3em 2em;
+}
+.founder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.founder img {
+  width: 180px;
+  border-radius: 8px;
+  margin-bottom: 1em;
+}
+.quote {
+  font-style: italic;
+  color: #FFB800;
+  margin: 0.5em 0;
+}
+
+/* === 🎈 FLOATING QUOTES === */
+.floating-quotes {
+  position: absolute;
+  width: 120px;
+  height: 180px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+.left-quotes { left: -140px; top: 0; }
+.right-quotes { right: -140px; top: 0; }
+.quote-bubble {
+  opacity: 0;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #FFB800;
+  animation: floatUp 8s ease-in-out infinite;
+  position: relative;
+}
+@keyframes floatUp {
+  0% { transform: translateY(300%); opacity: 0; }
+  30%, 70% { opacity: 1; }
+  100% { transform: translateY(-100%); opacity: 0; }
+}
+
+/* === 📞 FOOTER CONTACT BAR === */
+.footer-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(255, 184, 0, 0.2);
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  padding: 0.01em 0;
+  z-index: 500;
+  flex-wrap: nowrap;
+  transition: transform 0.4s ease;
+}
+.footer-bar.hide {
+  transform: translateY(100%);
+}
+.footer-item {
+  flex: 1;
+  min-width: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0.2em;
+  color: black;
+}
+.footer-icon {
+  font-size: 1rem;
+  margin-bottom: 0.1em;
+}
+.footer-text {
+  font-size: 0.65rem;
+  white-space: nowrap;
+}
+@media (max-width: 500px) {
+  .footer-icon {
+    font-size: 1rem;
+  }
+  .footer-text {
+    font-size: 0.65rem;
+  }
+}
+
+</style>
+</head>
+<body>
+
+  <!-- Top Text Bar -->
+<div class="top-text" id="topText">Hive Technologies LLC</div>
+
+<!-- 🔳 Menu Button -->
+  <img src="resources/hive_logo.png" class="menu-icon" onclick="toggleMenu()" alt="Menu Logo" />
+
+<!-- 🟨 Menu Popup -->
+<div class="menu-popup" id="menuPopup">
+  <div class="close-btn" onclick="toggleMenu()">✖</div>
+  <a href="#about" onclick="toggleMenu()">About</a>
+  <a href="#solutions" onclick="toggleMenu()">Solutions</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<!-- 🌱 Residential Pod Solution -->
+<section class="showcase-section section-gap" style="background-image: url('resources/Hiveresidential.png');">
+  <div class="showcase-overlay">
+    <h1>Powering Homes</h1>
+    <p>Directly reduce strain on the grid and fluctuating electricity prices.</p>
+  </div>
+</section>
+
+<!-- 🏢 Commercial Pod Solution -->
+<section class="showcase-section section-gap" style="background-image: url('resources/Hive_commercial.png');">
+  <div class="showcase-overlay">
+    <h1>Commercial Ready</h1>
+    <p>Drop-in energy systems for buildings, offices, and data centers.</p>
+  </div>
+</section>
+
+<!-- ☀️ Grid Storage Solution -->
+<section class="showcase-section section-gap" style="background-image: url('resources/Hive_grid.png');">
+  <div class="showcase-overlay">
+    <h1>The Green Grid</h1>
+    <p>Large-scale renewable storage powered by solar and Hive technology.</p>
+  </div>
+</section>
+
+
+<!-- 💬 Engagement Section -->
+<section class="engagement-section">
+  <div class="engagement-card">
+    
+    <!-- 📸 Product Image (High-Def Overlay) -->
+    <img src="resources/battery_waste.jpg" alt="Engagement Visual" class="engagement-image" />
+
+    <!-- 📝 Text Content -->
+    <div class="engagement-text">
+      <h2>Are you poisoning your food and water?</h2>
+      <p>Battery waste leaks toxic metals into the ground — the same ground we grow our food in, and the same water we drink.<br><br>
+        <em>The real danger? Most people have no idea it's already happening.</em></p>
+      <div class="engagement-buttons">
+        <a href="#community" class="engage-btn">Read More</a>
+        <a href="#updates" class="engage-btn secondary">How Hive is Helping</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- News Scroll Section -->
+<section class="news-scroll-section">
+  <div class="news-card" style="--bg: url('resources/home_solar.jpg');">
+    <h3>Big Leap in Battery Storage</h3>
+    <p>New report shows 2X rise in residential energy storage across the US.</p>
+    <a href="#">Read More →</a>
+  </div>
+
+<div class="news-card video-card" style="--bg: url('https://img.youtube.com/vi/ApAL4KTEKhg/hqdefault.jpg');">
+  <h3>Sustainable Energy Wins</h3>
+  <p>Hive Technologies pitches live at 1 Million Cups Orlando.</p>
+  <a href="https://youtu.be/ApAL4KTEKhg?si=dF3aefGe-2dgWrRs" target="_blank" rel="noopener noreferrer">
+    Watch Video →
+  </a>
+</div>
+
+  <div class="news-card" style="--bg: url('resources/battery_cell.jpg');">
+    <h3>EV Market Growth</h3>
+    <p>EV charging networks are expected to double by 2026. Here’s why it matters.</p>
+    <a href="#">Explore →</a>
+  </div>
+  
+  <div class="news-card" style="--bg: url('resources/buzz_report.png');">
+  <h3>Buzz Report</h3>
+  <p>Review company progress</p>  
+  <a href="#">Explore →</a>
+  </div>
+  <!-- Add more cards as needed -->
+</section>
+
+<!-- 🧠 Founder Section -->
+  <h5 class="section founder" id="about">
+  <div style="position: relative; display: flex; align-items: center; justify-content: center;">
+    
+    <!-- 🟡 Left Floating Quotes -->
+    <div class="floating-quotes left-quotes">
+      <div class="quote-bubble">"Efficiency is nature’s rhythm."</div>
+      <div class="quote-bubble" style="animation-delay: 3s;">"Now is always the perfect time."</div>
+    </div>
+
+    <!-- 👤 Founder Image -->
+    <img src="resources/Personal_photo.jpeg" alt="Founder Photo" />
+    
+    <!-- 🟡 Right Floating Quotes -->
+    <div class="floating-quotes right-quotes">
+      <div class="quote-bubble" style="animation-delay: 1.5s;">"If it is to be, it's up to me."</div>
+      <div class="quote-bubble" style="animation-delay: 4.5s;">"Nature doesn't waste — neither should we."</div>
+    <div class="quote-bubble" style="animation-delay: 2.5s;">"Practice makes Perfect"</div>
+    </div>
+
+  </div>
+
+  <div style="text-align: center; max-width: 800px; margin: auto;">
+<h2>Kashawn Coleman</h2>
+<p class="quote"><em>"Perfect Practice Prevents Piss Poor Performance."</em></p>
+<ul>
+  <li>Military veteran and systems planner with experience in electrical systems.</li>
+  <li>Served in the U.S. Army in Hawaii, working with electric and radiation systems.</li>
+  <li>Deployed to Iraq then transitioned into civilian life.</li>
+  <li>Worked in Technology, Sales, and Management</li>
+</ul>
+ </section>
+ <!-- 📞 Footer -->
+  <footer class="footer-bar" id="contact">
+    <div class="footer-item">
+      <div class="footer-icon">📧</div>
+      <span class="footer-text">Hivetechcom@gmail.com</span>
+    </div>
+    <div class="footer-item">
+      <div class="footer-icon">📞</div>
+      <span class="footer-text">(407) 319-7697</span>
+    </div>
+    <div class="footer-item">
+      <div class="footer-icon">📸</div>
+      <span class="footer-text">...coming soon...</span>
+    </div>
+  </footer>
+
+    <!-- 🧠 JS -->
+  <script>
+  // === 🍔 Toggle the side menu popup ===
+  function toggleMenu() {
+    document.getElementById("menuPopup").classList.toggle("active");
+  }
+
+  // === ⬆️ Hide footer on scroll down, show on scroll up ===
+  let lastScrollTop = 0;
+  window.addEventListener("scroll", function () {
+    const footer = document.getElementById("contact");
+    let st = window.pageYOffset || document.documentElement.scrollTop;
+    if (st > lastScrollTop) {
+      footer.classList.add("hide");
+    } else {
+      footer.classList.remove("hide");
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+  }, false);
+
+  // 🔽 Change top bar (now top-text) opacity on scroll
+let lastScrollTop = 0;
+const topText = document.getElementById("topText");
+
+window.addEventListener("scroll", function () {
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+  // Darken on scroll
+  if (scrollTop > 10) {
+    topText.classList.add("scrolled");
+  } else {
+    topText.classList.remove("scrolled");
+  }
+
+  // Show/hide on scroll direction
+  if (scrollTop > lastScrollTop) {
+    // scrolling down
+    topText.classList.add("hide");
+  } else {
+    // scrolling up
+    topText.classList.remove("hide");
+  }
+
+  lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+});
+</script>
+</body>
+</html>
