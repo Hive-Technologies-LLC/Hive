@@ -303,21 +303,25 @@ background-color: rgba(0, 0, 0, 0.1);  /* Soft transparent black */
 /* === 🗞️ News Card === */
 /* Each card supports a background image with a soft blur overlay */
 .news-card {
-  position: relative;
-  flex: 0 0 25%;
-  min-width: 250px;
-  max-width: 300px;
-  scroll-snap-align: start;
+  flex: 0 0 25vw;                         /* 25% of screen width */
+  min-height: 250px;
   color: white;
-  padding: 1.5em;
   border-radius: 15px;
+  padding: 1.5em;
+  position: relative;
   overflow: hidden;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+
+  background-color: rgba(255, 255, 255, 0.05); /* Base for regular cards */
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: none;
-  --bg: none; /* fallback if not overridden inline */
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* 🧱 Image + blur + dark overlay */
@@ -327,7 +331,6 @@ background-color: rgba(0, 0, 0, 0.1);  /* Soft transparent black */
   top: 0; left: 0;
   width: 100%; height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(2px);
   background-image: var(--bg);
   background-size: cover;
   background-position: center;
@@ -346,6 +349,12 @@ background-color: rgba(0, 0, 0, 0.1);  /* Soft transparent black */
 .news-card * {
   position: relative;
   z-index: 1;
+}
+
+/* 🖱️ Subtle lift and shadow on hover for interactive feedback */
+.news-card:hover {
+  transform: translateY(-4px);                        /* Slight upward movement */
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);             /* Deeper shadow for depth effect */
 }
 
 /* === 🔤 News Card Text Styling === */
@@ -376,31 +385,60 @@ background-color: rgba(0, 0, 0, 0.1);  /* Soft transparent black */
   text-decoration: underline;
 }
 
-/* === 🔲 Optional Video Card Enhancements === */
+/* 🌌 Add text shadow for readability */
 .video-card h3,
 .video-card p,
 .video-card a {
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
 }
 
+/* 🖼️ Main card background using CSS variable */
+/* 🖼️ Main card container (no background image here) */
 .news-card.video-card {
+  background-color: transparent; /* Inherit image via ::after */
+  border: 1px solid rgba(255,255,255,0.1); /* Match border */
+}
+
+/* 🎥 Zoomable background image layer */
+.news-card.video-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--bg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  position: relative;
-  color: white;
+  border-radius: 15px;
+  z-index: 0;
+  transition: transform 0.4s ease;
 }
 
+.news-card.video-card:hover::after {
+  transform: scale(1.1);
+}
+
+
+/* ✨ Zoom effect on hover */
+.news-card.video-card:hover::after {
+  transform: scale(1.1);
+}
+
+/* 🧥 Overlay for contrast */
 .news-card.video-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5); /* dark overlay for readability */
+  background: rgba(0, 0, 0, 0.5); /* Overlay darkness */
   border-radius: 15px;
+  z-index: 1;
 }
 
-.news-card.video-card * {
-  position: relative; /* ensures text is above overlay */
+.news-card.video-card h3,
+.news-card.video-card p,
+.news-card.video-card a {
+  position: relative;
+  z-index: 2;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 /* === 📢 Founder Section Styles: Consistent spacing + center alignment === */
@@ -569,7 +607,7 @@ background-color: rgba(0, 0, 0, 0.1);  /* Soft transparent black */
   <div class="engagement-card">
     
     <!-- 📸 Product Image (High-Def Overlay) -->
-    <img src="resources/landfill.jpg" alt="Engagement Visual" class="engagement-image" />
+    <img src="resources/battery_waste.jpg" alt="Engagement Visual" class="engagement-image" />
 
     <!-- 📝 Text Content -->
     <div class="engagement-text">
@@ -589,8 +627,8 @@ background-color: rgba(0, 0, 0, 0.1);  /* Soft transparent black */
 <section class="news-scroll-section">
   <div class="news-card" style="--bg: url('resources/home_solar.jpg');">
     <h3>Big Leap in Battery Storage</h3>
-    <p>New report shows 2X rise in residential energy storage across the US.</p>
-    <a href="#">Read More →</a>
+    <p>Energy Storage Market continues to grow strong into 2025!</p>
+    <a href="https://cleanpower.org/news/u-s-energy-storage-monitor-q2-2025/" target="_blank">Read More →</a>
   </div>
 
 <div class="news-card video-card" style="--bg: url('https://img.youtube.com/vi/ApAL4KTEKhg/hqdefault.jpg');">
@@ -626,7 +664,7 @@ background-color: rgba(0, 0, 0, 0.1);  /* Soft transparent black */
     </div>
 
     <!-- 👤 Founder Image -->
-    <img src="resources/Personal_photo.jpg" alt="Founder Photo" />
+    <img src="resources/Personal_photo.jpeg" alt="Founder Photo" />
     
     <!-- 🟡 Right Floating Quotes -->
     <div class="floating-quotes right-quotes">
