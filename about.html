@@ -18,7 +18,7 @@
       padding: 3em 2em;
     }
 
-    /* 🍔 MENU */
+/* 🍔 MENU */
     .menu-icon {
       position: fixed;
       top: 20px;
@@ -67,6 +67,7 @@
       font-weight: bold;
       font-size: 0.85rem;
       opacity: 0;
+      text-decoration: none;
       transform: translateY(20px);
       transition: opacity 0.4s ease, transform 0.4s ease;
       z-index: 1001;
@@ -77,6 +78,7 @@
     .menu-popup.active a:nth-child(5) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
     .menu-popup.active a:nth-child(6) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
 
+    /* FOUNDER SECTION */
     .founder {
       display: flex;
       flex-direction: column;
@@ -124,6 +126,154 @@
       30%, 70% { opacity: 1; }
       100% { transform: translateY(-100%); opacity: 0; }
     }
+
+    /* 🙏 Special Thanks Section */
+.special-thanks-section {
+  padding: 3em 2em;
+  background-color: #000;
+  color: white;
+  text-align: center;
+}
+
+.special-thanks-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1em;
+  color: #FFB800;
+}
+
+/* 🔁 Looping Scroll Styles */
+.special-thanks {
+  padding: 3em 1em;
+  background-color: #0b0b0b;
+  overflow: hidden;
+  position: relative;
+}
+
+.special-thanks h2 {
+  text-align: center;
+  margin-bottom: 2em;
+  color: #FFB800;
+}
+
+.scroll-wrapper {
+  overflow: hidden;
+  width: 100%;
+}
+
+.thanks-scroll {
+  display: flex;
+  width: 100%;
+  animation: scroll-loop 40s linear infinite;
+}
+
+.thanks-track {
+  display: flex;
+}
+
+.thanks-card {
+  flex: 0 0 auto;
+  width: 240px;
+  margin: 0 1em;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1em;
+  text-align: center;
+  color: white;
+}
+
+.thanks-card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.5em;
+}
+
+.thanks-card h3 {
+  margin: 0.2em 0;
+  font-size: 1.1rem;
+  color: #FFB800;
+}
+
+.thanks-card .org {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-bottom: 0.5em;
+}
+
+.thanks-card a {
+  color: #FFB800;
+  text-decoration: none;
+}
+
+@keyframes scroll-loop {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Optional: Pause on hover */
+.thanks-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 600px) {
+  .thanks-card {
+    width: 180px;
+    margin: 0 0.5em;
+  }
+}
+
+.thanks-loop-track:hover { animation-play-state: paused; }
+
+.thanks-scroller {
+  display: flex;
+  gap: 2em;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 1em 0;
+  animation: scrollLeft 80s linear infinite;
+}
+
+.thanks-card {
+  flex: 0 0 250px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 1.5em;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.thanks-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 1em;
+  border: 2px solid #FFB800;
+}
+
+.thanks-card h3 {
+  margin: 0.5em 0 0.2em;
+  font-size: 1.1rem;
+}
+
+.thanks-card .org {
+  color: #FFB800;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+@keyframes scrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Optional: Hide scrollbar */
+.thanks-scroller::-webkit-scrollbar {
+  display: none;
+}
 
    /* === 🧾 Legal Footer === */
 .site-legal-footer {
@@ -226,7 +376,7 @@
 </head>
 <body>
 
-    <!-- 🍔 Menu Icon -->
+<!-- 🍔 Menu Icon -->
 <img src="resources/hive_logo.png" class="menu-icon" onclick="toggleMenu()" alt="Menu Logo" />
 
 <!-- 📋 Side Menu -->
@@ -236,8 +386,10 @@
   <a href="about.html" onclick="toggleMenu()">About</a>
   <a href="hive-tech.html" onclick="toggleMenu()">Hive Tech</a>
   <a href="contact.html" onclick="toggleMenu()">Contact</a>
+  <a href="buzz_report.html" onclick="toggleMenu()">Buzz Reports</a>
  </div>
 
+<h1><center>Founder and CEO</center></h1>
 <!-- 🧠 Founder Section -->
 <h5 class="section founder">
   <div style="position: relative; display: flex; align-items: center; justify-content: center;">
@@ -271,6 +423,65 @@
   </div>
 </h5>
 
+<!-- 🙏 Special Thanks Section -->
+<section class="special-thanks-section">
+  <h2>Special Thanks</h2>
+  <div class="thanks-scroller">
+    
+<div class="thanks-card">
+  <img src="resources/shan.jpeg" alt="Dr. Shan Shanbhag" />
+  <h3>Dr. Shan Shanbhag</h3>
+  <p>Mentor & Business Sherpa</p>
+  <p class="org">Independent Advisor</p>
+  <p>Email: <a href="mailto:ShanbhagMentoring@gmail.com">ShanbhagMentoring@gmail.com</a></p>
+  <p>Guided early planning and investor readiness. Helped support 3,000+ jobs through mentorship and advisory work.</p>
+</div>
+
+
+    <!-- Jason Chaluisan -->
+<div class="thanks-card">
+  <img src="resources/jason.jpeg" alt="Jason Chaluisan" />
+  <h3>Jason Chaluisan</h3>
+  <p>Mental Performance Coach</p>
+  <p class="org">In The Zone Athletics</p>
+  <p>Email: <a href="mailto:jason@inthezoneathletics.com">jason@inthezoneathletics.com</a></p>
+  <p>Boosted performance mindset during critical early growth.</p>
+</div>
+
+
+    <!-- Herman Sturdivant-Miller -->
+    <div class="thanks-card">
+      <img src="resources/blank_photo.jpg" alt="Herman Sturdivant-Miller" />
+      <h3>Herman Sturdivant-Miller</h3>
+      <p>Life Mentor & Father</p>
+      <p class="org">Database Architech </p>
+      <p>Instilled resilience, discipline, and integrity from day one.</p>
+    </div>
+
+    <!-- Kelly Daubach -->
+<div class="thanks-card">
+  <img src="resources/kelly.jpeg" alt="Kelly Daubach" />
+  <h3>Kelly Daubach</h3>
+  <p>Program Manager</p>
+  <p class="org">UCF Business Incubation</p>
+  <p>Helped refine strategy and public readiness through the Incubator program.</p>
+</div>
+
+
+    <!-- Rupert Meghnot -->
+<div class="thanks-card">
+  <img src="resources/rupert.jpeg" alt="Rupert Meghnot" />
+  <h3>Rupert Meghnot</h3>
+  <p>Startup Consultant</p>
+  <p class="org">Burning Mind Project</p>
+  <p>Offered expert insights on startup risk, IP, and investor strategy.</p>
+</div>
+
+
+    <!-- Add more cards as needed -->
+  </div>
+</section>
+
 <!-- 🧾 Company Info Footer (Right-Aligned HQ) -->
 <footer class="site-legal-footer">
   <div class="legal-container aligned-legal-row">
@@ -302,7 +513,7 @@
 
    <!-- 🧠 JS -->
   <script>
-// 🍔 Toggle Side Menu
+  // 🍔 Toggle Side Menu
   function toggleMenu() {
     document.getElementById("menuPopup").classList.toggle("active");
   }
