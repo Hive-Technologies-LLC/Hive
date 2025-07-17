@@ -8,6 +8,9 @@
       /* === 🌐 GLOBAL LAYOUT & TYPOGRAPHY === */
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100%;
 }
 body {
   margin: 0;
@@ -61,123 +64,244 @@ html, body {
   opacity: 0;
 }
 
-/* === 🍔 MENU SYSTEM === */
-.menu-icon {
-  position: fixed;
-  top: 0.01px;
-  right: 10px;
-  width: 30px;
-  height: 50px;
-  cursor: pointer;
-  z-index: 1000;
-  object-fit: contain;
-  transition: transform 0.2s ease;
-}
-.menu-icon:hover {
-  transform: scale(1.05);
-}
-.menu-popup {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 100px;
-  max-height: 90vh;
-  background-color: rgba(255, 184, 0, 0.05);
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.4);
-  padding-top: 0.02em;
-  padding-bottom: 2em;
-  z-index: 999;
-  transform: translateX(100%);
-  transition: transform 0.4s ease-in-out;
-  overflow-y: auto;
-}
-.menu-popup.active {
-  transform: translateX(0);
-}
-.menu-popup .close-btn {
-  align-self: flex-end;
-  font-size: 1.5rem;
-  font-weight: bold;
-  cursor: pointer;
-  margin-bottom: 1em;
-}
-.menu-popup a {
-  margin: 1em 0;
-  color: white;
-  font-weight: bold;
-  font-size: 0.85rem;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  z-index: 1001;
-}
-.menu-popup.active a:nth-child(2) {
-  transition-delay: 0.1s;
-  opacity: 1;
-  transform: translateY(0);
-}
-.menu-popup.active a:nth-child(3) {
-  transition-delay: 0.2s;
-  opacity: 1;
-  transform: translateY(0);
-}
-.menu-popup.active a:nth-child(4) {
-  transition-delay: 0.3s;
-  opacity: 1;
-  transform: translateY(0);
-}
+/* 🍔 MENU */
+    .menu-icon {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      z-index: 1000;
+      object-fit: contain;
+      transition: transform 0.2s ease;
+    }
+    .menu-icon:hover {
+      transform: scale(1.05);
+    }
+    .menu-popup {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100px;
+      max-height: 90vh;
+      background-color: rgba(255, 184, 0, 0.05);
+      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.4);
+      padding-top: 0.02em;
+      padding-bottom: 2em;
+      z-index: 999;
+      transform: translateX(100%);
+      transition: transform 0.4s ease-in-out;
+      overflow-y: auto;
+    }
+    .menu-popup.active {
+      transform: translateX(0);
+    }
+    .menu-popup .close-btn {
+      align-self: flex-end;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 1em;
+    }
+    .menu-popup a {
+      margin: 1em 0;
+      color: white;
+      font-weight: bold;
+      font-size: 0.85rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      z-index: 1001;
+    }
+    .menu-popup.active a:nth-child(2) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+    .menu-popup.active a:nth-child(3) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+    .menu-popup.active a:nth-child(4) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+    .menu-popup.active a:nth-child(5) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+    .menu-popup.active a:nth-child(6) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
 
-/* Gap between full-width image sections */
-.section-gap {
-  margin-bottom: 10px; /* or 2em / adjust as needed */
-}
-
-@media (min-width: 768px) {
-  .section-gap {
-    margin-bottom: 10px;
-  }
-}
-
-/* === 🌌 Full-Image Showcase Section (SpaceX Style) === */
+/* === 🌍 Full-width Background Section === */
 .showcase-section {
   position: relative;
   width: 100%;
-  height: 80vh; /* Full screen height */
+  min-height: 80vh; /* Responsive height */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4em 2em;
+  text-align: center;
+  padding: 2em;
 }
 
+/* === 🌫️ Overlay Text Container === */
 .showcase-overlay {
-  background: rgba(0, 0, 0, 0.5); /* semi-transparent overlay */
-  padding: 2em 3em;
-  border-radius: 12px;
-  text-align: center;
-  max-width: 800px;
-  color: white;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(6px);
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  padding: 2em;
+  border-radius: 15px;
+  max-width: 100%;       /* ✅ Prevents overflow */
+  box-sizing: border-box; /* ✅ Ensures padding is counted within the width */
+  margin: 0 auto;        /* ✅ Centers the box */
 }
 
 .showcase-overlay h1 {
-  font-size: 2.5rem;
+  color: #FFB800;
+  font-size: 2rem;
   margin-bottom: 0.5em;
-  color: #FFB800; /* Hive Gold */
-  text-shadow: 1px 1px 3px black;
 }
 
 .showcase-overlay p {
+  font-size: 1rem;
+  color: white;
+  line-height: 1.5;
+}
+
+/* === 📱 Mobile Optimizations === */
+@media (max-width: 600px) {
+  .showcase-section {
+    min-height: 60vh;
+    padding: 1.5em;
+  }
+
+@media (max-width: 600px) {
+  .showcase-overlay {
+    padding: 1.25em;        /* Slightly smaller padding on phones */
+    max-width: 95vw;        /* ✅ Keeps it fully visible on very small screens */
+  }
+}
+
+  .showcase-overlay h1 {
+    font-size: 1.5rem;
+  }
+
+  .showcase-overlay p {
+    font-size: 0.9rem;
+  }
+}
+
+.hive-tech-section {
+  text-align: center;
+  padding: 4em 2em;
+  background-color: #000;
+}
+
+.hive-tech-section h2 {
+  font-size: 2.5rem;
+  color: #FFB800;
+  margin-bottom: 0.5em;
+}
+
+.hive-intro {
+  color: #ccc;
+  max-width: 700px;
+  margin: 0 auto 3em;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.feature-block {
+  margin-bottom: 4em;
+}
+
+.feature-block h3 {
+  font-size: 1.5rem;
+  color: white;
+  margin-bottom: 1em;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5em;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.feature-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 15px;
+  padding: 1.5em;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+.feature-card h4 {
+  color: #FFB800;
+  font-size: 1.1rem;
+  margin-bottom: 0.5em;
+}
+
+.feature-card p {
+  font-size: 0.9rem;
+  color: #eee;
+}
+
+/* === WHO WE ARE SECTION === */
+.who-we-are {
+  height: 160vh; /* 🔥 More immersive — adjust as needed (120–180vh works great) */
+  position: relative;
+  scroll-snap-align: start;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* 🎥 Stretch video to match full section height */
+.background-video {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures stretch/fill behavior */
+  z-index: 0;
+  filter: brightness(0.6);
+}
+
+/* 🧊 Centered overlay */
+.who-overlay {
+  position: relative;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 3em;
+  border-radius: 20px;
+  max-width: 900px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(0,0,0,0.4);
+  backdrop-filter: blur(5px);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1.2s ease-out forwards;
+}
+
+.who-we-are h2 {
+  font-size: 3rem;
+  color: #FFB800;
+  margin-bottom: 1em;
+}
+
+.who-we-are p {
   font-size: 1.2rem;
   line-height: 1.6;
-  color: #f0f0f0;
-  text-shadow: 1px 1px 2px black;
+  color: #eee;
+}
+
+/* Fade in overlay text */
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* === 🧃 Engagement Section (Apple-style Card Layout) === */
@@ -286,6 +410,25 @@ background-color: rgba(0, 0, 0, 0.1);  /* Soft transparent black */
   .engagement-image {
     max-width: 100%;
   }
+}
+
+.engage-btn {
+  padding: 0.7em 1.5em;
+  border-radius: 30px;
+  background-color: #FFB800;
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.engage-btn:hover {
+  background-color: #e0a800;
+}
+
+.deeper-dive {
+  font-size: 1.1rem;
+  margin-top: 1em;
 }
 
 /* === 📰 News Scroll Section === */
@@ -441,122 +584,141 @@ background-color: rgba(0, 0, 0, 0.1);  /* Soft transparent black */
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
 }
 
-/* === 📢 Founder Section Styles: Consistent spacing + center alignment === */
-
-.founder-section {
-  background-color: #111;         /* Or use a gradient, image, etc. */
-  color: white;
-  padding: 4em 2em;
-  max-width: 1000px;
-  margin: 4em auto;               /* Adds spacing on top/bottom, centers horizontally */
-  text-align: center;
-  border-radius: 12px;            /* Optional: smooth corner */
-  box-shadow: 0 0 20px rgba(0,0,0,0.4);  /* Optional: subtle shadow */
+/* Scrollable wrapper for mobile */
+.scroll-container {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 }
 
-.founder-section h2 {
-  font-size: 2rem;
-  color: #FFB800;
-  margin-bottom: 1em;
+/* Ensure horizontal scrolling only kicks in on smaller screens */
+@media (max-width: 768px) {
+  .card-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1em;
+    padding-bottom: 1em;
+  }
+
+  .engagement-card {
+    flex: 0 0 80%; /* Adjust for how much of the screen each card takes */
+    scroll-snap-align: start;
+  }
 }
 
-.founder-section p {
-  font-size: 1.1rem;
+/* === 🧾 Legal Footer (Aligned Layout) === */
+.site-legal-footer {
+  background-color: rgba(255, 184, 0, 0.05);
+  color: #ccc;
+  font-size: 0.85rem;
+  padding: 2em 1.5em;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.legal-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* 👈 ensures vertical alignment */
+  gap: 2em;
+  flex-wrap: wrap;
+}
+
+.legal-left {
+  flex: 1 1 60%;
+  line-height: 1.5;
+}
+
+.legal-right {
+  flex: 1 1 35%;
+  text-align: right;
+  line-height: 1.5;
+}
+
+.hq-label {
+  font-weight: bold;
   color: #ccc;
 }
 
-
-/* === FOUNDER SECTION === */
-.section {
-  padding: 3em 2em;
-}
-.founder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-.founder img {
-  width: 180px;
-  border-radius: 8px;
-  margin-bottom: 1em;
-}
-.quote {
-  font-style: italic;
-  color: #FFB800;
-  margin: 0.5em 0;
-}
-
-/* === 🎈 FLOATING QUOTES === */
-.floating-quotes {
-  position: absolute;
-  width: 120px;
-  height: 180px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  pointer-events: none;
-}
-.left-quotes { left: -140px; top: 0; }
-.right-quotes { right: -140px; top: 0; }
-.quote-bubble {
-  opacity: 0;
+/* === 🧾 Legal Footer === */
+.site-legal-footer {
+  background-color: rgba(255, 184, 0, 0.05);
+  color: #ccc;
   font-size: 0.85rem;
-  font-style: italic;
-  color: #FFB800;
-  animation: floatUp 8s ease-in-out infinite;
-  position: relative;
-}
-@keyframes floatUp {
-  0% { transform: translateY(300%); opacity: 0; }
-  30%, 70% { opacity: 1; }
-  100% { transform: translateY(-100%); opacity: 0; }
+  padding: 2em 1.5em;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* === 📞 FOOTER CONTACT BAR === */
-.footer-bar {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: rgba(255, 184, 0, 0.2);
+.legal-container.aligned-legal-row {
+  max-width: 1200px;
+  margin: auto;
   display: flex;
-  justify-content: space-around;
-  align-items: stretch;
-  padding: 0.01em 0;
-  z-index: 500;
-  flex-wrap: nowrap;
-  transition: transform 0.4s ease;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2em;
+  flex-wrap: wrap;
 }
-.footer-bar.hide {
-  transform: translateY(100%);
+
+.legal-left, .legal-center, .legal-right {
+  flex: 1 1 30%;
+  line-height: 1.5;
 }
-.footer-item {
-  flex: 1;
-  min-width: 80px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+
+.legal-center {
   text-align: center;
-  padding: 0.2em;
-  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.footer-icon {
-  font-size: 1rem;
-  margin-bottom: 0.1em;
+
+.terms-link {
+  color: #FFB800;
+  text-decoration: none;
 }
-.footer-text {
-  font-size: 0.65rem;
-  white-space: nowrap;
+
+.terms-link:hover {
+  text-decoration: underline;
 }
-@media (max-width: 500px) {
-  .footer-icon {
-    font-size: 1rem;
+
+.hq-label {
+  font-weight: bold;
+  color: #ccc;
+}
+
+/* 📱 Responsive: stack on mobile */
+@media (max-width: 768px) {
+  .legal-container.aligned-legal-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
-  .footer-text {
-    font-size: 0.65rem;
+
+  .legal-left, .legal-center, .legal-right {
+    flex: 1 1 100%;
+    margin-bottom: 1em;
   }
+
+  .legal-right {
+    text-align: center;
+  }
+}
+
+.footer-link {
+  color: #FFB800;
+  text-decoration: none;
+  margin: 0 0.5em;
+  font-size: 0.85rem;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}
+
+.divider {
+  color: #555;
+  margin: 0 0.3em;
+  font-weight: bold;
 }
 
 </style>
@@ -564,18 +726,20 @@ background-color: rgba(0, 0, 0, 0.1);  /* Soft transparent black */
 <body>
 
   <!-- Top Text Bar -->
-<div class="top-text" id="topText">Hive Technologies LLC</div>
+<div class="top-text" id="topText">Hive Technologies LLC<sup>&copy;</sup></div>
 
-<!-- 🔳 Menu Button -->
-  <img src="resources/hive_logo.png" class="menu-icon" onclick="toggleMenu()" alt="Menu Logo" />
+<!-- 🍔 Menu Icon -->
+<img src="resources/hive_logo.png" class="menu-icon" onclick="toggleMenu()" alt="Menu Logo" />
 
-<!-- 🟨 Menu Popup -->
+<!-- 📋 Side Menu -->
 <div class="menu-popup" id="menuPopup">
   <div class="close-btn" onclick="toggleMenu()">✖</div>
-  <a href="#about" onclick="toggleMenu()">About</a>
-  <a href="#solutions" onclick="toggleMenu()">Solutions</a>
-  <a href="#contact" onclick="toggleMenu()">Contact</a>
-</div>
+  <a href="home.html" onclick="toggleMenu()">Home</a>
+  <a href="about.html" onclick="toggleMenu()">About</a>
+  <a href="hive-tech.html" onclick="toggleMenu()">Hive Tech</a>
+  <a href="contact.html" onclick="toggleMenu()">Contact</a>
+  <a href="buzz_report.html" onclick="toggleMenu()">Buzz Reports</a>
+ </div>
 
 <!-- 🌱 Residential Pod Solution -->
 <section class="showcase-section section-gap" style="background-image: url('resources/Hiveresidential.png');">
@@ -601,6 +765,88 @@ background-color: rgba(0, 0, 0, 0.1);  /* Soft transparent black */
   </div>
 </section>
 
+<!-- 🐝 WHO WE ARE – Cinematic Scroll Section with Video Background -->
+<section class="who-we-are scroll-lock">
+  <!-- 📹 Background Video -->
+  <video autoplay muted loop playsinline class="background-video">
+    <source src="resources/battery_charging.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- 📝 Overlay Content -->
+  <div class="who-overlay">
+    <h2>We Are Hive.</h2>
+    <p>
+      Born from nature.<br>
+      Built by innovation.<br>
+      Powered by people.<br><br>
+
+      Sustainability isn't a trend — it's a responsibility.<br>
+      We reimagine energy with modular power, intelligent design, and technology that adapts.<br><br>
+
+      This is not just about batteries.<br>
+      It's about building a future that lasts.
+    </p>
+  </div>
+</section>
+
+ <!-- Hive Tech Section -->
+<section class="hive-tech-section">
+<h2>The Forever Battery<sup>&copy;</sup></h2>
+  <p class="hive-intro">
+    The forever battery is an integrated battery management system combining intelligent software and modular hardware — 
+    designed to manage energy smarter, safer, and more sustainably.
+  </p>
+
+  <!-- Hardware Overview -->
+  <div class="feature-block hardware">
+    <h3>📦 Modular Hardware</h3>
+    <div class="scroll-container">
+  <div class="card-grid">
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>🔬 Tray-Level Monitoring</h4>
+        <p>Each tray tracks its own cells, so problems are caught early.</p>
+      </div>
+      <div class="feature-card">
+        <h4>❄️ Advanced Cooling</h4>
+        <p>Cells are maintained using immersion fluid, which keep the cells from overheating and voltage from arching.</p>
+      </div>
+      <div class="feature-card">
+        <h4>🔌 Hot-Swappable Design</h4>
+        <p>Components can be replaced without taking down the system.</p>
+       </div>
+     </div>
+    </div>
+  </div>
+</div>
+  <!-- Software Overview -->
+  <div class="feature-block software">
+    <h3>🧠 Smart Software</h3>
+    <div class="scroll-container">
+  <div class="card-grid">
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>⚠️ Real-Time Fault Detection</h4>
+        <p>Checks for issues across thousands of cells instantly.</p>
+      </div>
+      <div class="feature-card">
+        <h4>🏗️ Tiered Decision Engine</h4>
+        <p>Four layers of logic: Tray, Crate, Rack, Terminal.</p>
+      </div>
+      <div class="feature-card">
+         <h4>🛰️ Remote Diagnostics</h4>
+  <p>Access health data, run tests, and apply updates from anywhere — no on-site technician required.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <div style="text-align: center; margin-top: 2em;">
+  <a href="hive-tech.html" class="engage-btn deeper-dive">Deeper Dive →</a>
+</div>
+
+</section>
 
 <!-- 💬 Engagement Section -->
 <section class="engagement-section">
@@ -615,7 +861,7 @@ background-color: rgba(0, 0, 0, 0.1);  /* Soft transparent black */
       <p>Battery waste leaks toxic metals into the ground — the same ground we grow our food in, and the same water we drink.<br><br>
         <em>The real danger? Most people have no idea it's already happening.</em></p>
       <div class="engagement-buttons">
-        <a href="#community" class="engage-btn">Read More</a>
+        <a href="battery-waste.html" class="engage-btn">Read More</a>
         <a href="#updates" class="engage-btn secondary">How Hive is Helping</a>
       </div>
     </div>
@@ -648,78 +894,53 @@ background-color: rgba(0, 0, 0, 0.1);  /* Soft transparent black */
   <div class="news-card" style="--bg: url('resources/buzz_report.png');">
   <h3>Buzz Report</h3>
   <p>Review company progress</p>  
-  <a href="#">Explore →</a>
+  <a href="buzz_report.html">Explore →</a>
+  </div>
+
+    <div class="news-card" style="--bg: url('resources/npu.png');">
+  <h3>About Us</h3>
+  <a href="about.html">Learn More →</a>
   </div>
   <!-- Add more cards as needed -->
 </section>
 
-<!-- 🧠 Founder Section -->
-  <h5 class="section founder" id="about">
-  <div style="position: relative; display: flex; align-items: center; justify-content: center;">
+<!-- 🧾 Company Info Footer (Right-Aligned HQ) -->
+<footer class="site-legal-footer">
+  <div class="legal-container aligned-legal-row">
     
-    <!-- 🟡 Left Floating Quotes -->
-    <div class="floating-quotes left-quotes">
-      <div class="quote-bubble">"Efficiency is nature’s rhythm."</div>
-      <div class="quote-bubble" style="animation-delay: 3s;">"Now is always the perfect time."</div>
+    <!-- Left: Company Info -->
+    <div class="legal-left">
+      <strong>Hive Technologies LLC©</strong><br />
+       2025 Hive Technologies. All rights reserved.<br />
+      Registered in the United States.
     </div>
 
-    <!-- 👤 Founder Image -->
-    <img src="resources/Personal_photo.jpg" alt="Founder Photo" />
-    
-    <!-- 🟡 Right Floating Quotes -->
-    <div class="floating-quotes right-quotes">
-      <div class="quote-bubble" style="animation-delay: 1.5s;">"If it is to be, it's up to me."</div>
-      <div class="quote-bubble" style="animation-delay: 4.5s;">"Nature doesn't waste — neither should we."</div>
-    <div class="quote-bubble" style="animation-delay: 2.5s;">"Practice makes Perfect"</div>
+    <!-- Center: Terms of Use -->
+ <div class="legal-center">
+  <a href="terms-of-use.html" class="footer-link">Terms of Use</a>
+  <span class="divider">|</span>
+  <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
+</div>
+
+
+    <!-- Right: HQ Info -->
+    <div class="legal-right">
+      <div class="hq-label">Headquarters:</div>
+      Orlando Business Center<br />
+      1234 Energy Way, Suite 10<br />
+      Orlando, FL 32801
     </div>
 
   </div>
-
-  <div style="text-align: center; max-width: 800px; margin: auto;">
-<h2>Kashawn Coleman</h2>
-<p class="quote"><em>"Perfect Practice Prevents Piss Poor Performance."</em></p>
-<ul>
-  <li>Military veteran and systems planner with experience in electrical systems.</li>
-  <li>Served in the U.S. Army in Hawaii, working with electric and radiation systems.</li>
-  <li>Deployed to Iraq then transitioned into civilian life.</li>
-  <li>Worked in Technology, Sales, and Management</li>
-</ul>
- </section>
- <!-- 📞 Footer -->
-  <footer class="footer-bar" id="contact">
-    <div class="footer-item">
-      <div class="footer-icon">📧</div>
-      <span class="footer-text">Hivetechcom@gmail.com</span>
-    </div>
-    <div class="footer-item">
-      <div class="footer-icon">📞</div>
-      <span class="footer-text">(407) 319-7697</span>
-    </div>
-    <div class="footer-item">
-      <div class="footer-icon">📸</div>
-      <span class="footer-text">...coming soon...</span>
-    </div>
-  </footer>
+</footer>
 
     <!-- 🧠 JS -->
   <script>
-  // === 🍔 Toggle the side menu popup ===
+
+  // 🍔 Toggle Side Menu
   function toggleMenu() {
     document.getElementById("menuPopup").classList.toggle("active");
   }
-
-  // === ⬆️ Hide footer on scroll down, show on scroll up ===
-  let lastScrollTop = 0;
-  window.addEventListener("scroll", function () {
-    const footer = document.getElementById("contact");
-    let st = window.pageYOffset || document.documentElement.scrollTop;
-    if (st > lastScrollTop) {
-      footer.classList.add("hide");
-    } else {
-      footer.classList.remove("hide");
-    }
-    lastScrollTop = st <= 0 ? 0 : st;
-  }, false);
 
   // 🔽 Change top bar (now top-text) opacity on scroll
 let lastScrollTop = 0;
