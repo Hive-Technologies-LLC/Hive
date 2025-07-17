@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<!--
+============================================================
+  Hive Technologies – Hive Tech Page
+  Author: Kashawn Coleman
+  Description:
+    This page explains the technology behind Hive’s energy 
+    system in detail, using a clean, Apple-style layout.
+    It is divided into two main sections:
+
+      1. Modular Hardware – features like tray-level monitoring,
+         hot-swappable components, and immersion cooling
+
+      2. Smart Software – features like real-time fault detection,
+         tiered decision logic, and remote diagnostics
+
+    Each feature is displayed inside a responsive card with 
+    room for images, diagrams, or interactive visuals to 
+    help explain the concept visually.
+
+  Tip:
+    Replace the placeholder visuals with real images, animations,
+    or canvas-based interactivity as the project evolves.
+============================================================
+-->
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hive Tech – Inside the Innovation</title>
+  <style>
+      /* === 🌐 GLOBAL LAYOUT & TYPOGRAPHY === */
+    body {
+      margin: 0;
+      background-color: #000;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    h1, h2, h3 {
+      color: #FFB800;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 2em;
+    }
+
+    /* 🍔 MENU */
+    .menu-icon {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      z-index: 1000;
+      object-fit: contain;
+      transition: transform 0.2s ease;
+    }
+    .menu-icon:hover {
+      transform: scale(1.05);
+    }
+    .menu-popup {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100px;
+      max-height: 90vh;
+      background-color: rgba(255, 184, 0, 0.05);
+      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.4);
+      padding-top: 0.02em;
+      padding-bottom: 2em;
+      z-index: 999;
+      transform: translateX(100%);
+      transition: transform 0.4s ease-in-out;
+      overflow-y: auto;
+    }
+    .menu-popup.active {
+      transform: translateX(0);
+    }
+    .menu-popup .close-btn {
+      align-self: flex-end;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 1em;
+    }
+    .menu-popup a {
+      margin: 1em 0;
+      color: white;
+      font-weight: bold;
+      font-size: 0.85rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      z-index: 1001;
+    }
+    .menu-popup.active a:nth-child(2) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+    .menu-popup.active a:nth-child(3) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+    .menu-popup.active a:nth-child(4) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+    .menu-popup.active a:nth-child(5) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+    .menu-popup.active a:nth-child(6) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
+
+    .intro-text {
+      color: #ccc;
+      text-align: center;
+      font-size: 1.1rem;
+      margin-bottom: 3em;
+      line-height: 1.6;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      margin: 2em 0 1em;
+      border-bottom: 1px solid #333;
+      padding-bottom: 0.3em;
+    }
+
+    .card-grid {
+      display: grid;
+      gap: 2em;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      margin-bottom: 4em;
+    }
+
+    .engagement-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 15px;
+      padding: 1.5em;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      transition: transform 0.3s ease;
+    }
+
+    .engagement-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .card-visual {
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      background-color: #111;
+      border: 1px solid #333;
+    }
+
+    .card-visual img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      color: #FFB800;
+    }
+
+    .card-text {
+      font-size: 1rem;
+      color: #eee;
+      line-height: 1.5;
+    }
+
+    .interactive-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #111;
+      color: #FFB800;
+      font-size: 0.9rem;
+      padding: 1.5em;
+      border: 1px dashed #FFB800;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    /* === 🧾 Legal Footer === */
+.site-legal-footer {
+  background-color: rgba(255, 184, 0, 0.05);
+  color: #ccc;
+  font-size: 0.85rem;
+  padding: 2em 1.5em;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.legal-container.aligned-legal-row {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2em;
+  flex-wrap: wrap;
+}
+
+.legal-left, .legal-center, .legal-right {
+  flex: 1 1 30%;
+  line-height: 1.5;
+}
+
+.legal-center {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.terms-link {
+  color: #FFB800;
+  text-decoration: none;
+}
+
+.terms-link:hover {
+  text-decoration: underline;
+}
+
+.hq-label {
+  font-weight: bold;
+  color: #ccc;
+}
+
+/* 📱 Responsive: stack on mobile */
+@media (max-width: 768px) {
+  .legal-container.aligned-legal-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .legal-left, .legal-center, .legal-right {
+    flex: 1 1 100%;
+    margin-bottom: 1em;
+  }
+
+  .legal-right {
+    text-align: center;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+       <!-- 🍔 Menu Icon -->
+<img src="resources/hive_logo.png" class="menu-icon" onclick="toggleMenu()" alt="Menu Logo" />
+
+<!-- 📋 Side Menu -->
+<div class="menu-popup" id="menuPopup">
+  <div class="close-btn" onclick="toggleMenu()">✖</div>
+  <a href="home.html" onclick="toggleMenu()">Home</a>
+  <a href="about.html" onclick="toggleMenu()">About</a>
+  <a href="hive-tech.html" onclick="toggleMenu()">Hive Tech</a>
+  <a href="contact.html" onclick="toggleMenu()">Contact</a>
+ </div>
+  <div class="container">
+    <h1>Hive Tech</h1>
+    <p class="intro-text">
+      Hive Technologies is redefining how energy is stored, managed, and delivered. From modular hardware designed for maintainability and scalability, to smart software that governs every cell decision — our system is built for the future.
+    </p>
+
+    <!-- ⚙️ Modular Hardware Section -->
+    <h2 class="section-title">⚙️ Modular Hardware</h2>
+    <div class="card-grid">
+
+      <!-- Tray-Level Monitoring -->
+      <div class="engagement-card">
+        <div class="card-visual">
+          <img src="resources/tray_monitoring.jpg" alt="Tray Monitoring Diagram" />
+        </div>
+        <div class="card-title">Tray-Level Monitoring</div>
+        <div class="card-text">
+          Each tray independently tracks voltage, temperature, and health data for its own cells. This creates a decentralized system where issues can be caught before they escalate — extending battery life and increasing safety.
+        </div>
+      </div>
+
+      <!-- Immersion Cooling -->
+      <div class="engagement-card">
+        <div class="card-visual">
+          <div class="interactive-placeholder">
+            Immersion cooling animation or video placeholder
+          </div>
+        </div>
+        <div class="card-title">Immersion Cooling</div>
+        <div class="card-text">
+          Hive cells are submerged in a non-conductive, high-efficiency fluid that dissipates heat while preventing voltage arcing. It’s silent, powerful, and ensures thermal balance across every tray.
+        </div>
+      </div>
+
+      <!-- Hot-Swappable Design -->
+      <div class="engagement-card">
+        <div class="card-visual">
+          <img src="resources/hot_swap_diagram.png" alt="Hot Swap Design" />
+        </div>
+        <div class="card-title">Hot-Swappable Trays</div>
+        <div class="card-text">
+          Maintenance without downtime. Our trays can be removed and replaced while the system is still running, allowing for rapid diagnostics and reduced operational delays.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 🧠 Smart Software Section -->
+    <h2 class="section-title">🧠 Smart Software</h2>
+    <div class="card-grid">
+
+      <!-- Real-Time Fault Detection -->
+      <div class="engagement-card">
+        <div class="card-visual">
+          <div class="interactive-placeholder">
+            Live fault detection map or interactive diagnostic UI demo
+          </div>
+        </div>
+        <div class="card-title">Real-Time Fault Detection</div>
+        <div class="card-text">
+          Thousands of data points across the system are monitored and analyzed in real time. Faults trigger protective actions and send alert packets up the system hierarchy for immediate intervention.
+        </div>
+      </div>
+
+      <!-- Tiered Decision Engine -->
+      <div class="engagement-card">
+        <div class="card-visual">
+          <img src="resources/decision_engine_tiers.png" alt="Tier Logic Diagram" />
+        </div>
+        <div class="card-title">Tiered Decision Engine</div>
+        <div class="card-text">
+          Our 4-layered logic system — Tray → Crate → Rack → Terminal — ensures local decisions are backed by system-wide intelligence. Each layer adds resilience, reducing single points of failure.
+        </div>
+      </div>
+
+      <!-- Remote Diagnostics -->
+      <div class="engagement-card">
+        <div class="card-visual">
+          <div class="interactive-placeholder">
+            Remote UI or health graph preview (live or static image)
+          </div>
+        </div>
+        <div class="card-title">Remote Diagnostics</div>
+        <div class="card-text">
+          View system health, trigger tests, or push firmware updates from anywhere in the world. Hive Tech enables remote oversight and intervention without requiring an on-site technician.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 🧾 Company Info Footer (Right-Aligned HQ) -->
+<footer class="site-legal-footer">
+  <div class="legal-container aligned-legal-row">
+    
+    <!-- Left: Company Info -->
+    <div class="legal-left">
+      <strong>Hive Technologies LLC©</strong><br />
+       2025 Hive Technologies. All rights reserved.<br />
+      Registered in the United States.
+    </div>
+
+    <!-- Center: Terms of Use -->
+    <div class="legal-center">
+      <a href="terms-of-use.html" class="terms-link">Terms of Use</a>
+    </div>
+
+    <!-- Right: HQ Info -->
+    <div class="legal-right">
+      <div class="hq-label">Headquarters:</div>
+      Orlando Business Center<br />
+      1234 Energy Way, Suite 10<br />
+      Orlando, FL 32801
+    </div>
+
+  </div>
+</footer>
+
+<!-- 🔧 JS -->
+<script>
+  // 🍔 Toggle Side Menu
+  function toggleMenu() {
+    document.getElementById("menuPopup").classList.toggle("active");
+  }
+  </script>
+</body>
+</html>
