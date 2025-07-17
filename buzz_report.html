@@ -14,6 +14,7 @@
 
     body {
       margin: 0;
+      height: 100%;
       font-family: Arial, sans-serif;
       background-color: #000;
       color: white;
@@ -22,12 +23,16 @@
       align-items: center;
     }
 
+    main {
+  flex: 1;
+}
+
     h1, h2 {
       color: #FFB800;
       text-align: center;
     }
 
-    a {
+    .report-link {
       text-decoration: none;
       color: #FFB800;
       font-weight: bold;
@@ -39,7 +44,7 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    a:hover {
+    .report-link:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 15px rgba(0,0,0,0.5);
     }
@@ -58,7 +63,7 @@
       margin-top: 2em;
     }
 
-        /* 🍔 MENU */
+/* 🍔 MENU */
     .menu-icon {
       position: fixed;
       top: 20px;
@@ -107,6 +112,7 @@
       font-weight: bold;
       font-size: 0.85rem;
       opacity: 0;
+      text-decoration: none;
       transform: translateY(20px);
       transition: opacity 0.4s ease, transform 0.4s ease;
       z-index: 1001;
@@ -116,70 +122,6 @@
     .menu-popup.active a:nth-child(4) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
     .menu-popup.active a:nth-child(5) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
     .menu-popup.active a:nth-child(6) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
-
-    /* Menu & Footer from site */
-    .top-bar {
-      width: 100%;
-      height: 20px;
-      background-color: rgba(255, 184, 0, 0.01);
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 500;
-      transition: background-color 0.3s ease;
-    }
-
-    .top-bar.scrolled {
-      background-color: rgba(255, 184, 0, 0.2);
-    }
-
-    .menu-icon {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      width: 50px;
-      height: 50px;
-      cursor: pointer;
-      z-index: 1000;
-    }
-
-    .menu-popup {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 100px;
-      max-height: 90vh;
-      background-color: rgba(255, 184, 0, 0.05);
-      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.4);
-      padding-top: 0.02em;
-      padding-bottom: 2em;
-      z-index: 999;
-      transform: translateX(100%);
-      transition: transform 0.4s ease-in-out;
-      overflow-y: auto;
-    }
-
-    .menu-popup.active {
-      transform: translateX(0);
-    }
-
-    .menu-popup .close-btn {
-      align-self: flex-end;
-      font-size: 1.5rem;
-      font-weight: bold;
-      cursor: pointer;
-      margin-bottom: 1em;
-    }
-
-    .menu-popup a {
-      margin: 1em 0;
-      color: white;
-      font-weight: bold;
-      font-size: 0.85rem;
-    }
 
      /* === 🧾 Legal Footer === */
 .site-legal-footer {
@@ -268,7 +210,7 @@
   <!-- Top Bar -->
   <div class="top-bar"></div>
 
-  <!-- 🍔 Menu Icon -->
+<!-- 🍔 Menu Icon -->
 <img src="resources/hive_logo.png" class="menu-icon" onclick="toggleMenu()" alt="Menu Logo" />
 
 <!-- 📋 Side Menu -->
@@ -278,7 +220,9 @@
   <a href="about.html" onclick="toggleMenu()">About</a>
   <a href="hive-tech.html" onclick="toggleMenu()">Hive Tech</a>
   <a href="contact.html" onclick="toggleMenu()">Contact</a>
+  <a href="buzz_report.html" onclick="toggleMenu()">Buzz Reports</a>
  </div>
+
 
   <!-- 📅 Buzz Report Index -->
   <main class="container">
@@ -286,10 +230,10 @@
     <p>Browse our transparent updates as we build the future of energy.</p>
 
     <div class="report-links">
-      <a href="buzz_01.html" target="_blank">🗓️ July 2025</a>
-      <a href="buzz_02.html" target="_blank">🗓️ June 2025</a>
-      <a href="buzz-may-2025.html" target="_blank">🗓️ May 2025</a>
-      <a href="buzz-april-2025.html" target="_blank">🗓️ April 2025</a>
+      <a href="buzz_01.html" class="report-link" target="_blank">🗓️ July 2025</a>
+      <a href="buzz_02.html" class="report-link" target="_blank">🗓️ June 2025</a>
+      <a href="buzz-may-2025.html" class="report-link" target="_blank">🗓️ May 2025</a>
+      <a href="buzz-april-2025.html" class="report-link" target="_blank">🗓️ April 2025</a>
       <!-- Add future reports here -->
     </div>
   </main>
@@ -327,7 +271,7 @@
   <!-- Scripts -->
   <script>
 
-  // 🍔 Toggle Side Menu
+   // 🍔 Toggle Side Menu
   function toggleMenu() {
     document.getElementById("menuPopup").classList.toggle("active");
   }
