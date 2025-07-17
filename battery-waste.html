@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Battery Waste Problem | Hive Technologies</title>
+  <style>
+      /* === 🌐 GLOBAL LAYOUT & TYPOGRAPHY === */
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000000;
+      color: white;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    h1, h2, h3 {
+      color: white;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+    .container {
+      padding: 2em;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    /* 🟨 TOP BAR */
+    .top-bar {
+      width: 100%;
+      height: 20px;
+      background-color: rgba(255, 184, 0, 0.01);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 500;
+      transition: background-color 0.3s ease;
+    }
+    .top-bar.scrolled {
+      background-color: rgba(255, 184, 0, 0.2);
+    }
+
+    /* 🍔 MENU */
+    .menu-icon {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      z-index: 1000;
+      object-fit: contain;
+      transition: transform 0.2s ease;
+    }
+    .menu-icon:hover {
+      transform: scale(1.05);
+    }
+    .menu-popup {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100px;
+      max-height: 90vh;
+      background-color: rgba(255, 184, 0, 0.05);
+      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.4);
+      padding-top: 0.02em;
+      padding-bottom: 2em;
+      z-index: 999;
+      transform: translateX(100%);
+      transition: transform 0.4s ease-in-out;
+      overflow-y: auto;
+    }
+    .menu-popup.active {
+      transform: translateX(0);
+    }
+    .menu-popup .close-btn {
+      align-self: flex-end;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 1em;
+    }
+    .menu-popup a {
+      margin: 1em 0;
+      color: white;
+      font-weight: bold;
+      font-size: 0.85rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      z-index: 1001;
+    }
+    .menu-popup.active a:nth-child(2) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+    .menu-popup.active a:nth-child(3) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+    .menu-popup.active a:nth-child(4) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+    .menu-popup.active a:nth-child(5) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+    .menu-popup.active a:nth-child(6) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
+
+    /* 📄 ARTICLE STYLING */
+    .article h1 {
+      font-size: 2rem;
+      color: #FFB800;
+      margin-top: 80px;
+    }
+    .article p {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 1.5em;
+    }
+    .article strong {
+      color: #FFD700;
+    }
+
+.article-meta {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-top: 2em;
+  color: #ccc;
+}
+
+.article-meta ul {
+  margin-top: 0.5em;
+  padding-left: 1.2em;
+}
+
+.article-meta li {
+  margin-bottom: 0.5em;
+  list-style-type: disc;
+}
+
+/* === 🧾 Legal Footer === */
+.site-legal-footer {
+  background-color: rgba(255, 184, 0, 0.05);
+  color: #ccc;
+  font-size: 0.85rem;
+  padding: 2em 1.5em;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.legal-container.aligned-legal-row {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2em;
+  flex-wrap: wrap;
+}
+
+.legal-left, .legal-center, .legal-right {
+  flex: 1 1 30%;
+  line-height: 1.5;
+}
+
+.legal-center {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.terms-link {
+  color: #FFB800;
+  text-decoration: none;
+}
+
+.terms-link:hover {
+  text-decoration: underline;
+}
+
+.hq-label {
+  font-weight: bold;
+  color: #ccc;
+}
+
+/* 📱 Responsive: stack on mobile */
+@media (max-width: 768px) {
+  .legal-container.aligned-legal-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .legal-left, .legal-center, .legal-right {
+    flex: 1 1 100%;
+    margin-bottom: 1em;
+  }
+
+  .legal-right {
+    text-align: center;
+  }
+}
+
+.footer-link {
+  color: #FFB800;
+  text-decoration: none;
+  margin: 0 0.5em;
+  font-size: 0.85rem;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}
+
+.divider {
+  color: #555;
+  margin: 0 0.3em;
+  font-weight: bold;
+}
+
+  </style>
+</head>
+
+<body>
+
+<!-- 🔝 Top Bar -->
+<div class="top-bar"></div>
+
+<!-- 🍔 Menu Icon -->
+<img src="resources/hive_logo.png" class="menu-icon" onclick="toggleMenu()" alt="Menu Logo" />
+
+<!-- 📋 Side Menu -->
+<div class="menu-popup" id="menuPopup">
+  <div class="close-btn" onclick="toggleMenu()">✖</div>
+  <a href="home.html" onclick="toggleMenu()">Home</a>
+  <a href="about.html" onclick="toggleMenu()">About</a>
+  <a href="hive-tech.html" onclick="toggleMenu()">Hive Tech</a>
+  <a href="contact.html" onclick="toggleMenu()">Contact</a>
+ </div>
+
+<!-- 📄 Main Article -->
+<div class="container article">
+  <h1>Battery Waste: The Hidden Crisis</h1>
+
+  <p>We live in a world where convenience has quietly turned into contamination. Every time a battery is tossed into the trash, it doesn’t just disappear — it begins to leak. Whether it’s a common alkaline battery or a powerful lithium-ion pack, what seeps out is toxic: mercury, lead, cadmium, nickel, and lithium. These metals bleed into the soil, into the groundwater, and ultimately... into us.</p>
+
+  <p>In 2018, U.S. landfills received over <strong>740,000 tons</strong> of nonferrous metals — much of it from improperly discarded batteries (<em>EPA</em>). These metals don't just pollute the Earth — they make their way into the crops we eat, the water we drink, and the air we breathe.</p>
+
+  <p>And if you think bottled water protects you — think again. Multiple reports have revealed that many bottled water brands simply use tap water, sometimes without any filtration at all. What does that mean? The same contaminants leaking from batteries into groundwater might be showing up in the bottle you bought for “purity.” It’s not just a flaw in the system. It <strong>is</strong> the system.</p>
+
+  <p>This isn’t just about landfills. It’s about our food chain. It’s about your health. And it’s about a global cycle of neglect that’s been normalized for decades. Call2Recycle collected nearly <strong>8 million pounds</strong> of batteries in 2022, but that’s still only a fraction of what gets buried every year (<em>Call2Recycle</em>).</p>
+
+  <p>At <strong>Hive Technologies</strong>, we refuse to accept that. Our <strong>Forever Battery</strong> is designed to outlive this crisis — to eliminate waste before it begins. Instead of discarding entire packs due to a few bad cells, we isolate, repair, and reuse. Our system is modular, upgradeable, and made to protect not just your devices — but your water, your soil, and your future.</p>
+
+  <p>Because you shouldn’t need a lab test to trust what’s in your glass. And if batteries are powering the world, they shouldn’t be poisoning it too.</p>
+<hr style="margin-top: 3em; border: 0; border-top: 1px solid rgba(255, 255, 255, 0.1);" />
+
+<div class="article-meta">
+  <p><strong>Written by:</strong> Kashawn Coleman, Founder & CEO of Hive Technologies</p>
+
+  <p><strong>Sources:</strong></p>
+  <ul>
+    <li>U.S. Environmental Protection Agency (EPA) – <em>Advancing Sustainable Materials Management: 2018 Fact Sheet</em></li>
+    <li>Call2Recycle – <em>2022 Annual Battery Recycling Report</em></li>
+    <li>Natural Resources Defense Council (NRDC) – <em>Bottled Water: Pure Drink or Pure Hype?</em></li>
+    <li>Consumer Reports – <em>Bottled Water Quality</em> Investigations</li>
+  </ul>
+    </div>
+</div>
+
+<!-- 🧾 Company Info Footer (Right-Aligned HQ) -->
+<footer class="site-legal-footer">
+  <div class="legal-container aligned-legal-row">
+    
+    <!-- Left: Company Info -->
+    <div class="legal-left">
+      <strong>Hive Technologies LLC©</strong><br />
+       2025 Hive Technologies. All rights reserved.<br />
+      Registered in the United States.
+    </div>
+
+    <!-- Center: Terms of Use -->
+<div class="legal-center">
+  <a href="terms-of-use.html" class="footer-link">Terms of Use</a>
+  <span class="divider">|</span>
+  <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
+</div>
+
+
+    <!-- Right: HQ Info -->
+    <div class="legal-right">
+      <div class="hq-label">Headquarters:</div>
+      Orlando Business Center<br />
+      1234 Energy Way, Suite 10<br />
+      Orlando, FL 32801
+    </div>
+
+  </div>
+</footer>
+
+<!-- 🔧 JS -->
+<script>
+  // 🍔 Toggle Side Menu
+  function toggleMenu() {
+    document.getElementById("menuPopup").classList.toggle("active");
+  }
+
+  // ⬇️ Hide footer on scroll down
+  let lastScrollTop = 0;
+  window.addEventListener("scroll", function () {
+    const footer = document.getElementById("contact");
+    let st = window.pageYOffset || document.documentElement.scrollTop;
+    if (st > lastScrollTop) {
+      footer.classList.add("hide");
+    } else {
+      footer.classList.remove("hide");
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+  }, false);
+
+  // 🔁 Top bar style on scroll
+  window.addEventListener("scroll", function () {
+    const topBar = document.querySelector(".top-bar");
+    if (window.scrollY > 10) {
+      topBar.classList.add("scrolled");
+    } else {
+      topBar.classList.remove("scrolled");
+    }
+  });
+</script>
+
+</body>
+</html>
