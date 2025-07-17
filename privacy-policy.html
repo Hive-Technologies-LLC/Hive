@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy – Hive Technologies</title>
+  <style>
+            /* === 🌐 GLOBAL LAYOUT & TYPOGRAPHY === */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: white;
+    }
+
+    header {
+      text-align: center;
+      padding: 3em 1.5em 1em;
+      background-color: #111;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    header h1 {
+      color: #FFB800;
+      margin-bottom: 0.2em;
+    }
+
+    header p {
+      color: #ccc;
+      font-size: 1rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 2em 1.5em;
+      line-height: 1.7;
+      font-size: 0.95rem;
+      color: #ddd;
+    }
+
+    h2 {
+      color: #FFB800;
+      margin-top: 2em;
+    }
+
+    a {
+      color: #FFB800;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.5em 1em;
+      }
+    }
+
+     /* 🍔 MENU */
+    .menu-icon {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      z-index: 1000;
+      object-fit: contain;
+      transition: transform 0.2s ease;
+    }
+    .menu-icon:hover {
+      transform: scale(1.05);
+    }
+    .menu-popup {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100px;
+      max-height: 90vh;
+      background-color: rgba(255, 184, 0, 0.05);
+      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.4);
+      padding-top: 0.02em;
+      padding-bottom: 2em;
+      z-index: 999;
+      transform: translateX(100%);
+      transition: transform 0.4s ease-in-out;
+      overflow-y: auto;
+    }
+    .menu-popup.active {
+      transform: translateX(0);
+    }
+    .menu-popup .close-btn {
+      align-self: flex-end;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 1em;
+    }
+    .menu-popup a {
+      margin: 1em 0;
+      color: white;
+      font-weight: bold;
+      font-size: 0.85rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      z-index: 1001;
+    }
+    .menu-popup.active a:nth-child(2) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+    .menu-popup.active a:nth-child(3) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+    .menu-popup.active a:nth-child(4) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+    .menu-popup.active a:nth-child(5) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+    .menu-popup.active a:nth-child(6) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+    }
+
+  </style>
+</head>
+<body>
+   <!-- 🍔 Menu Icon -->
+<img src="resources/hive_logo.png" class="menu-icon" onclick="toggleMenu()" alt="Menu Logo" />
+ 
+<!-- 📋 Side Menu -->
+<div class="menu-popup" id="menuPopup">
+  <div class="close-btn" onclick="toggleMenu()">✖</div>
+  <a href="home.html" onclick="toggleMenu()">Home</a>
+  <a href="about.html" onclick="toggleMenu()">About</a>
+  <a href="hive-tech.html" onclick="toggleMenu()">Hive Tech</a>
+  <a href="contact.html" onclick="toggleMenu()">Contact</a>
+  <a href="buzz_report.html" onclick="toggleMenu()">Buzz Reports</a>
+</div>
+
+  <header>
+    <h1>Privacy Policy</h1>
+    <p>Effective Date: July 16, 2025</p>
+  </header>
+
+  <div class="container">
+    <p>At Hive Technologies LLC (“Hive Technologies”, “we”, “our”, or “us”), your privacy is important to us. This Privacy Policy explains how we collect, use, and safeguard your personal information when you visit our website or use our services.</p>
+
+    <h2>1. Information We Collect</h2>
+    <p>We may collect personal information you voluntarily provide to us, such as your name, email address, or phone number when you fill out contact forms or sign up for updates. We may also collect limited technical data such as your IP address, browser type, and device usage for analytics and optimization purposes.</p>
+
+    <h2>2. How We Use Your Information</h2>
+    <p>We use your information to respond to inquiries, improve our services, send important updates, and operate our platform more effectively. We do not sell or rent your personal information to third parties.</p>
+
+    <h2>3. Cookies and Tracking</h2>
+    <p>We may use cookies and similar technologies to enhance your experience. These tools help us analyze traffic and understand how users interact with our site. You can disable cookies in your browser settings if preferred.</p>
+
+    <h2>4. Sharing of Information</h2>
+    <p>We may share your information with trusted service providers who assist in operating our website or business. All such parties are required to maintain confidentiality. We may also share data to comply with legal obligations or protect the rights and safety of Hive Technologies and its users.</p>
+
+    <h2>5. Data Security</h2>
+    <p>We take data protection seriously and implement industry-standard measures to safeguard your information from unauthorized access, disclosure, or misuse.</p>
+
+    <h2>6. Your Rights and Choices</h2>
+    <p>You may request to review, update, or delete your personal data by contacting us. You may also opt out of non-essential communications at any time.</p>
+
+    <h2>7. Third-Party Links</h2>
+    <p>Our website may contain links to third-party websites. We are not responsible for the privacy practices of these external sites. Please review their policies separately.</p>
+
+    <h2>8. Changes to This Policy</h2>
+    <p>We may update this Privacy Policy periodically. Any changes will be reflected on this page with a new effective date. We encourage you to review it regularly.</p>
+
+    <h2>9. Contact Us</h2>
+    <p>If you have any questions or concerns about this Privacy Policy, please contact us at:</p>
+    <p>
+      📧 <a href="mailto:hivetechcom@gmail.com">hivetechcom@gmail.com</a><br />
+      📍 Hive Technologies LLC<br />
+      Orlando Business Center, Orlando, FL 32801
+    </p>
+  </div>
+
+  <!-- 🧾 Company Info Footer (Right-Aligned HQ) -->
+<footer class="site-legal-footer">
+  <div class="legal-container aligned-legal-row">
+    
+    <!-- Left: Company Info -->
+    <div class="legal-left">
+      <strong>Hive Technologies LLC©</strong><br />
+       2025 Hive Technologies. All rights reserved.<br />
+      Registered in the United States.
+    </div>
+
+    <!-- Center: Terms of Use -->
+    <div class="legal-center">
+      <a href="terms-of-use.html" class="terms-link">Terms of Use</a>
+    </div>
+
+    <!-- Right: HQ Info -->
+    <div class="legal-right">
+      <div class="hq-label">Headquarters:</div>
+      Orlando Business Center<br />
+      1234 Energy Way, Suite 10<br />
+      Orlando, FL 32801
+    </div>
+
+  </div>
+</footer>
+
+      <!-- 🧠 JS -->
+  <script>
+     // 🍔 Toggle Side Menu
+  function toggleMenu() {
+    document.getElementById("menuPopup").classList.toggle("active");
+  }
+  </script>
+</body>
+</html>
