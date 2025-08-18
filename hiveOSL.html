@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HiveOS Lite – Dashboard (Mock)</title>
+<style>
+  /* =============== THEME (edit these to rebrand) =============== */
+  :root{
+    --brand-name: "Brand";
+    --color-primary: #00C853;   /* accent (e.g., Lime green, Spin orange, Bird black) */
+    --color-primary-dark:#0B3D0B;
+    --sidebar-bg:#F1F3EF;       /* light sidebar like the mock */
+    --page-bg:#F7F8F7;
+    --card-bg:#FFFFFF;
+    --text:#1B1F23;
+    --muted:#6B7280;
+    --ok:#22C55E; --warn:#F59E0B; --crit:#EF4444;
+
+    --sidebar-w:240px;
+    --radius:14px;
+    --pad:16px;
+    --gap:16px;
+    --maxw:1280px;
+  }
+
+  /* Reset / base */
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--page-bg);
+    color:var(--text);
+    font:14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI",
+         Inter, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  }
+
+  a{color:inherit; text-decoration:none}
+  .app{display:flex; min-height:100vh}
+
+  /* Sidebar */
+  .sidebar{
+    width:var(--sidebar-w);
+    background:var(--sidebar-bg);
+    padding:24px 12px;
+    display:flex; flex-direction:column; gap:20px;
+    border-right:1px solid rgba(0,0,0,.05);
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px; padding:0 8px;
+    font-weight:700; font-size:20px;
+  }
+  .brand-badge{
+    width:28px; height:28px; border-radius:50%;
+    background:linear-gradient(145deg, rgba(0,0,0,.12), rgba(0,0,0,.02));
+  }
+  nav{display:flex; flex-direction:column; gap:6px; padding:8px}
+  .nav-item{
+    display:flex; align-items:center; gap:10px;
+    padding:10px 12px; border-radius:10px; color:#333;
+  }
+  .nav-item svg{width:18px; height:18px; opacity:.6}
+  .nav-item.active{
+    background:#E4EAE2; /* light pill highlight */
+    font-weight:600;
+  }
+  .nav-spacer{flex:1}
+  .powered{padding:8px 12px; color:#757575; font-weight:600}
+
+  /* Main */
+  .main{
+    flex:1; display:flex; justify-content:center;
+    padding:24px;
+  }
+  .content{ width:100%; max-width:var(--maxw); }
+
+  /* Grid */
+  .grid{
+    display:grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-auto-rows:minmax(120px, auto);
+    gap:var(--gap);
+  }
+  .card{
+    background:var(--card-bg);
+    border-radius:var(--radius);
+    padding:var(--pad);
+    box-shadow:0 1px 2px rgba(0,0,0,.06);
+  }
+  .kpi-title{font-weight:700; margin:0 0 8px 0; font-size:18px}
+  .kpi-value{font-size:32px; font-weight:800}
+
+  /* Gauge card */
+  .gauge-wrap{display:grid; grid-template-columns: 1fr; align-items:center}
+  .gauge{
+    width:100%; max-width:440px; margin:6px auto 6px;
+  }
+  .soc-center{
+    position:relative; text-align:center; margin-top:-108px; /* centers text in arc */
+    font-size:44px; font-weight:800;
+  }
+  .sparkline{width:100%; height:44px}
+
+  /* Faults card specific */
+  .sparkline--mini{height:40px}
+
+  /* Recent faults list */
+  .fault-list{display:flex; flex-direction:column; gap:12px}
+  .fault-row{
+    display:grid; grid-template-columns:auto 1fr auto;
+    align-items:center; gap:12px; padding:10px 12px;
+    background:#fff; border-radius:12px;
+    box-shadow:0 1px 2px rgba(0,0,0,.06);
+  }
+  .badge{
+    width:26px; height:26px; border-radius:8px;
+    display:grid; place-items:center; color:#fff; font-weight:700;
+  }
+  .badge.warn{background:var(--warn)}
+  .badge.crit{background:var(--crit)}
+  .fault-meta{color:var(--muted); font-size:12px}
+  .ago{color:var(--muted)}
+
+  /* Placement like the mock */
+  .card.soc{grid-column:1 / span 1; grid-row:1 / span 2}
+  .card.health{grid-column:2}
+  .card.temp{grid-column:3}
+  .card.faults{grid-column:2; grid-row:2}
+  .card.recent{grid-column:2 / span 2; grid-row:3}
+
+  /* Responsive */
+  @media (max-width:1000px){
+    .grid{grid-template-columns:1fr 1fr}
+    .card.soc{grid-column:1 / -1; grid-row:auto}
+    .card.recent{grid-column:1 / -1}
+  }
+  @media (max-width:760px){
+    .app{flex-direction:column}
+    .sidebar{width:100%; flex-direction:row; align-items:center; gap:10px}
+    nav{display:flex; flex-direction:row; overflow:auto}
+    .main{padding:16px}
+    .grid{grid-template-columns:1fr}
+    .card{grid-column:1 / -1}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" aria-label="Main navigation">
+    <div class="brand">
+      <div class="brand-badge" aria-hidden="true"></div>
+      <div id="brandName">Brand</div>
+    </div>
+    <nav>
+      <a class="nav-item active" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12l9-9 9 9-9 9-9-9z" /></svg>Dashboard</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3h18v6H3zM3 15h18v6H3z" /></svg>Analytics</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h16v16H4zM8 8h8v8H8z" /></svg>Reports</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 3h12v18H6zM9 7h6M9 11h6M9 15h6" /></svg>Devices</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 9v4M12 17h.01M4.93 4.93l14.14 14.14" /></svg>Alerts</a>
+    </nav>
+    <div class="nav-spacer"></div>
+    <div class="powered">HiveOS Lite</div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main">
+    <div class="content">
+      <div class="grid">
+
+        <!-- SOC gauge -->
+        <section class="card soc" aria-labelledby="socTitle">
+          <h3 id="socTitle" class="kpi-title">State of Charge</h3>
+
+          <!-- Semi-circle gauge -->
+          <svg class="gauge" viewBox="0 0 200 110" aria-hidden="true">
+            <!-- background arc -->
+            <path id="arcBg" d="M10 100 A90 90 0 0 1 190 100" stroke="#e8e8e8" stroke-width="16" fill="none" stroke-linecap="round"/>
+            <!-- progress arc -->
+            <path id="arcFg" d="M10 100 A90 90 0 0 1 190 100" stroke="var(--color-primary)" stroke-width="16" fill="none" stroke-linecap="round"
+                  style="stroke-dasharray: 283; stroke-dashoffset: 283; transition: stroke-dashoffset .6s ease"/>
+          </svg>
+          <div id="socPct" class="soc-center">75%</div>
+
+          <!-- SOC sparkline -->
+          <svg class="sparkline" id="socSpark" viewBox="0 0 300 44" preserveAspectRatio="none"></svg>
+        </section>
+
+        <!-- Battery Health -->
+        <section class="card health" aria-labelledby="sohTitle">
+          <h3 id="sohTitle" class="kpi-title">Battery Health</h3>
+          <div class="kpi-value" id="sohPct">88%</div>
+        </section>
+
+        <!-- Temperature -->
+        <section class="card temp" aria-labelledby="tempTitle">
+          <h3 id="tempTitle" class="kpi-title">Temperature</h3>
+          <div class="kpi-value" id="tempVal">27°C</div>
+        </section>
+
+        <!-- Faults summary -->
+        <section class="card faults" aria-labelledby="faultsTitle">
+          <h3 id="faultsTitle" class="kpi-title">Faults</h3>
+          <div style="display:flex; align-items:center; gap:10px">
+            <div class="kpi-value" id="faultCount">2</div>
+            <div style="font-weight:700; color:var(--color-primary)">Active</div>
+          </div>
+          <svg class="sparkline sparkline--mini" id="faultSpark" viewBox="0 0 300 40" preserveAspectRatio="none"></svg>
+        </section>
+
+        <!-- Recent Faults -->
+        <section class="card recent" aria-labelledby="recentTitle">
+          <h3 id="recentTitle" class="kpi-title">Recent Faults</h3>
+          <div id="recentList" class="fault-list"></div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* =================== DATA (edit to change numbers/series) =================== */
+const DATA = {
+  brandName: 'Brand',
+  unitTemp: 'C', // 'F' also supported for label
+  socPct: 75,
+  socHistoryPct: [65, 68, 70, 72, 74, 75],
+  sohPct: 88,
+  temperature: 27,
+  faultsActive: 2,
+  faultsTrend: [0, 1, 1, 1, 2, 2],
+  recentFaults: [
+    {severity:'Warning', title:'Voltage Imbalance', location:'Cell 4', ago:'10m ago'},
+    {severity:'Warning', title:'Overheating', location:'Module 2', ago:'30m ago'}
+  ]
+};
+
+/* =================== RENDER HELPERS =================== */
+const $ = sel => document.querySelector(sel);
+
+/* Render brand name */
+$('#brandName').textContent = DATA.brandName;
+
+/* SOC gauge math (semi-circle 180°, path length ≈ 283 for this arc) */
+(function renderGauge(){
+  const pct = Math.max(0, Math.min(100, DATA.socPct));
+  const length = 283;                           // dasharray length tuned to this SVG arc
+  const offset = length * (1 - pct/100);
+  $('#arcFg').style.strokeDashoffset = offset.toFixed(1);
+  $('#socPct').textContent = `${pct}%`;
+})();
+
+/* Battery health / temperature / faults count */
+$('#sohPct').textContent = `${DATA.sohPct}%`;
+$('#tempVal').textContent = `${DATA.temperature}°${DATA.unitTemp}`;
+$('#faultCount').textContent = DATA.faultsActive;
+
+/* Simple sparkline renderer (no axes) */
+function drawSparkline(svgId, series, height=40, pad=2){
+  const svg = $(svgId);
+  const w = svg.viewBox.baseVal.width || 300;
+  const h = svg.viewBox.baseVal.height || height;
+  const min = Math.min(...series), max = Math.max(...series);
+  const dx = (w - pad*2) / Math.max(1, (series.length-1));
+  const mapY = v => {
+    if(max === min) return h/2;
+    const t = (v - min) / (max - min);
+    return (h - pad) - t*(h - pad*2);
+  };
+  let d = '';
+  series.forEach((v,i)=>{
+    const x = pad + i*dx, y = mapY(v);
+    d += (i ? ' L':'M') + x.toFixed(1) + ' ' + y.toFixed(1);
+  });
+  svg.innerHTML = `
+    <path d="${d}" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round"/>
+    <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="var(--color-primary)" stop-opacity=".15"/>
+      <stop offset="100%" stop-color="var(--color-primary)" stop-opacity="0"/>
+    </linearGradient>
+  `;
+}
+drawSparkline('#socSpark', DATA.socHistoryPct, 44);
+drawSparkline('#faultSpark', DATA.faultsTrend, 40);
+
+/* Render recent faults list */
+(function renderFaults(){
+  const wrap = $('#recentList');
+  wrap.innerHTML = '';
+  DATA.recentFaults.forEach(f=>{
+    const sevClass = f.severity === 'Critical' ? 'crit' : (f.severity === 'Warning' ? 'warn' : '');
+    const row = document.createElement('div');
+    row.className = 'fault-row';
+    row.innerHTML = `
+      <div class="badge ${sevClass}" title="${f.severity}">!</div>
+      <div>
+        <div style="font-weight:700">${f.title}</div>
+        <div class="fault-meta">${f.location}</div>
+      </div>
+      <div class="ago">${f.ago}</div>
+    `;
+    wrap.appendChild(row);
+  });
+})();
+
+/* Optional: small convenience so changing theme via JS is easy */
+document.title = `HiveOS Lite – ${DATA.brandName} Dashboard`;
+</script>
+</body>
+</html>
