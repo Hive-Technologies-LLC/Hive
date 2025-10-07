@@ -1,121 +1,539 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hive Technologies</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HiveOS lite</title>
 
-  <style>
-    /* === Global Styles === */
-    html {
-      scroll-behavior: smooth;
-    }
+<style>
+  /* =========================================
+     HIVEOS LITE — THEME TOKENS
+     ========================================= */
+  :root {
+    --bg:#0b0f12;           /* app background */
+    --panel:#11161b;        /* panel background */
+    --card:#0f1419;         /* card background */
+    --text:#e5eef7;         /* primary text */
+    --muted:#94a3b8;        /* secondary text */
+    --primary:#12d18e;      /* Hive green */
+    --primary-600:#0fb67a;  /* Hive green (darker) */
+    --gold:#d4af37;         /* Hive honey gold */
+  }
 
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: Arial, sans-serif;
-      background-color: black;
-      color: white;
-      overflow-x: hidden;
-    }
+  /* =========================================
+     BASE / LAYOUT
+     ========================================= */
+  * { box-sizing:border-box }
+  body {
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  }
+  .wrap { max-width:960px; margin:36px auto; padding:0 16px }
+  h1 { margin:0 0 18px; font-size:26px; font-weight:900; letter-spacing:.2px }
+  .muted { color:var(--muted); text-align:center; margin-top:10px }
+  .mutedSmall { color:var(--muted); font-size:13px }
+  .kpi { font-size:32px; font-weight:900 }
 
-    /* === Background Video === */
-    .background-video {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 0;
-    }
+  /* =========================================
+     UPLOAD BOX (VISIBLE FIRST)
+     ========================================= */
+  .controls {
+    text-align:center;
+    background:var(--panel);
+    border:1.5px solid var(--gold);
+    border-radius:14px;
+    padding:24px 16px;
+    box-shadow:0 0 12px rgba(212,175,55,0.20);
+    transition:box-shadow .3s ease, transform .2s ease;
+  }
+  .controls:hover {
+    box-shadow:0 0 18px rgba(212,175,55,0.35);
+    transform:translateY(-2px);
+  }
+  input[type=file] {
+    appearance:none;
+    background:#0f171c;
+    border:1px solid #1b2a30;
+    border-radius:10px;
+    color:var(--text);
+    padding:10px;
+    cursor:pointer;
+    transition:border-color .25s ease, box-shadow .25s ease;
+  }
+  input[type=file]:hover {
+    border-color:var(--gold);
+    box-shadow:0 0 8px rgba(212,175,55,0.30);
+  }
 
-    /* === Top-Left Logo === */
-.logo {
-  position: fixed;
-  top: 16%;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 150px;
-  width: auto;
-  z-index: 2;
+  /* =========================================
+     RESULTS CONTAINER (HIDDEN UNTIL .SHOW)
+     ========================================= */
+  #results {
+    display:none;
+    opacity:0;
+    transition:opacity .45s ease;
+    margin-top:18px;
+  }
+  #results.show {
+    display:grid;
+    opacity:1;
+    gap:16px;
+  }
 
-  /* ✅ Add subtle black glow */
-  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.6));
-}
+  /* =========================================
+     PANELS & CARDS — GOLD OUTLINE
+     ========================================= */
+  .panel, .card {
+    background:var(--card);
+    border:1.5px solid var(--gold);
+    border-radius:12px;
+    padding:16px;
+    box-shadow:0 0 10px rgba(212,175,55,0.15);
+    transition:box-shadow .3s ease, transform .2s ease;
+  }
+  .panel:hover, .card:hover {
+    box-shadow:0 0 18px rgba(212,175,55,0.35);
+    transform:translateY(-2px);
+  }
+  .panel { background:var(--panel) }
 
-    /* === Hero Content Centered === */
-    .hero-content {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      z-index: 1;
-    }
+  /* =========================================
+     GRID LAYOUT FOR KPI CARDS
+     ========================================= */
+  .grid {
+    display:grid;
+    grid-template-columns:1.4fr .8fr .8fr;
+    gap:16px;
+  }
+  @media (max-width:960px) {
+    .grid { grid-template-columns:1fr }
+  }
 
-.hero-content h1 {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #FFB800;
-  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7); /* ✅ soft black glow */
-}
+  /* =========================================
+     GAUGE + SPARKLINE + SIMPLE LIST ITEMS
+     ========================================= */
+  .gaugeWrap {
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:16px;
+    align-items:center;
+  }
+  @media (max-width:560px) {
+    .gaugeWrap { grid-template-columns:1fr }
+  }
+  .spark {
+    height:64px; width:100%;
+    background:#0c1418;
+    border:1px solid #122029;
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .list { display:flex; flex-direction:column; gap:10px }
+  .item {
+    background:#0f1419;
+    border:1px solid #122029;
+    border-radius:10px;
+    padding:10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
 
-    .cta-button {
-      background-color: #FFB800;
-      color: black;
-      padding: 12px 30px;
-      border: none;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1rem;
-      transition: background-color 0.3s;
-    }
+  /* =========================================
+     SOC QUICK STATS COLUMN
+     ========================================= */
+  .socWrap {
+    display:grid;
+    grid-template-columns:220px 1fr 190px; /* gauge | sparkline | stats */
+    gap:16px; align-items:center;
+  }
+  @media (max-width:960px) { .socWrap { grid-template-columns:1fr } }
+  .soc-stats {
+    display:flex; flex-direction:column; gap:8px;
+    padding:12px; border:1px solid rgba(212,175,55,.35);
+    border-radius:10px; background:#0f1419;
+    box-shadow:inset 0 0 0 1px rgba(212,175,55,.08);
+  }
+  .stat-row {
+    display:flex; align-items:center; justify-content:space-between;
+    font-size:14px; color:#cbd5e1;
+  }
+  .stat-row .label { color:#94a3b8; display:flex; align-items:center; gap:8px }
+  .stat-row .value { font-weight:700; color:#e5eef7 }
+  .stat-dot {
+    width:8px; height:8px; border-radius:50%;
+    background:#12d18e; box-shadow:0 0 8px #12d18e80;
+  }
 
-    .cta-button:hover {
-      background-color: #e6a800;
-    }
+  /* =========================================
+     HORIZONTAL BATTERY (SOH) — GLOWING FILL
+     ========================================= */
+  .battery-horizontal {
+    display:flex; align-items:center; justify-content:center;
+    width:100%; height:40px; margin:12px 0; gap:6px;
+  }
+  .battery-body-h {
+    flex:1; height:100%;
+    background:#0d1419;
+    border:2px solid #1f2b34;
+    border-radius:8px;
+    overflow:hidden; position:relative;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,0.03);
+  }
+  #batteryFillH {
+    position:absolute; top:0; left:0;
+    width:0%; height:100%;
+    background:linear-gradient(90deg, #0bfc8f, #00d4ff, #0bfc8f);
+    background-size:200% 100%;
+    transition:width 500ms ease, background-color 300ms ease, filter 300ms ease;
+    animation:glowShift 3s linear infinite;
+    filter:drop-shadow(0 0 8px rgba(18,209,142,0.60));
+  }
+  .battery-overlay-h {
+    position:absolute; inset:0;
+    background:linear-gradient(to right, rgba(255,255,255,0.08), rgba(255,255,255,0));
+    border-radius:6px; pointer-events:none;
+  }
+  .battery-cap-h {
+    width:10px; height:18px;
+    background:#0d1419;
+    border:2px solid #1f2b34; border-left:none;
+    border-radius:0 4px 4px 0;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,0.03);
+  }
 
-    /* === Main Content Section === */
-    main {
-      background-color: black;
-      padding: 100px 20px;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
-
-    main h2 {
-      font-size: 2rem;
-      margin-bottom: 10px;
-    }
-
-    main p {
-      font-size: 1.1rem;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-  </style>
+  /* =========================================
+     ANIMATIONS (BATTERY SHIMMER + HEALTHY PULSE)
+     ========================================= */
+  @keyframes glowShift {
+    0% { background-position:0% 50% }
+    50% { background-position:100% 50% }
+    100% { background-position:0% 50% }
+  }
+  @keyframes pulseGlow {
+    0% { filter:drop-shadow(0 0 4px rgba(18,209,142,0.30)) }
+    50% { filter:drop-shadow(0 0 16px rgba(18,209,142,0.80)) }
+    100% { filter:drop-shadow(0 0 4px rgba(18,209,142,0.30)) }
+  }
+  .glowPulse { animation:pulseGlow 2.5s infinite }
+</style>
 </head>
 
 <body>
+  <div class="wrap">
+    <h1>HiveOS <strong>lite</strong></h1>
 
-  <!-- 🔶 Background Video -->
-  <video autoplay muted loop playsinline class="background-video">
-    <source src="resources/Field_Video.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
+    <!-- =========================================
+         UPLOAD BOX (VISIBLE FIRST)
+         ========================================= -->
+    <div id="uploadBox" class="panel controls">
+      <input id="file" type="file" accept=".csv,.json,application/json,text/csv" />
+      <div id="status" class="muted">Choose a file to analyze</div>
+    </div>
 
-  <!-- 🐝 HiveTech Logo -->
-  <img src="resources/HiveTech_logo.png" alt="HiveTech Logo" class="logo" />
+    <!-- =========================================
+         RESULTS (HIDDEN UNTIL ANALYSIS COMPLETE)
+         ========================================= -->
+    <div id="results">
 
-  <!-- 🌿 Centered Text and Button -->
-  <div class="hero-content">
-    <h1>Nature Powers Us</h1>
-    <a href="home.html" class="cta-button">Continue to Hive Tech</a>
+      <!-- SOC GAUGE + SPARKLINE + QUICK STATS -->
+      <div class="panel">
+        <div class="socWrap">
+          <!-- Gauge -->
+          <canvas id="gauge" width="220" height="220"></canvas>
+
+          <!-- SOC Text + Sparkline -->
+          <div>
+            <div class="kpi" id="socText">—</div>
+            <div class="mutedSmall">State of Charge</div>
+            <div style="height:8px"></div>
+            <div class="mutedSmall">Trend</div>
+            <canvas id="spark" class="spark"></canvas>
+          </div>
+
+          <!-- Quick Stats (filled dynamically by JS) -->
+          <div id="socStats" class="soc-stats">
+            <div class="stat-row"><div class="label"><span class="stat-dot"></span>Voltage</div><div class="value" id="statVoltage">—</div></div>
+            <div class="stat-row"><div class="label"><span class="stat-dot"></span>Current</div><div class="value" id="statCurrent">—</div></div>
+            <div class="stat-row"><div class="label"><span class="stat-dot"></span>Est. Range</div><div class="value" id="statRange">—</div></div>
+            <div class="stat-row"><div class="label"><span class="stat-dot"></span>Time to Full</div><div class="value" id="statTTF">—</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI CARDS (AUTO-HIDE IF VALUE MISSING) -->
+      <div class="grid">
+        <!-- SOH Card -->
+        <div class="card" id="sohCard">
+          <div class="mutedSmall">Battery Health</div>
+          <div class="battery-horizontal" aria-label="Battery health">
+            <div class="battery-body-h">
+              <div id="batteryFillH"></div>
+              <div class="battery-overlay-h"></div>
+            </div>
+            <div class="battery-cap-h"></div>
+          </div>
+          <div class="kpi" id="sohText">—</div>
+        </div>
+
+        <!-- Temperature Card -->
+        <div class="card" id="tempCard">
+          <div class="mutedSmall">Temperature</div>
+          <div class="kpi" id="tempText">—</div>
+        </div>
+
+        <!-- Fault Card -->
+        <div class="card" id="faultCard">
+          <div class="mutedSmall">Faults</div>
+          <div class="kpi"><span id="faultCount">0</span></div>
+        </div>
+      </div>
+
+      <!-- RECENT FAULTS LIST -->
+      <div class="panel">
+        <div class="mutedSmall" style="margin-bottom:8px">Recent Faults</div>
+        <div id="faultList" class="list">
+          <div class="item"><span class="mutedSmall">No issues detected.</span></div>
+        </div>
+      </div>
+    </div>
   </div>
+
+<!-- =========================================
+     SCRIPTS / FUNCTIONAL LOGIC
+     ========================================= -->
+<script>
+  /* =========================================
+     FILE PARSER — VOLTAGE / CURRENT AVERAGE
+     ========================================= */
+  async function computeAvgVIFromFile(fileObj){
+    const out = { vAvg:null, iAvg:null };
+    try{
+      const text = await fileObj.text();
+      if(text.trim().startsWith('{') || text.trim().startsWith('[')){
+        const data = JSON.parse(text);
+        const rows = Array.isArray(data) ? data :
+                     Array.isArray(data.records) ? data.records :
+                     (typeof data==='object' ? [data] : []);
+        const vVals = rows.map(r=>Number(r.voltage ?? r.v ?? r.cell_voltage)).filter(Number.isFinite);
+        const iVals = rows.map(r=>Number(r.current_now ?? r.current ?? r.i ?? r.amps ?? r.a)).filter(Number.isFinite);
+        if(vVals.length) out.vAvg = vVals.reduce((a,b)=>a+b)/vVals.length;
+        if(iVals.length) out.iAvg = iVals.reduce((a,b)=>a+b)/iVals.length;
+      } else {
+        const lines = text.split(/\r?\n/).filter(Boolean);
+        const hdr = lines.shift()?.toLowerCase() || '';
+        const cols = hdr.split(',').map(s=>s.trim());
+        const idxV = cols.findIndex(c=>['voltage','v','cell_voltage'].includes(c));
+        const idxI = cols.findIndex(c=>['current_now','current','i','amps','a'].includes(c));
+        if(idxV>=0 || idxI>=0){
+          let sumV=0, nV=0, sumI=0, nI=0;
+          for(const ln of lines){
+            const parts = ln.split(',');
+            if(idxV>=0){ const v=Number(parts[idxV]); if(Number.isFinite(v)){sumV+=v;nV++;} }
+            if(idxI>=0){ const i=Number(parts[idxI]); if(Number.isFinite(i)){sumI+=i;nI++;} }
+          }
+          if(nV) out.vAvg = sumV/nV;
+          if(nI) out.iAvg = sumI/nI;
+        }
+      }
+    }catch(_){}
+    return out;
+  }
+
+  /* =========================================
+     SOC QUICK STATS POPULATION
+     ========================================= */
+  function populateSocStats(apiData, socPct, vAvgFallback, iAvgFallback){
+    // Prefer backend stats; fall back to client-parsed values
+    const apiStats = apiData?.stats || {};
+    let vAvg = (Number.isFinite(apiStats.voltage_avg_v) ? apiStats.voltage_avg_v : vAvgFallback);
+    let iAvg = (Number.isFinite(apiStats.current_avg_a) ? apiStats.current_avg_a : iAvgFallback);
+
+    // Formatting helpers
+    const fmt = (x,u)=>(x==null||!Number.isFinite(x))?'—':`${Math.round(x*10)/10}${u}`;
+
+    // Est. range (very rough demo)
+    const MAX_RANGE_MI = 25;
+    const estRange = (socPct==null||!Number.isFinite(socPct)) ? null : (socPct/100)*MAX_RANGE_MI;
+
+    // Time to full (heuristic) if charging
+    let ttfMin=null;
+    if(Number.isFinite(socPct) && Number.isFinite(iAvg) && iAvg > 0){
+      const Q_NOM_AH=12;
+      const remainingAh=(100-socPct)/100*Q_NOM_AH;
+      ttfMin=remainingAh/iAvg*60;
+    }
+
+    // Write to DOM
+    document.getElementById('statVoltage').textContent = fmt(vAvg,' V');
+    document.getElementById('statCurrent').textContent = fmt(iAvg,' A');
+    document.getElementById('statRange').textContent   = fmt(estRange,' mi');
+    document.getElementById('statTTF').textContent     =
+      (ttfMin==null||!Number.isFinite(ttfMin)) ? '—' :
+      (ttfMin>=60 ? `${Math.round(ttfMin/60)}h` : `${Math.round(ttfMin)}m`);
+  }
+
+  /* =========================================
+     MAIN ELEMENT REFERENCES
+     ========================================= */
+  const el=id=>document.getElementById(id);
+  const file=el('file'), statusEl=el('status');
+  const uploadBox=el('uploadBox'), results=el('results');
+  const socText=el('socText'), sohText=el('sohText'), tempText=el('tempText');
+  const faultCount=el('faultCount'), faultList=el('faultList');
+  const sohCard=el('sohCard'), tempCard=el('tempCard'), faultCard=el('faultCard');
+
+  /* =========================================
+     DRAW GAUGE + SPARKLINE
+     ========================================= */
+  function drawGauge(canvas, percent){
+    const ctx=canvas.getContext('2d');
+    const w=canvas.width,h=canvas.height,r=Math.min(w,h)/2-12;
+    ctx.clearRect(0,0,w,h); ctx.save(); ctx.translate(w/2,h/2);
+    ctx.lineWidth=18; ctx.strokeStyle='#1b2630';
+    ctx.beginPath(); ctx.arc(0,0,r,Math.PI*0.75,Math.PI*2.25); ctx.stroke();
+    const p=Math.max(0,Math.min(percent||0,100))/100;
+    const end=Math.PI*0.75+(Math.PI*1.5)*p;
+    const grad=ctx.createLinearGradient(-r,0,r,0);
+    grad.addColorStop(0,'#10b981'); grad.addColorStop(1,'#12d18e');
+    ctx.strokeStyle=grad; ctx.shadowColor='rgba(18,209,142,.4)'; ctx.shadowBlur=8;
+    ctx.beginPath(); ctx.arc(0,0,r,Math.PI*0.75,end); ctx.stroke();
+    ctx.shadowBlur=0;
+    ctx.fillStyle='#e5eef7'; ctx.font='900 40px ui-sans-serif, system-ui';
+    const t=(percent==null||isNaN(percent))?'—':Math.round(percent)+'%';
+    const tw=ctx.measureText(t).width;
+    ctx.fillText(t,-tw/2,12);
+    ctx.restore();
+  }
+
+  function drawSparkline(canvas, points){
+    const ctx=canvas.getContext('2d');
+    const w=canvas.width=canvas.clientWidth;
+    const h=canvas.height=canvas.clientHeight;
+    ctx.clearRect(0,0,w,h);
+    if(!points||points.length<2) return;
+    const min=Math.min(...points), max=Math.max(...points);
+    const y=v=> max===min ? h/2 : h - ((v-min)/(max-min))*(h-6) - 3;
+    ctx.lineWidth=2; ctx.strokeStyle='#12d18e';
+    ctx.beginPath();
+    points.forEach((v,i)=>{ const x=(i/(points.length-1))*w; i?ctx.lineTo(x,y(v)):ctx.moveTo(x,y(v)); });
+    ctx.stroke();
+    const grad=ctx.createLinearGradient(0,0,0,h);
+    grad.addColorStop(0,'rgba(18,209,142,.25)'); grad.addColorStop(1,'rgba(18,209,142,0)');
+    ctx.lineTo(w,h); ctx.lineTo(0,h); ctx.closePath(); ctx.fillStyle=grad; ctx.fill();
+  }
+
+  /* =========================================
+     FAULT LIST RENDERING
+     ========================================= */
+  function renderFaults(flags){
+    faultList.innerHTML='';
+    if(!flags||!flags.length){
+      faultList.innerHTML='<div class="item"><span class="mutedSmall">No issues detected.</span></div>';
+      return;
+    }
+    flags.slice(0,6).forEach(f=>{
+      const html=`<div class="item">
+        <div><strong>${f.Issue||'Fault'}</strong>
+          <div class="mutedSmall">${f["Cell ID"]!=null?'Cell '+f["Cell ID"]:'—'} • Value: ${f.Value??'—'}</div>
+        </div>
+        <div class="mutedSmall">now</div>
+      </div>`;
+      faultList.insertAdjacentHTML('beforeend', html);
+    });
+  }
+
+  /* =========================================
+     SOH BATTERY RENDERING
+     ========================================= */
+  function renderBatteryHealth(soh){
+    const fill=document.getElementById('batteryFillH');
+    if(!fill) return;
+    const pct=Math.max(0,Math.min(Number(soh)||0,100));
+    fill.style.width=pct+'%';
+    let c1,c2;
+    if(pct>=80){ c1='#12d18e'; c2='#0ef3a5'; fill.classList.add('glowPulse'); }
+    else if(pct>=50){ c1='#facc15'; c2='#fbbf24'; fill.classList.remove('glowPulse'); }
+    else { c1='#ef4444'; c2='#f87171'; fill.classList.remove('glowPulse'); }
+    fill.style.background=`linear-gradient(90deg, ${c1}, ${c2}, ${c1})`;
+    fill.style.filter=`drop-shadow(0 0 10px ${c1}60)`;
+    const t=document.getElementById('sohText');
+    if(t) t.textContent=isFinite(pct)?Math.round(pct)+'%':'—';
+  }
+
+  /* =========================================
+     MAIN: ANALYZE SELECTED FILE
+     ========================================= */
+  async function analyzeSelectedFile(){
+    if(!file.files.length) return;
+    statusEl.textContent='Analyzing…';
+    const fd=new FormData(); fd.append('file', file.files[0]);
+
+    try{
+      const res=await fetch('/analyze',{method:'POST', body:fd});
+      // Show server-side errors (e.g., 413) in status
+      if(!res.ok){
+        statusEl.textContent = (res.status===413)
+          ? 'Error: file too large for analyzer (limit ~10MB).'
+          : 'Server error: ' + res.status;
+        return;
+      }
+      const data=await res.json();
+
+      // Reveal results
+      uploadBox.style.display='none';
+      results.classList.add('show');
+
+      // Pull primary values
+      const soc  = data["SOC (%)"];
+      const soh  = data["SOH (%)"];
+      const flags = data["Flagged Cells"] || [];
+      const stats = data?.stats || {};
+
+      // Client-side fallback parsing (for stats if backend couldn’t compute)
+      const { vAvg: vAvgFile, iAvg: iAvgFile } = await computeAvgVIFromFile(file.files[0]);
+
+      // Draw SOC visuals
+      drawGauge(document.getElementById('gauge'), soc);
+      socText.textContent = Number.isFinite(soc) ? Math.round(soc)+'%' : '—';
+      const sparkPts=Array.from({length:24},(_,i)=>(soc||0)+Math.sin(i/3)*4+(Math.random()-0.5)*2);
+      drawSparkline(document.getElementById('spark'), sparkPts);
+
+      // Fill quick stats (prefer API stats, fallback to file)
+      populateSocStats(data, soc, vAvgFile, iAvgFile);
+
+      // SOH card
+      if(Number.isFinite(soh)){ renderBatteryHealth(soh); sohCard.style.display='block'; }
+      else { sohCard.style.display='none'; }
+
+      // Temperature card (prefer API temp_avg_c)
+      if(Number.isFinite(stats.temp_avg_c)){
+        tempText.textContent = Math.round(stats.temp_avg_c) + '°C';
+        tempCard.style.display = 'block';
+      } else {
+        tempCard.style.display = 'none';
+      }
+
+      // Faults
+      if(flags.length>0){ faultCount.textContent=flags.length; renderFaults(flags); faultCard.style.display='block'; }
+      else { faultCard.style.display='none'; renderFaults([]); }
+
+      statusEl.textContent='Done.';
+    }catch(e){
+      results.classList.remove('show'); results.style.display='none';
+      uploadBox.style.display='block';
+      statusEl.textContent='Error: '+(e?.message||e);
+    }
+  }
+
+  /* =========================================
+     BOOTSTRAP: WIRE EVENTS + INITIAL PAINT
+     ========================================= */
+  document.getElementById('file').addEventListener('change', analyzeSelectedFile);
+  drawGauge(document.getElementById('gauge'), 0);
+  drawSparkline(document.getElementById('spark'), [0,1,0.6,0.8,0.7]);
+</script>
 </body>
 </html>
