@@ -1,539 +1,962 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>HiveOS lite</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Rwanda Road Trust Fund — Help Rwanda build their future</title>
+<meta name="description" content="Transparent, live-tracked donations that fund equipment, food, and worker support for the Hiveway pilot in Rwanda." />
 
 <style>
   /* =========================================
-     HIVEOS LITE — THEME TOKENS
-     ========================================= */
+   *  THEME TOKENS & GLOBAL RESET
+   * ========================================= */
   :root {
-    --bg:#0b0f12;           /* app background */
-    --panel:#11161b;        /* panel background */
-    --card:#0f1419;         /* card background */
-    --text:#e5eef7;         /* primary text */
-    --muted:#94a3b8;        /* secondary text */
-    --primary:#12d18e;      /* Hive green */
-    --primary-600:#0fb67a;  /* Hive green (darker) */
-    --gold:#d4af37;         /* Hive honey gold */
+    /* Color system */
+    --bg: #f7f5f3;          /* neutral stone background */
+    --text: #222;           /* primary text (charcoal) */
+    --muted: #666;          /* secondary text */
+    --line: #ddd;           /* borders & dividers */
+    --accent: #b38f47;      /* warm gold (Hive hint) */
+    --accent-dark: #8e723a; /* CTA hover */
+    --card: #fff;           /* card surfaces */
+    --success: #2e7d32;     /* success ticks/checks */
   }
 
-  /* =========================================
-     BASE / LAYOUT
-     ========================================= */
-  * { box-sizing:border-box }
+  /* Global box-model + base typography */
+  * { box-sizing: border-box; }
+
   body {
-    margin:0;
-    background:var(--bg);
-    color:var(--text);
-    font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-  }
-  .wrap { max-width:960px; margin:36px auto; padding:0 16px }
-  h1 { margin:0 0 18px; font-size:26px; font-weight:900; letter-spacing:.2px }
-  .muted { color:var(--muted); text-align:center; margin-top:10px }
-  .mutedSmall { color:var(--muted); font-size:13px }
-  .kpi { font-size:32px; font-weight:900 }
-
-  /* =========================================
-     UPLOAD BOX (VISIBLE FIRST)
-     ========================================= */
-  .controls {
-    text-align:center;
-    background:var(--panel);
-    border:1.5px solid var(--gold);
-    border-radius:14px;
-    padding:24px 16px;
-    box-shadow:0 0 12px rgba(212,175,55,0.20);
-    transition:box-shadow .3s ease, transform .2s ease;
-  }
-  .controls:hover {
-    box-shadow:0 0 18px rgba(212,175,55,0.35);
-    transform:translateY(-2px);
-  }
-  input[type=file] {
-    appearance:none;
-    background:#0f171c;
-    border:1px solid #1b2a30;
-    border-radius:10px;
-    color:var(--text);
-    padding:10px;
-    cursor:pointer;
-    transition:border-color .25s ease, box-shadow .25s ease;
-  }
-  input[type=file]:hover {
-    border-color:var(--gold);
-    box-shadow:0 0 8px rgba(212,175,55,0.30);
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Inter, Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
   }
 
-  /* =========================================
-     RESULTS CONTAINER (HIDDEN UNTIL .SHOW)
-     ========================================= */
-  #results {
-    display:none;
-    opacity:0;
-    transition:opacity .45s ease;
-    margin-top:18px;
-  }
-  #results.show {
-    display:grid;
-    opacity:1;
-    gap:16px;
-  }
+  /* Utility containers */
+  .wrap { max-width: 1100px; margin: auto; padding: 24px; }
+  .small { font-size: 13px; }
+  .muted { color: var(--muted); }
+  .list { margin: 0; padding-left: 18px; }
+  .sr { position: absolute; left: -9999px; } /* screen-reader only */
 
   /* =========================================
-     PANELS & CARDS — GOLD OUTLINE
-     ========================================= */
-  .panel, .card {
-    background:var(--card);
-    border:1.5px solid var(--gold);
-    border-radius:12px;
-    padding:16px;
-    box-shadow:0 0 10px rgba(212,175,55,0.15);
-    transition:box-shadow .3s ease, transform .2s ease;
+   *  HEADER / HERO
+   * ========================================= */
+  header {
+    background: linear-gradient(180deg, #f0ede9 0%, #f7f5f3 100%);
+    border-bottom: 1px solid var(--line);
   }
-  .panel:hover, .card:hover {
-    box-shadow:0 0 18px rgba(212,175,55,0.35);
-    transform:translateY(-2px);
+
+  .hero { display: grid; gap: 18px; padding: 36px 0; }
+
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 700; letter-spacing: .3px;
   }
-  .panel { background:var(--panel) }
+
+  .logo {
+    width: 36px; height: 36px; border-radius: 8px;
+    background:
+      conic-gradient(from 180deg at 50% 50%, #0000 0 25%, var(--accent) 0 50%, #0000 0 75%, var(--accent) 0),
+      radial-gradient(60% 60% at 50% 50%, #333 0 60%, #0000 61%);
+    outline: 1px solid var(--line);
+  }
+
+  h1 { margin: 0; font-size: clamp(24px, 4.5vw, 40px); }
+  .sub { color: var(--muted); font-size: clamp(15px, 2.6vw, 18px); }
+
+  .cta-row {
+    display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+  }
+
+  /* Buttons */
+  .btn {
+    appearance: none; border: none; cursor: pointer;
+    background: var(--accent); color: #fff;
+    padding: 12px 18px; border-radius: 10px;
+    font-weight: 700; letter-spacing: .2px;
+  }
+  .btn:hover { background: var(--accent-dark); }
+  .btn.secondary {
+    background: #fff; color: var(--text); border: 1px solid var(--line);
+  }
+
+/* ===== Photo hero with top/bottom overlays ===== */
+.photo-hero{
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;          /* keeps it tidy on all screens */
+  background: #ddd;              /* fallback while image loads */
+  border: 1px solid var(--line);
+}
+.photo-hero img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Overlay captions */
+.cap{
+  position: absolute;
+  left: 0; right: 0;
+  color: #fff;
+  text-align: center;
+  padding: 14px 16px;
+  font-weight: 800;
+  text-shadow: 0 2px 8px rgba(0,0,0,.35);
+}
+.cap.top{
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,0));
+  font-size: clamp(20px, 3.6vw, 34px);
+}
+.cap.bottom{
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0));
+  font-weight: 600;
+  font-size: clamp(10px, 2.4vw, 18px);
+}
 
   /* =========================================
-     GRID LAYOUT FOR KPI CARDS
-     ========================================= */
+   *  LAYOUT GRID & CARDS
+   * ========================================= */
   .grid {
-    display:grid;
-    grid-template-columns:1.4fr .8fr .8fr;
-    gap:16px;
+    display: grid; gap: 16px;
+    grid-template-columns: 1fr;
+    margin: 22px 0;
   }
-  @media (max-width:960px) {
-    .grid { grid-template-columns:1fr }
+  @media (min-width: 860px) {
+    .grid { grid-template-columns: 2fr 1fr; }
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px;
   }
 
   /* =========================================
-     GAUGE + SPARKLINE + SIMPLE LIST ITEMS
-     ========================================= */
-  .gaugeWrap {
-    display:grid;
-    grid-template-columns:220px 1fr;
-    gap:16px;
-    align-items:center;
+   *  PROGRESS BAR & KPI STRIP
+   * ========================================= */
+  .progress { display: grid; gap: 10px; margin-top: 12px; }
+
+  .nums {
+    display: flex; justify-content: space-between;
+    font-variant-numeric: tabular-nums;
   }
-  @media (max-width:560px) {
-    .gaugeWrap { grid-template-columns:1fr }
+
+  .bar {
+    width: 100%; height: 14px; overflow: hidden;
+    background: #eee; border: 1px solid #e2e2e2;
+    border-radius: 999px;
   }
-  .spark {
-    height:64px; width:100%;
-    background:#0c1418;
-    border:1px solid #122029;
-    border-radius:10px;
-    overflow:hidden;
+
+  .fill {
+    height: 100%; width: 0;
+    background: linear-gradient(90deg, var(--accent), #d0b06a);
+    transition: width .6s ease;
   }
-  .list { display:flex; flex-direction:column; gap:10px }
-  .item {
-    background:#0f1419;
-    border:1px solid #122029;
-    border-radius:10px;
-    padding:10px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+
+  .kpi {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+  }
+
+  .k {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 12px; padding: 12px; text-align: center;
+  }
+
+  .k strong { font-size: 20px; display: block; }
+
+  .countbox { display: flex; gap: 10px; align-items: center; }
+
+  .time {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 10px; padding: 10px 12px;
+    text-align: center; min-width: 70px;
+  }
+
+  .time strong { display: block; font-size: 20px; }
+
+/* =========================================
+ *  KPI FIT / RESPONSIVE SAFEGUARDS
+ * ========================================= */
+
+/* Make KPI cards resilient and center content */
+.k {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;                 /* small breathing room inside the card */
+}
+
+/* Let the countdown line wrap if needed and center it */
+.countbox {
+  display: flex;
+  flex-wrap: wrap;          /* <-- key: allows a new line instead of overflow */
+  justify-content: center;  /* center the row(s) */
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Keep each time chip compact on small widths */
+.time {
+  min-width: 64px;          /* was 70; tighter to avoid overflow */
+  padding: 8px 10px;        /* a bit smaller padding */
+  box-sizing: border-box;
+}
+
+/* Scalable numerals so they don’t blow out the card */
+.time strong {
+  font-size: clamp(16px, 4.2vw, 20px); /* shrink on narrow screens, cap at 20px */
+  line-height: 1.1;
+}
+
+/* Also scale the big KPI number if needed */
+.k strong {
+  font-size: clamp(16px, 5vw, 20px);
+}
+
+/* On very narrow devices, tighten spacing further */
+@media (max-width: 360px) {
+  .countbox { gap: 6px; }
+  .time { min-width: 58px; padding: 8px; }
+}
+
+  /* =========================================
+   *  MILESTONES
+   * ========================================= */
+  .milestones { display: grid; gap: 10px; margin-top: 10px; }
+
+  .mile {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: #fff; border: 1px dashed var(--line);
+    padding: 10px; border-radius: 10px;
+  }
+
+  .tick { color: var(--success); font-weight: 900; }
+
+  /* =========================================
+   *  GALLERIES / PLACEHOLDERS
+   * ========================================= */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+  }
+
+  .ph {
+    aspect-ratio: 4 / 3;
+    background: linear-gradient(135deg, #ece9e4, #e7e2da);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    position: relative; overflow: hidden;
+  }
+  .ph::after {
+    content: "Photo";
+    position: absolute; inset: auto 10px 10px;
+    color: #666; font-size: 14px;
   }
 
   /* =========================================
-     SOC QUICK STATS COLUMN
-     ========================================= */
-  .socWrap {
-    display:grid;
-    grid-template-columns:220px 1fr 190px; /* gauge | sparkline | stats */
-    gap:16px; align-items:center;
+   *  CATEGORY GRID (BUDGET SPLIT)
+   * ========================================= */
+  .catgrid {
+    display: grid; gap: 12px; grid-template-columns: 1fr;
   }
-  @media (max-width:960px) { .socWrap { grid-template-columns:1fr } }
-  .soc-stats {
-    display:flex; flex-direction:column; gap:8px;
-    padding:12px; border:1px solid rgba(212,175,55,.35);
-    border-radius:10px; background:#0f1419;
-    box-shadow:inset 0 0 0 1px rgba(212,175,55,.08);
+  @media (min-width: 860px) {
+    .catgrid { grid-template-columns: repeat(3, 1fr); }
   }
-  .stat-row {
-    display:flex; align-items:center; justify-content:space-between;
-    font-size:14px; color:#cbd5e1;
+
+  .cat {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 12px; padding: 14px;
   }
-  .stat-row .label { color:#94a3b8; display:flex; align-items:center; gap:8px }
-  .stat-row .value { font-weight:700; color:#e5eef7 }
-  .stat-dot {
-    width:8px; height:8px; border-radius:50%;
-    background:#12d18e; box-shadow:0 0 8px #12d18e80;
+  .cat h4 { margin: 0 0 6px 0; }
+  .cat .small { display: block; margin-top: 6px; }
+
+/* =========================================
+   *  “MADE IN RWANDA” / PILLARS STRIP
+   * ========================================= */
+  .rwanda-strip {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 14px; padding: 24px 18px; margin-top: 12px;
+    text-align: center; /* center header */
+  }
+
+  .pill {
+    display: inline-block;
+    background: #efe7d3; color: #5b4a22;
+    border: 1px solid #e0d3b4; border-radius: 999px;
+    padding: 6px 10px; font-weight: 700;
+    font-size: 12px; letter-spacing: .2px;
+  }
+
+  .rw-h { margin: 8px 0 6px 0; font-size: clamp(20px, 3.6vw, 28px); }
+  .rw-sub { color: var(--muted); margin: 0 0 10px 0; max-width: 640px; margin-left:auto; margin-right:auto; }
+
+  /* top header wrapper (centered) */
+  .rwanda-header { margin-bottom: 16px; }
+  .rwanda-header .pill { margin-bottom: 8px; }
+
+  /* pillar card */
+  .p {
+    background: #faf9f7; border: 1px dashed var(--line);
+    border-radius: 12px; padding: 12px; min-width: 220px; /* fixed width for smooth marquee */
+  }
+  .p .ic { font-size: 20px; margin-bottom: 6px; }
+  .p strong { display: block; margin-bottom: 2px; }
+  .p span { color: var(--muted); font-size: 13px; }
+
+/* --- Rwanda strip: 2-row marquee layout --- */
+.rwanda-marquee {
+  display: grid; gap: 10px;
+}
+
+/* a row that clips overflow */
+.marquee-row {
+  position: relative;
+  overflow: hidden;
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  background: #faf9f7;
+}
+
+/* the long scrolling track */
+.marquee-track {
+  display: inline-flex; gap: 10px;
+  align-items: stretch;
+  white-space: nowrap;
+  padding: 10px;
+  will-change: transform;
+}
+
+/* duplicate to create a seamless loop */
+.marquee-track .dup {
+  display: inline-flex; gap: 10px;
+}
+
+/* animations */
+@keyframes rwandaScrollLeft { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes rwandaScrollRight{ from { transform: translateX(-50%);} to { transform: translateX(0); } }
+
+/* apply motion (top row left, bottom row right) */
+.marquee-row.top .marquee-track   { animation: rwandaScrollLeft 40s linear infinite; }
+.marquee-row.bottom .marquee-track{ animation: rwandaScrollRight 50s linear infinite; }
+
+/* accessibility niceties */
+@media (prefers-reduced-motion: reduce){
+  .marquee-track { animation: none; }
+}
+.marquee-row:hover .marquee-track { animation-play-state: paused; }
+
+/* “Why it matters” footer below both rows */
+.rwanda-footer {
+  text-align: left;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+/* Optional: tighten on ultra-small screens */
+@media (max-width: 360px){
+  .p { min-width: 200px; padding: 10px; }
+  .rw-h { font-size: clamp(18px, 5.8vw, 24px); }
+}
+  /* =========================================
+   *  BLOG CARDS (MINI ARTICLES)
+   * ========================================= */
+  .bloggrid {
+    display: grid; gap: 12px; grid-template-columns: 1fr;
+  }
+  @media (min-width: 860px) {
+    .bloggrid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .blog {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 12px; padding: 14px;
+  }
+  .blog h3 { margin: 0 0 6px 0; font-size: 18px; }
+  .blog p { margin: 0 0 8px 0; color: var(--muted); }
+  .more {
+    font-weight: 700; text-decoration: none; border-bottom: 1px solid currentColor;
+  }
+  .more:hover { opacity: .8; }
+
+  /* =========================================
+   *  IMPACT BANNER (TOP, DOUBLE SCROLLER)
+   * ========================================= */
+  .impact-banner {
+    position: sticky; top: 0; z-index: 9999;
+    background: #161616; color: #f2efe9;
+    border-bottom: 1px solid #2b2b2b;
+    font-size: 14px; line-height: 1;
+    overflow: hidden;
+  }
+
+  .impact-track {
+    display: flex; align-items: center; gap: 28px;
+    white-space: nowrap; padding: 10px 0;
+    border-bottom: 1px solid #222;
+    /* Soft-edge mask to fade in/out ends */
+    mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+  }
+  .impact-track--bottom { border-bottom: none; }
+
+  .impact-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 10px; border-radius: 999px;
+    background: #202020; color: #eae6db; border: 1px solid #2e2e2e;
+  }
+
+  .impact-chip .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); /* warm gold accent */
+  }
+
+  /* Keyframe animations for smooth, continuous scroll (no <marquee>) */
+  @keyframes scrollLeft {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-30%); } /* adjust to tune speed/distance */
+  }
+  @keyframes scrollRight {
+    from { transform: translateX(-20%); }
+    to   { transform: translateX(0); }
+  }
+
+  .impact-scroll {
+    display: inline-block;
+    will-change: transform;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    /* duration (speed) is set inline via JS for easy tweaking */
   }
 
   /* =========================================
-     HORIZONTAL BATTERY (SOH) — GLOWING FILL
-     ========================================= */
-  .battery-horizontal {
-    display:flex; align-items:center; justify-content:center;
-    width:100%; height:40px; margin:12px 0; gap:6px;
+   *  FOOTER
+   * ========================================= */
+  footer {
+    border-top: 1px solid var(--line);
+    margin-top: 28px; background: #faf9f7;
   }
-  .battery-body-h {
-    flex:1; height:100%;
-    background:#0d1419;
-    border:2px solid #1f2b34;
-    border-radius:8px;
-    overflow:hidden; position:relative;
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,0.03);
+
+  .footgrid {
+    display: grid; gap: 14px; grid-template-columns: 1fr;
+    padding: 20px 0;
   }
-  #batteryFillH {
-    position:absolute; top:0; left:0;
-    width:0%; height:100%;
-    background:linear-gradient(90deg, #0bfc8f, #00d4ff, #0bfc8f);
-    background-size:200% 100%;
-    transition:width 500ms ease, background-color 300ms ease, filter 300ms ease;
-    animation:glowShift 3s linear infinite;
-    filter:drop-shadow(0 0 8px rgba(18,209,142,0.60));
-  }
-  .battery-overlay-h {
-    position:absolute; inset:0;
-    background:linear-gradient(to right, rgba(255,255,255,0.08), rgba(255,255,255,0));
-    border-radius:6px; pointer-events:none;
-  }
-  .battery-cap-h {
-    width:10px; height:18px;
-    background:#0d1419;
-    border:2px solid #1f2b34; border-left:none;
-    border-radius:0 4px 4px 0;
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,0.03);
+  @media (min-width: 720px) {
+    .footgrid { grid-template-columns: 2fr 1fr; }
   }
 
   /* =========================================
-     ANIMATIONS (BATTERY SHIMMER + HEALTHY PULSE)
-     ========================================= */
-  @keyframes glowShift {
-    0% { background-position:0% 50% }
-    50% { background-position:100% 50% }
-    100% { background-position:0% 50% }
+   *  RESPONSIVE TWEAKS
+   * ========================================= */
+  @media (min-width: 800px) {
+    .impact-banner { font-size: 15px; }
   }
-  @keyframes pulseGlow {
-    0% { filter:drop-shadow(0 0 4px rgba(18,209,142,0.30)) }
-    50% { filter:drop-shadow(0 0 16px rgba(18,209,142,0.80)) }
-    100% { filter:drop-shadow(0 0 4px rgba(18,209,142,0.30)) }
-  }
-  .glowPulse { animation:pulseGlow 2.5s infinite }
 </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <h1>HiveOS <strong>lite</strong></h1>
+<!-- =========================================
+     IMPACT AT A GLANCE — TOP BANNER (2 lines)
+     Place this directly under <body>, before <header>
+     ========================================= -->
+<section class="impact-banner" aria-label="Impact at a glance">
+  <div class="impact-track impact-track--top" id="impactTop"></div>
+  <div class="impact-track impact-track--bottom" id="impactBottom"></div>
+</section>
+<header>
+  <div class="wrap hero">
+   <!-- Brand line stays the same -->
+<div class="brand"><div class="logo" aria-hidden="true"></div> Rwanda Road Trust Fund</div>
 
-    <!-- =========================================
-         UPLOAD BOX (VISIBLE FIRST)
-         ========================================= -->
-    <div id="uploadBox" class="panel controls">
-      <input id="file" type="file" accept=".csv,.json,application/json,text/csv" />
-      <div id="status" class="muted">Choose a file to analyze</div>
+<!-- New photo hero with overlaid captions -->
+<figure class="photo-hero" role="img" aria-label="Community crews building a rural road in Rwanda">
+  <img src="resources/feeder_work.jpeg" alt="Rwandan community crews grading and leveling a rural road">
+  <figcaption class="cap top">Help Rwanda build their future</figcaption>
+  <figcaption class="cap bottom">
+    Your donation fuels equipment, food, and worker support—while directly funding kilometers of feeder road. 
+  </figcaption>
+</figure>    <div class="cta-row">
+      <button class="btn" onclick="document.getElementById('donate').scrollIntoView({behavior:'smooth'})">Donate now</button>
+      <button class="btn secondary" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How your gift helps</button>
     </div>
 
-    <!-- =========================================
-         RESULTS (HIDDEN UNTIL ANALYSIS COMPLETE)
-         ========================================= -->
-    <div id="results">
-
-      <!-- SOC GAUGE + SPARKLINE + QUICK STATS -->
-      <div class="panel">
-        <div class="socWrap">
-          <!-- Gauge -->
-          <canvas id="gauge" width="220" height="220"></canvas>
-
-          <!-- SOC Text + Sparkline -->
-          <div>
-            <div class="kpi" id="socText">—</div>
-            <div class="mutedSmall">State of Charge</div>
-            <div style="height:8px"></div>
-            <div class="mutedSmall">Trend</div>
-            <canvas id="spark" class="spark"></canvas>
-          </div>
-
-          <!-- Quick Stats (filled dynamically by JS) -->
-          <div id="socStats" class="soc-stats">
-            <div class="stat-row"><div class="label"><span class="stat-dot"></span>Voltage</div><div class="value" id="statVoltage">—</div></div>
-            <div class="stat-row"><div class="label"><span class="stat-dot"></span>Current</div><div class="value" id="statCurrent">—</div></div>
-            <div class="stat-row"><div class="label"><span class="stat-dot"></span>Est. Range</div><div class="value" id="statRange">—</div></div>
-            <div class="stat-row"><div class="label"><span class="stat-dot"></span>Time to Full</div><div class="value" id="statTTF">—</div></div>
-          </div>
+    <!-- KPIs -->
+    <div class="kpi">
+      <div class="k"><strong id="kmBuilt">0.00</strong><span class="muted">km funded</span></div>
+      <div class="k"><strong id="segments">0</strong><span class="muted">25 m segments</span></div>
+      <div class="k"><strong id="meals">0</strong><span class="muted">worker meals</span></div>
+      <div class="k">
+        <div class="countbox">
+          <div class="time"><strong id="d">00</strong><span class="muted">days</span></div>
+          <div class="time"><strong id="h">00</strong><span class="muted">hrs</span></div>
+          <div class="time"><strong id="m">00</strong><span class="muted">min</span></div>
         </div>
-      </div>
-
-      <!-- KPI CARDS (AUTO-HIDE IF VALUE MISSING) -->
-      <div class="grid">
-        <!-- SOH Card -->
-        <div class="card" id="sohCard">
-          <div class="mutedSmall">Battery Health</div>
-          <div class="battery-horizontal" aria-label="Battery health">
-            <div class="battery-body-h">
-              <div id="batteryFillH"></div>
-              <div class="battery-overlay-h"></div>
-            </div>
-            <div class="battery-cap-h"></div>
-          </div>
-          <div class="kpi" id="sohText">—</div>
-        </div>
-
-        <!-- Temperature Card -->
-        <div class="card" id="tempCard">
-          <div class="mutedSmall">Temperature</div>
-          <div class="kpi" id="tempText">—</div>
-        </div>
-
-        <!-- Fault Card -->
-        <div class="card" id="faultCard">
-          <div class="mutedSmall">Faults</div>
-          <div class="kpi"><span id="faultCount">0</span></div>
-        </div>
-      </div>
-
-      <!-- RECENT FAULTS LIST -->
-      <div class="panel">
-        <div class="mutedSmall" style="margin-bottom:8px">Recent Faults</div>
-        <div id="faultList" class="list">
-          <div class="item"><span class="mutedSmall">No issues detected.</span></div>
-        </div>
+        <div class="muted small">Next supply dispatch</div>
       </div>
     </div>
   </div>
+</header>
 
-<!-- =========================================
-     SCRIPTS / FUNCTIONAL LOGIC
-     ========================================= -->
-<script>
-  /* =========================================
-     FILE PARSER — VOLTAGE / CURRENT AVERAGE
-     ========================================= */
-  async function computeAvgVIFromFile(fileObj){
-    const out = { vAvg:null, iAvg:null };
-    try{
-      const text = await fileObj.text();
-      if(text.trim().startsWith('{') || text.trim().startsWith('[')){
-        const data = JSON.parse(text);
-        const rows = Array.isArray(data) ? data :
-                     Array.isArray(data.records) ? data.records :
-                     (typeof data==='object' ? [data] : []);
-        const vVals = rows.map(r=>Number(r.voltage ?? r.v ?? r.cell_voltage)).filter(Number.isFinite);
-        const iVals = rows.map(r=>Number(r.current_now ?? r.current ?? r.i ?? r.amps ?? r.a)).filter(Number.isFinite);
-        if(vVals.length) out.vAvg = vVals.reduce((a,b)=>a+b)/vVals.length;
-        if(iVals.length) out.iAvg = iVals.reduce((a,b)=>a+b)/iVals.length;
-      } else {
-        const lines = text.split(/\r?\n/).filter(Boolean);
-        const hdr = lines.shift()?.toLowerCase() || '';
-        const cols = hdr.split(',').map(s=>s.trim());
-        const idxV = cols.findIndex(c=>['voltage','v','cell_voltage'].includes(c));
-        const idxI = cols.findIndex(c=>['current_now','current','i','amps','a'].includes(c));
-        if(idxV>=0 || idxI>=0){
-          let sumV=0, nV=0, sumI=0, nI=0;
-          for(const ln of lines){
-            const parts = ln.split(',');
-            if(idxV>=0){ const v=Number(parts[idxV]); if(Number.isFinite(v)){sumV+=v;nV++;} }
-            if(idxI>=0){ const i=Number(parts[idxI]); if(Number.isFinite(i)){sumI+=i;nI++;} }
-          }
-          if(nV) out.vAvg = sumV/nV;
-          if(nI) out.iAvg = sumI/nI;
-        }
-      }
-    }catch(_){}
-    return out;
-  }
+<!-- =========================
+     MADE IN RWANDA / OWNERSHIP 
+     ========================= -->
+<section class="wrap">
+  <div class="rwanda-strip">
 
-  /* =========================================
-     SOC QUICK STATS POPULATION
-     ========================================= */
-  function populateSocStats(apiData, socPct, vAvgFallback, iAvgFallback){
-    // Prefer backend stats; fall back to client-parsed values
-    const apiStats = apiData?.stats || {};
-    let vAvg = (Number.isFinite(apiStats.voltage_avg_v) ? apiStats.voltage_avg_v : vAvgFallback);
-    let iAvg = (Number.isFinite(apiStats.current_avg_a) ? apiStats.current_avg_a : iAvgFallback);
+    <!-- Centered header (pill + title + description) -->
+    <div class="rwanda-header">
+      <span class="pill">Made in Rwanda</span>
+      <h2 class="rw-h">Rwanda is building the path to its future</h2>
+      <p class="rw-sub">
+        This road belongs to Rwanda. Built by local crews, using 100% natural materials
+        sourced in Rwanda—designed to outperform typical feeder roads through smart
+        stabilization and careful curing.
+      </p>
+    </div>
 
-    // Formatting helpers
-    const fmt = (x,u)=>(x==null||!Number.isFinite(x))?'—':`${Math.round(x*10)/10}${u}`;
-
-    // Est. range (very rough demo)
-    const MAX_RANGE_MI = 25;
-    const estRange = (socPct==null||!Number.isFinite(socPct)) ? null : (socPct/100)*MAX_RANGE_MI;
-
-    // Time to full (heuristic) if charging
-    let ttfMin=null;
-    if(Number.isFinite(socPct) && Number.isFinite(iAvg) && iAvg > 0){
-      const Q_NOM_AH=12;
-      const remainingAh=(100-socPct)/100*Q_NOM_AH;
-      ttfMin=remainingAh/iAvg*60;
-    }
-
-    // Write to DOM
-    document.getElementById('statVoltage').textContent = fmt(vAvg,' V');
-    document.getElementById('statCurrent').textContent = fmt(iAvg,' A');
-    document.getElementById('statRange').textContent   = fmt(estRange,' mi');
-    document.getElementById('statTTF').textContent     =
-      (ttfMin==null||!Number.isFinite(ttfMin)) ? '—' :
-      (ttfMin>=60 ? `${Math.round(ttfMin/60)}h` : `${Math.round(ttfMin)}m`);
-  }
-
-  /* =========================================
-     MAIN ELEMENT REFERENCES
-     ========================================= */
-  const el=id=>document.getElementById(id);
-  const file=el('file'), statusEl=el('status');
-  const uploadBox=el('uploadBox'), results=el('results');
-  const socText=el('socText'), sohText=el('sohText'), tempText=el('tempText');
-  const faultCount=el('faultCount'), faultList=el('faultList');
-  const sohCard=el('sohCard'), tempCard=el('tempCard'), faultCard=el('faultCard');
-
-  /* =========================================
-     DRAW GAUGE + SPARKLINE
-     ========================================= */
-  function drawGauge(canvas, percent){
-    const ctx=canvas.getContext('2d');
-    const w=canvas.width,h=canvas.height,r=Math.min(w,h)/2-12;
-    ctx.clearRect(0,0,w,h); ctx.save(); ctx.translate(w/2,h/2);
-    ctx.lineWidth=18; ctx.strokeStyle='#1b2630';
-    ctx.beginPath(); ctx.arc(0,0,r,Math.PI*0.75,Math.PI*2.25); ctx.stroke();
-    const p=Math.max(0,Math.min(percent||0,100))/100;
-    const end=Math.PI*0.75+(Math.PI*1.5)*p;
-    const grad=ctx.createLinearGradient(-r,0,r,0);
-    grad.addColorStop(0,'#10b981'); grad.addColorStop(1,'#12d18e');
-    ctx.strokeStyle=grad; ctx.shadowColor='rgba(18,209,142,.4)'; ctx.shadowBlur=8;
-    ctx.beginPath(); ctx.arc(0,0,r,Math.PI*0.75,end); ctx.stroke();
-    ctx.shadowBlur=0;
-    ctx.fillStyle='#e5eef7'; ctx.font='900 40px ui-sans-serif, system-ui';
-    const t=(percent==null||isNaN(percent))?'—':Math.round(percent)+'%';
-    const tw=ctx.measureText(t).width;
-    ctx.fillText(t,-tw/2,12);
-    ctx.restore();
-  }
-
-  function drawSparkline(canvas, points){
-    const ctx=canvas.getContext('2d');
-    const w=canvas.width=canvas.clientWidth;
-    const h=canvas.height=canvas.clientHeight;
-    ctx.clearRect(0,0,w,h);
-    if(!points||points.length<2) return;
-    const min=Math.min(...points), max=Math.max(...points);
-    const y=v=> max===min ? h/2 : h - ((v-min)/(max-min))*(h-6) - 3;
-    ctx.lineWidth=2; ctx.strokeStyle='#12d18e';
-    ctx.beginPath();
-    points.forEach((v,i)=>{ const x=(i/(points.length-1))*w; i?ctx.lineTo(x,y(v)):ctx.moveTo(x,y(v)); });
-    ctx.stroke();
-    const grad=ctx.createLinearGradient(0,0,0,h);
-    grad.addColorStop(0,'rgba(18,209,142,.25)'); grad.addColorStop(1,'rgba(18,209,142,0)');
-    ctx.lineTo(w,h); ctx.lineTo(0,h); ctx.closePath(); ctx.fillStyle=grad; ctx.fill();
-  }
-
-  /* =========================================
-     FAULT LIST RENDERING
-     ========================================= */
-  function renderFaults(flags){
-    faultList.innerHTML='';
-    if(!flags||!flags.length){
-      faultList.innerHTML='<div class="item"><span class="mutedSmall">No issues detected.</span></div>';
-      return;
-    }
-    flags.slice(0,6).forEach(f=>{
-      const html=`<div class="item">
-        <div><strong>${f.Issue||'Fault'}</strong>
-          <div class="mutedSmall">${f["Cell ID"]!=null?'Cell '+f["Cell ID"]:'—'} • Value: ${f.Value??'—'}</div>
+    <!-- Two-row scrolling marquee -->
+    <div class="rwanda-marquee">
+      <!-- ROW 1 (scrolls left) -->
+      <div class="marquee-row top" aria-label="Key pillars row 1">
+        <div class="marquee-track">
+          <!-- original set -->
+          <div class="dup">
+            <div class="p">
+              <div class="ic">🏗️</div>
+              <strong>Community-built</strong>
+              <span>Local crews trained & certified; skills stay in Rwanda.</span>
+            </div>
+            <div class="p">
+              <div class="ic">🌋</div>
+              <strong>Basalt-based & natural</strong>
+              <span>Basalt fines, lime, and cement tuned to local soils.</span>
+            </div>
+            <div class="p">
+              <div class="ic">🌧️</div>
+              <strong>Weather-resilient</strong>
+              <span>Proper crown, drainage, and tarp curing for the rains.</span>
+            </div>
+          </div>
+          <!-- duplicate set for seamless loop -->
+          <div class="dup">
+            <div class="p">
+              <div class="ic">🏗️</div>
+              <strong>Community-built</strong>
+              <span>Local crews trained & certified; skills stay in Rwanda.</span>
+            </div>
+            <div class="p">
+              <div class="ic">🌋</div>
+              <strong>Basalt-based & natural</strong>
+              <span>Basalt fines, lime, and cement tuned to local soils.</span>
+            </div>
+            <div class="p">
+              <div class="ic">🌧️</div>
+              <strong>Weather-resilient</strong>
+              <span>Proper crown, drainage, and tarp curing for the rains.</span>
+            </div>
+          </div>
         </div>
-        <div class="mutedSmall">now</div>
-      </div>`;
-      faultList.insertAdjacentHTML('beforeend', html);
+      </div>
+
+      <!-- ROW 2 (scrolls right) -->
+      <div class="marquee-row bottom" aria-label="Key pillars row 2">
+        <div class="marquee-track">
+          <!-- original set -->
+          <div class="dup">
+            <div class="p">
+              <div class="ic">🔬</div>
+              <strong>Proven by testing</strong>
+              <span>Field mixes & curing logs documented openly.</span>
+            </div>
+            <div class="p">
+              <div class="ic">🌍</div>
+              <strong>New & comparable</strong>
+              <span>We’ll publish results vs. other African roads—then global.</span>
+            </div>
+            <div class="p">
+              <div class="ic">🛣️</div>
+              <strong>Built to last</strong>
+              <span>Dense, well-cured surface = fewer regradings.</span>
+            </div>
+          </div>
+          <!-- duplicate set for seamless loop -->
+          <div class="dup">
+            <div class="p">
+              <div class="ic">🔬</div>
+              <strong>Proven by testing</strong>
+              <span>Field mixes & curing logs documented openly.</span>
+            </div>
+            <div class="p">
+              <div class="ic">🌍</div>
+              <strong>New & comparable</strong>
+              <span>We’ll publish results vs. other African roads—then global.</span>
+            </div>
+            <div class="p">
+              <div class="ic">🛣️</div>
+              <strong>Built to last</strong>
+              <span>Dense, well-cured surface = fewer regradings.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom “Why it matters” section -->
+    <div class="rwanda-footer">
+      <h3 style="margin-top:0;">Why it matters</h3>
+      <p>
+        Each kilometer of Hiveway road empowers communities through employment, training,
+        and ownership. Crews learn transferable construction skills while improving the
+        infrastructure that connects markets, schools, and hospitals.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<main class="wrap grid" id="donate">
+  <!-- PROGRESS + IMPACT -->
+  <section class="card">
+    <h2 class="sr">Progress</h2>
+    <div class="progress" aria-live="polite">
+      <div class="nums">
+        <div><strong id="raised">$0</strong> raised</div>
+        <div class="muted">Goal <strong id="goal">$0</strong></div>
+      </div>
+      <div class="bar" aria-label="donation progress"><div class="fill" id="fill"></div></div>
+    </div>
+
+    <!-- Category allocation (auto from budget %) -->
+    <div style="margin-top:14px">
+      <h3>Live allocation by budget</h3>
+      <div class="catgrid" id="cats"></div>
+      <p class="small muted">Allocations update instantly based on live donations using the budget percentages below.</p>
+    </div>
+
+    <!-- Milestones -->
+    <div class="milestones" id="miles" style="margin-top:10px"></div>
+
+    <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+      <a class="btn" href="#donate-form">Donate securely</a>
+      <button class="btn secondary" onclick="document.getElementById('updates').scrollIntoView({behavior:'smooth'})">See updates</button>
+    </div>
+
+    <hr style="margin:18px 0;border:0;border-top:1px solid var(--line)" />
+
+    <div id="how">
+      <h3>Where your gift goes</h3>
+      <ul class="list">
+        <li><strong>Equipment & tarps</strong> for weather-safe curing and quality.</li>
+        <li><strong>Food & hydration</strong> for local crews (high-energy, culturally aligned).</li>
+        <li><strong>Worker bonuses & logistics</strong> to retain trained builders and move supplies.</li>
+      </ul>
+    </div>
+
+    <div style="margin-top:14px">
+      <h3>Transparency</h3>
+      <p class="muted small">Receipts + photo proof posted after each shipment. No office overheads are charged to this fund.</p>
+    </div>
+  </section>
+
+  <!-- DONATION FORM (demo) -->
+  <aside class="card" id="donate-form" aria-label="Donation">
+    <h2>Donate</h2>
+    <form onsubmit="event.preventDefault(); fakeDonate();">
+      <label class="small muted" for="amt">Amount (USD)</label>
+      <input id="amt" type="number" min="5" step="5" value="50"
+             style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;margin:6px 0 10px" />
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <button type="button" class="btn secondary" onclick="setPreset(20)">$20</button>
+        <button type="button" class="btn secondary" onclick="setPreset(50)">$50</button>
+        <button type="button" class="btn secondary" onclick="setPreset(100)">$100</button>
+        <button type="button" class="btn secondary" onclick="setPreset(250)">$250</button>
+      </div>
+      <button class="btn" type="submit">Donate via Stripe/PayPal</button>
+      <p class="small muted" style="margin-top:8px">Secure processing. You’ll get a receipt and project updates.</p>
+    </form>
+
+    <hr style="margin:18px 0;border:0;border-top:1px solid var(--line)" />
+    <h3>About Rwanda Road Trust Fund</h3>
+    <p class="small">A field fund supporting the Hiveway pilot: training local crews, upgrading feeder roads, and documenting results openly. Powered by Hive Technologies (R&D) with local partners.</p>
+  </aside>
+</main>
+
+<section class="wrap card" id="updates" aria-label="Project updates">
+  <h2>Latest updates</h2>
+  <div class="gallery" style="margin-top:10px">
+    <div class="ph" aria-label="Workers clearing the road (placeholder image)"></div>
+    <div class="ph" aria-label="Tarp curing setup (placeholder image)"></div>
+    <div class="ph" aria-label="Community milestone (placeholder image)"></div>
+  </div>
+  <ul class="list small muted" style="margin-top:10px">
+    <li>Week 1: Site cleared; ditches dug; crews trained on crown & grade.</li>
+    <li>Week 2: First 200 m stabilized; tarp spool curing deployed.</li>
+  </ul>
+</section>
+
+<!-- =========================
+     MINI ARTICLES / BLOG CARDS
+     Paste this above <footer>
+     ========================= -->
+<section class="wrap card" id="learn">
+  <h2>Learn more: Why this road is different</h2>
+  <div class="bloggrid">
+    <article class="blog">
+      <h3>Made in Rwanda, owned by Rwanda</h3>
+      <p>How community crews are trained, certified, and retained—so capacity stays local and grows over time.</p>
+      <a href="#" class="more">Read the training plan →</a>
+    </article>
+
+    <article class="blog">
+      <h3>100% natural, locally sourced materials</h3>
+      <p>Basalt fines + lime + cement tuned to local soils; why mineral microfines and proper curing beat ordinary gravel roads.</p>
+      <a href="#" class="more">See the mix overview →</a>
+    </article>
+
+    <article class="blog">
+      <h3>Built for the rains: crown, drains, curing</h3>
+      <p>Why a consistent 3–5% crown, clean outlets, and tarp curing create a denser, longer-lasting surface.</p>
+      <a href="#" class="more">View the drainage checklist →</a>
+    </article>
+
+    <article class="blog">
+      <h3>How it compares across Africa</h3>
+      <p>We’ll publish side-by-side durability and maintenance data vs. typical feeder roads—then expand to global comparisons.</p>
+      <a href="#" class="more">Follow the results →</a>
+    </article>
+
+    <article class="blog">
+      <h3>Open proof: logs, photos, receipts</h3>
+      <p>Transparent funding and field logs: curing sheets, progress photos, and receipts after shipment.</p>
+      <a href="#" class="more">See the transparency hub →</a>
+    </article>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footgrid">
+    <div><strong>Rwanda Road Trust Fund</strong><br/>
+      <span class="small muted">Community-first road upgrades using local labor, transparent funding, and simple tech.</span></div>
+    <div class="small"><div><a href="#donate">Donate</a> · <a href="#updates">Updates</a> · <a href="#how">How it works</a></div>
+      <div class="muted">© <span id="yr"></span> Hive Technologies</div></div>
+  </div>
+</footer>
+
+<script>
+  // ============================
+  // EDIT BLOCK A — FUNDING MODEL
+  // ============================
+  // Every $7,000 funds 1 km. Set your km goal and starting raised amount here.
+  const COST_PER_KM = 7000;             // $7k funds 1 km
+  const KM_GOAL = 2;                    // total kilometers targeted
+  const START_RAISED = 7000;            // live total already raised (replace with backend value)
+
+  // Derived totals (auto)
+  const GOAL = COST_PER_KM * KM_GOAL;
+  const SEGMENT_LENGTH_M = 25;
+  const SEGMENTS_PER_KM = 1000 / SEGMENT_LENGTH_M;        // 40
+  const USD_PER_SEGMENT = COST_PER_KM / SEGMENTS_PER_KM;  // 175
+  const USD_PER_MEAL = 5.25;                                 // update if needed
+
+  // =======================================
+  // EDIT BLOCK B — BUDGET PERCENT ALLOCATION
+  // =======================================
+  // Define your category budget % (must sum to 100).
+  // Each donation is allocated PROPORTIONALLY to these categories.
+  const BUDGET = [
+    { key:"equipment", label:"Equipment & Tarps", pct: 45, blurb:"Curing tarps, bamboo/PVC poles, ropes, basic tools." },
+    { key:"food",      label:"Food & Hydration",   pct: 35, blurb:"Market staples + high-energy supplements." },
+    { key:"other",     label:"Worker Bonus & Logistics", pct: 20, blurb:"Retention bonuses and local transport." }
+  ];
+
+  // ================================
+  // EDIT BLOCK C — MILESTONES & DATES
+  // ================================
+  const MILESTONES = [
+    {label:"Meals & hydration funded",   target:1000},
+    {label:"Tarp kits & tools funded",   target:2500},
+    {label:"Worker bonus pool started",  target:5000},
+    {label:"Stretch: demo basalt pavers",target:7000}
+  ];
+  const NEXT_SHIP = new Date(); NEXT_SHIP.setDate(NEXT_SHIP.getDate() + 9);
+
+  // ---- Helpers ----
+  const $ = id => document.getElementById(id);
+  const fmt = n => n.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0});
+  const pctFmt = n => `${n.toFixed(0)}%`;
+
+  // State (replace with backend-fed value in production)
+  let raised = START_RAISED;
+
+  // Compute live KPIs from donations
+  function computeKPIs(total){
+    const segments = total / USD_PER_SEGMENT;
+    const km = (segments * SEGMENT_LENGTH_M) / 1000;
+    const meals = Math.floor(total / USD_PER_MEAL);
+    return {segments, km, meals};
+  }
+
+  // Category allocations from % model
+  function categoryAllocations(total){
+    return BUDGET.map(c=>{
+      const goalAmt = GOAL * (c.pct/100);
+      const funded  = Math.min(total * (c.pct/100), goalAmt); // cap at category goal
+      const progPct = Math.min(100, (funded/goalAmt)*100);
+      return {...c, goalAmt, funded, progPct};
     });
   }
 
-  /* =========================================
-     SOH BATTERY RENDERING
-     ========================================= */
-  function renderBatteryHealth(soh){
-    const fill=document.getElementById('batteryFillH');
-    if(!fill) return;
-    const pct=Math.max(0,Math.min(Number(soh)||0,100));
-    fill.style.width=pct+'%';
-    let c1,c2;
-    if(pct>=80){ c1='#12d18e'; c2='#0ef3a5'; fill.classList.add('glowPulse'); }
-    else if(pct>=50){ c1='#facc15'; c2='#fbbf24'; fill.classList.remove('glowPulse'); }
-    else { c1='#ef4444'; c2='#f87171'; fill.classList.remove('glowPulse'); }
-    fill.style.background=`linear-gradient(90deg, ${c1}, ${c2}, ${c1})`;
-    fill.style.filter=`drop-shadow(0 0 10px ${c1}60)`;
-    const t=document.getElementById('sohText');
-    if(t) t.textContent=isFinite(pct)?Math.round(pct)+'%':'—';
+  // Render the category cards
+  function renderCategories(total){
+    const cats = categoryAllocations(total);
+    const box = $("cats"); box.innerHTML = "";
+    cats.forEach(c=>{
+      const el = document.createElement("div");
+      el.className = "cat";
+      el.innerHTML = `
+        <h4>${c.label} <span class="muted small">(${pctFmt(c.pct)})</span></h4>
+        <div class="bar" aria-label="${c.label} progress"><div class="fill" style="width:${c.progPct.toFixed(1)}%"></div></div>
+        <div class="nums small" style="margin-top:6px">
+          <div>${fmt(c.funded)} funded</div>
+          <div class="muted">Goal ${fmt(c.goalAmt)}</div>
+        </div>
+        <span class="small muted">${c.blurb}</span>
+      `;
+      box.appendChild(el);
+    });
   }
 
-  /* =========================================
-     MAIN: ANALYZE SELECTED FILE
-     ========================================= */
-  async function analyzeSelectedFile(){
-    if(!file.files.length) return;
-    statusEl.textContent='Analyzing…';
-    const fd=new FormData(); fd.append('file', file.files[0]);
-
-    try{
-      const res=await fetch('/analyze',{method:'POST', body:fd});
-      // Show server-side errors (e.g., 413) in status
-      if(!res.ok){
-        statusEl.textContent = (res.status===413)
-          ? 'Error: file too large for analyzer (limit ~10MB).'
-          : 'Server error: ' + res.status;
-        return;
-      }
-      const data=await res.json();
-
-      // Reveal results
-      uploadBox.style.display='none';
-      results.classList.add('show');
-
-      // Pull primary values
-      const soc  = data["SOC (%)"];
-      const soh  = data["SOH (%)"];
-      const flags = data["Flagged Cells"] || [];
-      const stats = data?.stats || {};
-
-      // Client-side fallback parsing (for stats if backend couldn’t compute)
-      const { vAvg: vAvgFile, iAvg: iAvgFile } = await computeAvgVIFromFile(file.files[0]);
-
-      // Draw SOC visuals
-      drawGauge(document.getElementById('gauge'), soc);
-      socText.textContent = Number.isFinite(soc) ? Math.round(soc)+'%' : '—';
-      const sparkPts=Array.from({length:24},(_,i)=>(soc||0)+Math.sin(i/3)*4+(Math.random()-0.5)*2);
-      drawSparkline(document.getElementById('spark'), sparkPts);
-
-      // Fill quick stats (prefer API stats, fallback to file)
-      populateSocStats(data, soc, vAvgFile, iAvgFile);
-
-      // SOH card
-      if(Number.isFinite(soh)){ renderBatteryHealth(soh); sohCard.style.display='block'; }
-      else { sohCard.style.display='none'; }
-
-      // Temperature card (prefer API temp_avg_c)
-      if(Number.isFinite(stats.temp_avg_c)){
-        tempText.textContent = Math.round(stats.temp_avg_c) + '°C';
-        tempCard.style.display = 'block';
-      } else {
-        tempCard.style.display = 'none';
-      }
-
-      // Faults
-      if(flags.length>0){ faultCount.textContent=flags.length; renderFaults(flags); faultCard.style.display='block'; }
-      else { faultCard.style.display='none'; renderFaults([]); }
-
-      statusEl.textContent='Done.';
-    }catch(e){
-      results.classList.remove('show'); results.style.display='none';
-      uploadBox.style.display='block';
-      statusEl.textContent='Error: '+(e?.message||e);
-    }
+  // Render milestones
+  function renderMilestones(total){
+    const box = $("miles"); box.innerHTML = "";
+    MILESTONES.forEach(m=>{
+      const hit = total >= m.target;
+      const el = document.createElement("div");
+      el.className = "mile";
+      el.innerHTML = `<div class="tick" aria-hidden="true">${hit ? "✓" : "•"}</div>
+        <div><strong>${m.label}</strong>
+        <div class="small muted">${fmt(m.target)} goal ${hit ? "— achieved" : ""}</div></div>`;
+      box.appendChild(el);
+    });
   }
 
-  /* =========================================
-     BOOTSTRAP: WIRE EVENTS + INITIAL PAINT
-     ========================================= */
-  document.getElementById('file').addEventListener('change', analyzeSelectedFile);
-  drawGauge(document.getElementById('gauge'), 0);
-  drawSparkline(document.getElementById('spark'), [0,1,0.6,0.8,0.7]);
+  // Paint header + progress bar + KPIs
+  function renderTotals(total){
+    $("raised").textContent = fmt(total);
+    $("goal").textContent   = fmt(GOAL);
+    const pct = Math.min(100, Math.round((total/GOAL)*100));
+    $("fill").style.width = pct + "%";
+
+    const {segments, km, meals} = computeKPIs(total);
+    $("segments").textContent = segments.toFixed(1);
+    $("kmBuilt").textContent  = km.toFixed(2);
+    $("meals").textContent    = meals.toLocaleString();
+  }
+
+  // Countdown tick
+  function tick(){
+    const now = new Date();
+    const diff = Math.max(0, NEXT_SHIP - now);
+    const d = Math.floor(diff/864e5), h = Math.floor((diff%864e5)/36e5), m = Math.floor((diff%36e5)/6e4);
+    $("d").textContent = String(d).padStart(2,"0");
+    $("h").textContent = String(h).padStart(2,"0");
+    $("m").textContent = String(m).padStart(2,"0");
+  }
+
+  // Donation controls (demo only—replace with Stripe/PayPal)
+  function setPreset(v){ $("amt").value = v }
+  function fakeDonate(){
+    const v = Math.max(0, Number($("amt").value||0));
+    if(!v) return;
+    raised += v; renderAll();
+    alert("Thank you! (Demo) In production this would redirect to secure checkout and update via webhook.");
+  }
+
+  function renderAll(){
+    renderTotals(raised);
+    renderCategories(raised);
+    renderMilestones(raised);
+  }
+
+  // Boot
+  $("yr").textContent = new Date().getFullYear();
+  renderAll(); tick(); setInterval(tick, 30_000);
+
+/* =========================================
+   IMPACT BANNER LOGIC
+   - Edit FACTS to change the quick messages.
+   - No IP disclosed; only high-level benefits.
+   ========================================= */
+const FACTS = [
+  "Rwanda’s road, built by Rwandans",
+  "Local crews trained & certified",
+  "100% natural mineral materials from Rwanda",
+  "Basalt-based surface designed for tropical rains",
+  "Consistent 3–5% crown & clear drains reduce washouts",
+  "Dense, well-cured surface = fewer regradings",
+  "Less imported haul = fewer transport emissions",
+  "Lower dust vs. untreated gravel in dry season",
+  "Tarp-cured sections improve early strength",
+  "Maintenance-first design: easy to patch & keep open",
+  "Every $7,000 funds 1 km of road",
+  "Transparent: receipts & photo proof posted",
+  "Community pride: local names in the build history",
+  "Built to compare with Africa’s best feeder roads",
+  "Step-up durability from basic gravel/laterite"
+];
+
+// build one continuous row of “chips” and duplicate it once for seamless loop
+function makeRowHTML(items){
+  return (
+    '<div class="impact-scroll">' +
+      items.map(txt => `
+        <span class="impact-chip">
+          <span class="dot" aria-hidden="true"></span>${txt}
+        </span>`).join('') +
+      // duplicate to allow continuous scroll
+      items.map(txt => `
+        <span class="impact-chip">
+          <span class="dot" aria-hidden="true"></span>${txt}
+        </span>`).join('') +
+    '</div>'
+  );
+}
+
+function mountImpactBanner(){
+  const top = document.getElementById('impactTop');
+  const bot = document.getElementById('impactBottom');
+  if(!top || !bot) return;
+
+  // You can randomize or reorder here if you want
+  const rowA = FACTS.slice();
+  const rowB = FACTS.slice().reverse();
+
+  top.innerHTML = makeRowHTML(rowA);
+  bot.innerHTML = makeRowHTML(rowB);
+
+  // set different directions & speeds
+  const topScroll = top.querySelector('.impact-scroll');
+  const botScroll = bot.querySelector('.impact-scroll');
+
+  // Duration controls speed; larger = slower (in seconds)
+  topScroll.style.animation = 'scrollLeft 40s linear infinite';
+  botScroll.style.animation = 'scrollRight 50s linear infinite';
+}
+
+// run on load (safe even if placed before closing </body>)
+mountImpactBanner();
 </script>
 </body>
 </html>
