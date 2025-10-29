@@ -1,869 +1,1540 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title> Personal Expenses</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Rwanda Road Trust Fund — Help Rwanda build their future</title>
+<meta name="description" content="Transparent, live-tracked donations that fund equipment, food, and worker support for the HiveWay pilot in Rwanda." />
+
+<!-- Open Graph / Twitter -->
+<meta property="og:title" content="Fund 2 km of Rwanda Feeder Roads — Pilot starts Feb 2028 or when funded" />
+<meta property="og:description" content="Every $7,000 funds 1 km. Transparent logs, local crews, real results." />
+<meta property="og:image" content="https://yourdomain.com/resources/feeder_work_og.jpg" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://yourdomain.com/" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<!-- Schema.org -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Project",
+  "name":"Rwanda Road Trust Fund — HiveWay Pilot",
+  "description":"Transparent, live-tracked donations that fund equipment, food, and worker support for the HiveWay pilot in Rwanda.",
+  "startDate":"2028-02-01",
+  "funder":{"@type":"Organization","name":"Hive Technologies"},
+  "areaServed":{"@type":"Country","name":"Rwanda"},
+  "url":"https://yourdomain.com/"
+}
+</script>
+
 <style>
-  /* ========== THEME TOKENS (Dark defaults) + Light overrides ========== */
-  :root{
-    --bg:#0f1012; --card:#14161a; --card-elev:#171a1f;
-    --table-head:#171a1f; --table-row-alt:#13161b;
-    --text:#e9ebee; --muted:#a2a9b3; --ink-soft:#ced5df;
-    --line:#262a31;
-    --accent:#b38f47; --accent-2:#d0b06a;
-    --ok:#2e7d32; --warn:#b27a1a; --danger:#cf4c4c;
-    --chip:#1b1f26; --pill:#1b1f26; --field:#111318;
-    --field-border:#2a2f37; --field-focus:#334153;
-  }
-  :root.light{
-    --bg:#f7f8fb; --card:#ffffff; --card-elev:#ffffff;
-    --table-head:#eef1f7; --table-row-alt:#f6f8fc;
-    --text:#0f1115; --muted:#4a5568; --ink-soft:#2d3748;
-    --line:#d8dee9;
-    --accent:#b38f47; --accent-2:#8f6f2d;
-    --chip:#f0f3f9; --pill:#e8f5ee; --field:#ffffff;
-    --field-border:#cfd7e3; --field-focus:#7aa2d2;
-  }
-  :root.light .k strong{ color:#111; }
+/* ===== Mobile hardening & full-bleed utilities ===== */
+html, body { overflow-x: hidden; -webkit-text-size-adjust: 100%; }
+img, video { max-width: 100%; height: auto; display: block; }
 
-  /* ========== GLOBAL / TYPE ========== */
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
-  .wrap{max-width:1100px;margin:auto;padding:20px}
-  h1{font-size:clamp(20px,3.6vw,28px);margin:0 0 6px}
-  h2{margin:8px 0 10px}
-  .muted{color:var(--muted)}
-  .small{font-size:12px}
-
-  /* top controls */
-  .topbar{display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-bottom:10px}
-  .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .lang-select{border:1px solid var(--field-border);border-radius:10px;padding:8px 10px;background:var(--field);color:var(--text);outline:none}
-  .lang-select:focus{border-color:var(--field-focus);box-shadow:0 0 0 2px #25304033 inset}
-
-  /* layout helpers */
-  .row{display:grid;gap:12px;grid-template-columns:1fr}
-  @media(min-width:960px){.row{grid-template-columns:2fr 3fr}}
-  .grid{display:grid;gap:10px;grid-template-columns:1fr}
-  @media(min-width:720px){.grid{grid-template-columns:repeat(2,1fr)}}
-
-  /* cards */
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
-
-  /* form */
-  label{font-size:13px;color:var(--muted);display:block;margin-bottom:4px}
-  input,select,textarea{width:100%;border:1px solid var(--field-border);border-radius:10px;padding:10px;background:var(--field);color:var(--text);outline:none}
-  input::placeholder, textarea::placeholder{color:#7f8895}
-  textarea{min-height:70px}
-  input:focus,select:focus,textarea:focus{border-color:var(--field-focus);box-shadow:0 0 0 2px #25304055 inset}
-
-  /* buttons */
-  .btn{appearance:none;border:1px solid transparent;background:var(--accent);color:#0b0b0b;font-weight:800;padding:10px 14px;border-radius:10px;cursor:pointer}
-  .btn:hover{filter:brightness(.96)}
-  .btn.secondary{background:transparent;color:var(--text);border-color:var(--line)}
-  .btn.warn{background:var(--warn);color:#0b0b0b}
-  .btn.danger{background:var(--danger);color:#fff}
-  .btn:disabled{opacity:.6;cursor:not-allowed}
-  .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
-  .btn.sm{padding:6px 10px;font-weight:700;border-radius:8px}
-
-  /* table */
-  table{width:100%;border-collapse:collapse}
-  th,td{border-bottom:1px solid var(--line);padding:8px;text-align:left;font-size:14px;vertical-align:top}
-  thead th{position:sticky;top:0;background:var(--table-head);border-bottom:2px solid var(--line);z-index:1;color:var(--ink-soft)}
-  tbody tr:nth-child(odd){background:var(--table-row-alt)}
-  .right{text-align:right}
-  .nowrap{white-space:nowrap}
-  .table-shell{overflow:auto;max-height:440px;border:1px solid var(--line);border-radius:10px}
-  .actions{display:flex;gap:6px;flex-wrap:wrap}
-
-  /* details */
-  details{border:1px dashed var(--line);background:var(--card-elev);padding:10px;border-radius:10px}
-  summary{cursor:pointer;font-weight:700}
-
-/* === KPI “live cards” (2-column mobile layout + tap feedback) === */
-.kpis{
-  display:grid;
-  gap:18px;
-  grid-template-columns:repeat(2,1fr);     /* force 2 columns on mobile */
-  margin-top:18px;
-  margin-bottom:30px;
-}
-@media(min-width:720px){
-  .kpis{ grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); } /* flexible desktop */
+/* Utility: full-bleed without accidental horizontal scroll on mobile */
+.full-bleed {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }
 
-.k{
-  background:var(--card-elev);
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:14px 12px;
-  text-align:center;
-  box-shadow:0 2px 10px rgba(0,0,0,0.25);
-  transition:transform .15s ease, box-shadow .15s ease;
-  will-change: transform, box-shadow;
-}
-.k:hover{
-  transform:translateY(-3px);
-  box-shadow:0 4px 16px rgba(0,0,0,0.35);
+/* Make full-bleed sections respect iOS dynamic toolbars a bit better */
+@supports (width: 100svw) {
+  .full-bleed { width: 100svw; margin-left: calc(-50svw + 50%); margin-right: calc(-50svw + 50%); }
 }
 
-/* Mobile / touch feedback */
-.k:active{
-  transform:scale(0.95);
-  box-shadow:0 1px 6px rgba(0,0,0,0.3);
+/* Prevent the sticky bar from covering content on phones */
+@media (max-width: 840px) {
+  body { padding-bottom: 64px; }
 }
 
-.k strong{
-  display:block;
-  font-size:20px;
-  margin-bottom:4px;
-  color:var(--accent-2);
+/* CTA row: keep one line, swipe horizontally if needed, nice momentum */
+.cta-row.scroll-x {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 8px 0 10px;       /* a bit more touch target space */
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
 }
-:root.light .k{ box-shadow:0 2px 10px rgba(0,0,0,0.08); }
-:root.light .k strong{ color:var(--text); }
-  /* tabs */
-  .tabs{
-    position:sticky; top:0; z-index:5;
-    display:flex; gap:8px; padding:10px; margin:-10px 0 12px;
-    background:#0e0f12cc; backdrop-filter:blur(4px);
-    border-bottom:1px solid var(--line);
-    overflow-x:auto; scrollbar-width:thin;
-  }
-  :root.light .tabs{ background:#ffffffcc; }
-  .tab{appearance:none;border:1px solid var(--line);background:var(--chip);color:var(--ink-soft);padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700;white-space:nowrap}
-  .tab[aria-selected="true"]{background:var(--card-elev);color:#000;border-color:#3a3f49;box-shadow:0 1px 0 #0b0c0f22 inset}
-  .tab:focus{outline:2px solid #39445a; outline-offset:2px}
-  .view{display:none}
-  .view.is-active{display:block}
+.cta-row.scroll-x .btn {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  scroll-snap-align: start;
+}
 
-  /* ======= Edit Modal ======= */
-  .backdrop{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;z-index:50}
-  .backdrop.show{display:flex}
-  .modal{width:min(720px,92vw);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
-  .modal header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-  .modal h3{margin:0;font-size:18px}
+/* === CTA row: force one-line + horizontal scroll on small screens ===
+   - Keeps “Become a sponsor” immediately after “How your gift helps”
+   - Falls back to horizontal swipe instead of wrapping */
+.cta-row.scroll-x{
+  flex-wrap: nowrap;              /* override the base .cta-row wrap */
+  overflow-x: auto;               /* already present, ensures scrolling */
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;  /* nice snapping */
+  max-width: 100%;
+}
+.cta-row.scroll-x .btn{
+  flex: 0 0 auto;                 /* prevent shrinking */
+  white-space: nowrap;            /* keep labels on one line */
+  scroll-snap-align: start;
+}
+
+/* Before/After slider: bigger thumb on touch devices */
+@media (pointer: coarse) {
+  .ba input[type=range] { height: 28px; }
+  .ba input[type=range]::-webkit-slider-thumb { width: 18px; height: 18px; }
+  .ba input[type=range]::-moz-range-thumb { width: 18px; height: 18px; }
+}
+
+/* Leaflet map: consistent mobile height */
+#pilotMap { height: clamp(300px, 55vh, 460px) !important; }
+
+/* =========================================
+ *  THEME TOKENS & GLOBAL RESET
+ * ========================================= */
+:root {
+  --bg:#f7f5f3; --text:#222; --muted:#666; --line:#ddd;
+  --accent:#b38f47; --accent-dark:#8e723a; --card:#fff; --success:#2e7d32;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+.wrap{max-width:1100px;margin:auto;padding:24px}
+.small{font-size:13px}.muted{color:var(--muted)}.list{margin:0;padding-left:18px}.sr{position:absolute;left:-9999px}
+
+.brand-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.brand-logo {
+  max-width: 320px;
+  height: auto;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.brand-logo:hover {
+  transform: scale(1.03);
+}
+
+/* =========================================
+ *  HEADER / HERO
+ * ========================================= */
+header{background:linear-gradient(180deg,#f0ede9 0%,#f7f5f3 100%);border-bottom:1px solid var(--line)}
+.hero{display:grid;gap:18px;padding:36px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.3px}
+.logo{width:36px;height:36px;border-radius:8px;background:
+  conic-gradient(from 180deg at 50% 50%, #0000 0 25%, var(--accent) 0 50%, #0000 0 75%, var(--accent) 0),
+  radial-gradient(60% 60% at 50% 50%, #333 0 60%, #0000 61%);outline:1px solid var(--line)}
+h1{margin:0;font-size:clamp(24px,4.5vw,40px)} .sub{color:var(--muted);font-size:clamp(15px,2.6vw,18px)}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn{appearance:none;border:none;cursor:pointer;background:var(--accent);color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;letter-spacing:.2px}
+.btn:hover{background:var(--accent-dark)}
+.btn.secondary{background:#fff;color:var(--text);border:1px solid var(--line)}
+
+/* Photo hero */
+.photo-hero{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/9;background:#ddd;border:1px solid var(--line)}
+.photo-hero img{width:100%;height:100%;object-fit:cover;display:block}
+.cap{position:absolute;left:0;right:0;color:#fff;text-align:center;padding:14px 16px;font-weight:800;text-shadow:0 2px 8px rgba(0,0,0,.35)}
+.cap.top{top:0;background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0));font-size:clamp(20px,3.6vw,34px)}
+.cap.bottom{bottom:0;background:linear-gradient(to top,rgba(0,0,0,.55),rgba(0,0,0,0));font-weight:600;font-size:clamp(10px,2.4vw,18px)}
+
+/* sticky donate on mobile */
+.sticky-donate{position:fixed;left:0;right:0;bottom:0;z-index:9998;background:#111;color:#fff;padding:10px;border-top:1px solid #222;display:none}
+.sticky-donate .wrap{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:0 16px}
+.sticky-donate .btn{padding:10px 14px}
+@media (max-width: 840px){ .sticky-donate{display:block} }
+
+/* =========================================
+ *  LAYOUT GRID & CARDS
+ * ========================================= */
+.grid{display:grid;gap:16px;grid-template-columns:1fr;margin:22px 0}
+@media(min-width:860px){.grid{grid-template-columns:2fr 1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+
+/* =========================================
+ *  PROGRESS BAR & KPI STRIP
+ * ========================================= */
+.progress{display:grid;gap:10px;margin-top:12px}
+.nums{display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
+.bar{width:100%;height:14px;overflow:hidden;background:#eee;border:1px solid #e2e2e2;border-radius:999px}
+.fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#d0b06a);transition:width .6s ease}
+
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.k{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
+.k strong{font-size:clamp(16px,5vw,20px);display:block}
+
+.countbox{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;width:100%;max-width:100%}
+.time{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px;text-align:center;min-width:64px}
+.time strong{display:block;font-size:clamp(16px,4.2vw,20px);line-height:1.1}
+
+/* =========================================
+ *  MILESTONES
+ * ========================================= */
+.milestones{display:grid;gap:10px;margin-top:10px}
+.mile{display:flex;align-items:flex-start;gap:10px;background:#fff;border:1px dashed var(--line);padding:10px;border-radius:10px}
+.tick{color:var(--success);font-weight:900}
+
+/* =========================================
+ *  GALLERIES / PLACEHOLDERS
+ * ========================================= */
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.ph{aspect-ratio:4/3;background:linear-gradient(135deg,#ece9e4,#e7e2da);border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden}
+.ph::after{content:"Photo";position:absolute;inset:auto 10px 10px;color:#666;font-size:14px}
+
+/* =========================================
+ *  CATEGORY GRID (legacy styles kept for reference)
+ * ========================================= */
+.catgrid{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:860px){.catgrid{grid-template-columns:repeat(3,1fr)}}
+.cat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}
+.cat h4{margin:0 0 6px 0}.cat .small{display:block;margin-top:6px}
+
+/* =========================================
+ *  “MADE IN RWANDA” / PILLARS STRIP
+ * ========================================= */
+.rwanda-strip{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px 18px;margin-top:12px;text-align:center}
+.pill{display:inline-block;background:#efe7d3;color:#5b4a22;border:1px solid #e0d3b4;border-radius:999px;padding:6px 10px;font-weight:700;font-size:12px;letter-spacing:.2px}
+.rw-h{margin:8px 0 6px 0;font-size:clamp(20px,3.6vw,28px)}
+.rw-sub{color:var(--muted);margin:0 0 10px 0;max-width:640px;margin-left:auto;margin-right:auto}
+.p{background:#faf9f7;border:1px dashed var(--line);border-radius:12px;padding:12px;min-width:220px}
+.p .ic{font-size:20px;margin-bottom:6px}.p strong{display:block;margin-bottom:2px}.p span{color:var(--muted);font-size:13px}
+.rwanda-marquee{display:grid;gap:10px}
+.marquee-row{position:relative;overflow:hidden;border:1px dashed var(--line);border-radius:10px;background:#faf9f7}
+.marquee-track{display:inline-flex;gap:10px;align-items:stretch;white-space:nowrap;padding:10px;will-change:transform}
+.marquee-track .dup{display:inline-flex;gap:10px}
+@keyframes rwandaScrollLeft{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes rwandaScrollRight{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+.marquee-row.top .marquee-track{animation:rwandaScrollLeft 40s linear infinite}
+.marquee-row.bottom .marquee-track{animation:rwandaScrollRight 50s linear infinite}
+@media(prefers-reduced-motion:reduce){.marquee-track{animation:none}}
+.marquee-row:hover .marquee-track{animation-play-state:paused}
+.rwanda-footer{text-align:left;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
+@media(max-width:360px){.p{min-width:200px;padding:10px}.rw-h{font-size:clamp(18px,5.8vw,24px)}}
+
+/* =========================================
+ *  BLOG CARDS (MINI ARTICLES)
+ * ========================================= */
+.bloggrid{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:860px){.bloggrid{grid-template-columns:repeat(3,1fr)}}
+.blog{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}
+.blog h3{margin:0 0 6px 0;font-size:18px}.blog p{margin:0 0 8px 0;color:#muted}
+.more{font-weight:700;text-decoration:none;border-bottom:1px solid currentColor}.more:hover{opacity:.8}
+
+/* =========================================
+ *  IMPACT BANNER (TOP, DOUBLE SCROLLER)
+ * ========================================= */
+.impact-banner{position:sticky;top:0;z-index:9999;background:#161616;color:#f2efe9;border-bottom:1px solid #2b2b2b;font-size:14px;line-height:1;overflow:hidden}
+.impact-track{display:flex;align-items:center;gap:28px;white-space:nowrap;padding:10px 0;border-bottom:1px solid #222;mask-image:linear-gradient(90deg,transparent 0%,black 8%,black 92%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,black 8%,black 92%,transparent 100%)}
+.impact-track--bottom{border-bottom:none}
+.impact-chip{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:#202020;color:#eae6db;border:1px solid #2e2e2e}
+.impact-chip .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+@keyframes scrollLeft{from{transform:translateX(0)}to{transform:translateX(-30%)}}
+@keyframes scrollRight{from{transform:translateX(-20%)}to{transform:translateX(0)}}
+.impact-scroll{display:inline-block;will-change:transform;animation-timing-function:linear;animation-iteration-count:infinite}
+
+/* =========================================
+ *  FOOTER
+ * ========================================= */
+footer{border-top:1px solid var(--line);margin-top:28px;background:#faf9f7}
+.footgrid{display:grid;gap:14px;grid-template-columns:1fr;padding:20px 0}
+@media(min-width:720px){.footgrid{grid-template-columns:2fr 1fr}}
 </style>
 </head>
-<body>
-<div class="wrap">
 
-  <!-- top controls -->
-  <div class="topbar">
-    <div class="controls">
-      <button id="themeToggle" class="btn secondary" type="button" aria-pressed="false" title="Toggle light/dark">🌙 Dark</button>
-      <label class="small muted" for="langToggle">Language:</label>
-      <select id="langToggle" class="lang-select" aria-label="Language">
-        <option value="en">English</option>
-        <option value="es">Español</option>
-      </select>
-    </div>
+<body>
+<!-- Impact banner -->
+<section class="impact-banner" aria-label="Impact at a glance">
+  <div class="impact-track impact-track--top" id="impactTop"></div>
+  <div class="impact-track impact-track--bottom" id="impactBottom"></div>
+</section>
+
+
+<!-- HERO WITH LOGO ABOVE THE IMAGE -->
+<div class="hero-wrap">
+
+  <!-- Logo positioned above the hero -->
+  <div class="brand-top">
+    <img src="resources/rrtf.PNG" alt="Rwanda Road Trust Fund logo" class="brand-logo">
   </div>
 
-  <h1>Expenses<span class="muted">Personal · Audit-Ready</span></h1>
-  <div class="kpis" id="kpis"></div>
+  <figure class="photo-hero full" role="img" aria-label="Community crews building a rural road in Rwanda">
+    <img src="resources/Hiveway.png" loading="lazy" alt="Rwandan community crews grading and leveling a rural road">
 
-  <nav class="tabs" role="tablist" aria-label="Sections">
-    <button class="tab" type="button" role="tab" id="tab-add"    aria-selected="true"  aria-controls="panel-add">Add Expense</button>
-    <button class="tab" type="button" role="tab" id="tab-ledger" aria-selected="false" aria-controls="panel-ledger">Ledger</button>
-    <button class="tab" type="button" role="tab" id="tab-audit"  aria-selected="false" aria-controls="panel-audit">Audit Tools</button>
-  </nav>
+    <figcaption class="cap top">Help Rwanda build their future</figcaption>
+    <figcaption class="cap bottom">
+      Every meter built connects a child to school, a farmer to market, a family to hope.
+    </figcaption>
 
-  <!-- PANEL: Add -->
-  <section id="panel-add" class="view is-active" role="tabpanel" tabindex="0" aria-labelledby="tab-add">
-    <div class="row">
-      <section class="card">
-        <h2 style="margin-top:0">Add Expense</h2>
-        <div class="grid">
-          <div><label for="date">Date</label><input id="date" type="date"></div>
-          <div><label for="entity">Entity</label><select id="entity"><option>Personal</option></select></div>
-          <div><label for="payee">Payee</label><input id="payee" placeholder="Who did you pay?"></div>
-          <div><label for="amount">Amount (USD)</label><input id="amount" type="number" step="0.01" min="0" placeholder="0.00"></div>
-          <div>
-            <label for="category">Category</label>
-            <select id="category">
-              <option>Housing</option><option>Utilities</option><option>Groceries</option>
-              <option>Transport</option><option>Health</option><option>Education</option>
-              <option>Subscriptions</option><option>Personal</option><option>Gifts/Charity</option><option>Other</option>
-            </select>
-          </div>
-          <div><label for="method">Payment Method</label>
-            <select id="method"><option>Card</option><option>ACH / Bank</option><option>Cash</option><option>Check</option><option>Other</option></select>
-          </div>
-          <div><label for="invoice">Reference # (optional)</label><input id="invoice" placeholder="e.g., INV-2031 / Conf #"></div>
-          <div><label for="stmt">Statement Ref (optional)</label><input id="stmt" placeholder="e.g., bank txn id"></div>
-          <div style="grid-column:1/-1"><label for="memo">Memo / Purpose</label><textarea id="memo" placeholder="Context so Future-You or an auditor understands."></textarea></div>
-          <div><label for="receipt">Attach Receipt (image/PDF)</label><input id="receipt" type="file" accept="image/*,application/pdf"><div class="small muted">Photos are fine. Keep file sizes modest for local storage.</div></div>
-          <div><label>Receipt Status</label><div class="toolbar" style="padding:0"><span id="receiptStatus" class="badge">No file selected</span><span id="receiptRule" class="small muted"></span></div></div>
-        </div>
-        <div class="toolbar">
-          <button class="btn" id="addBtn">Add Expense</button>
-          <button class="btn secondary" id="clearForm">Clear</button>
-          <span id="dupWarn" class="small" style="color:var(--warn)"></span>
-        </div>
-        <div class="small muted">Duplicate check uses Date + Payee + Amount.</div>
-      </section>
+<style>
+/* === HERO WITH LOGO ABOVE IMAGE === */.hero-wrap {
+  position: relative;
+}
 
-      <section class="card">
-        <h2 style="margin-top:0">Tips</h2>
-        <ul class="small muted">
-          <li>Use consistent payee names: helps searching and duplicate detection.</li>
-          <li>Attach receipts for big purchases or any cash ≥ $25.</li>
-          <li>Write clear memos—Future-You will thank you.</li>
-        </ul>
-      </section>
-    </div>
-  </section>
+.brand-top {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin: -50px auto 5px;
+  transform: translate(-50%, -40%);
+  z-index: 3;
+}
 
-  <!-- PANEL: Ledger -->
-  <section id="panel-ledger" class="view" role="tabpanel" tabindex="0" aria-labelledby="tab-ledger">
-    <section class="card">
-      <h2 style="margin-top:0">Ledger</h2>
-      <div class="grid">
-        <div><label for="from">From</label><input id="from" type="date"></div>
-        <div><label for="to">To</label><input id="to" type="date"></div>
-        <div><label for="fEntity">Entity</label><select id="fEntity"><option value="">All</option><option>Personal</option></select></div>
-        <div><label for="fCat">Category</label>
-          <select id="fCat">
-            <option value="">All</option>
-            <option>Housing</option><option>Utilities</option><option>Groceries</option>
-            <option>Transport</option><option>Health</option><option>Education</option>
-            <option>Subscriptions</option><option>Personal</option><option>Gifts/Charity</option><option>Other</option>
-          </select>
-        </div>
-        <div><label for="fMethod">Method</label><select id="fMethod"><option value="">All</option><option>Card</option><option>ACH / Bank</option><option>Cash</option><option>Check</option><option>Other</option></select></div>
-        <div><label for="fReceipt">Receipt</label><select id="fReceipt"><option value="">All</option><option value="yes">Has receipt</option><option value="no">No receipt</option></select></div>
-      </div>
-      <div class="toolbar">
-        <button class="btn secondary" id="applyFilters">Apply Filters</button>
-        <button class="btn secondary" id="resetFilters">Reset</button>
-        <button class="btn" id="exportCsv">Export CSV (Filtered)</button>
-        <button class="btn" id="backupJson">Backup JSON (All)</button>
-        <label class="small">Restore: <input id="restoreJson" type="file" accept="application/json"></label>
-      </div>
-      <div class="small muted">Entries are chained with a tamper-evident hash. Click a row to expand details & receipt.</div>
-      <div class="table-shell">
-        <table id="table">
-          <thead>
-            <tr>
-              <th>Date</th><th>Entity</th><th>Payee</th><th class="right">Amount</th><th>Category</th><th>Method</th><th>Receipt</th><th>Actions</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </section>
-  </section>
+.brand-logo {
+  max-width: min(48vw, 380px);
+  height: auto;
+}
 
-  <!-- PANEL: Audit -->
-  <section id="panel-audit" class="view" role="tabpanel" tabindex="0" aria-labelledby="tab-audit">
-    <section class="card">
-      <h2 style="margin-top:0">Audit Tools</h2>
-      <div class="grid">
-        <div>
-          <details>
-            <summary>How to keep clean personal records</summary>
-            <ul class="small">
-              <li>Attach a receipt image/PDF for significant purchases or any cash ≥ $25.</li>
-              <li>Write a clear <b>Memo</b> (what/why). Future-You will thank you.</li>
-              <li>Export CSV monthly; back up JSON to cloud storage.</li>
-              <li>Use consistent payee names (helps duplicate detection).</li>
-            </ul>
-          </details>
-        </div>
-        <div>
-          <div class="toolbar">
-            <button class="btn warn" id="monthlyCsv">Export Monthly CSVs</button>
-            <button class="btn" id="setCsvDir">Set CSV Folder</button>
-          </div>
-          <span class="small muted">Creates CSV files inside your chosen “CSV” folder. Existing month files are skipped.</span>
-        </div>
-      </div>
-    </section>
-  </section>
+/* full-width hero */
+.photo-hero.full {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: 80px;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  background: #ddd;
+}
+.photo-hero.full img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
+/* captions */
+.photo-hero.full .cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  color: #fff;
+  text-align: center;
+  padding: 14px 16px;
+  font-weight: 800;
+  text-shadow: 0 2px 8px rgba(0,0,0,.35);
+}
+.photo-hero.full .cap.top {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,0));
+  font-size: clamp(22px, 3.8vw, 38px);
+}
+.photo-hero.full .cap.bottom {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0));
+  font-weight: 600;
+  font-size: clamp(12px, 2.5vw, 18px);
+}
+.photo-hero.full .cap.bottom.certainty {
+  transform: translateY(-40px);
+  font-weight: 700;
+  font-size: clamp(13px, 2.6vw, 18px);
+  background: none;
+  text-shadow: 0 2px 8px rgba(0,0,0,.4);
+}
+</style>
+
+<div class="cta-row scroll-x">
+  <button class="btn" onclick="document.getElementById('donate').scrollIntoView({behavior:'smooth'})">Donate now</button>
+  <button class="btn secondary" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How your gift helps</button>
+  <button class="btn secondary" onclick="document.getElementById('sponsor').scrollIntoView({behavior:'smooth'})">Become a sponsor</button>
 </div>
 
-<!-- ==================== EDIT MODAL ==================== -->
-<div id="editBackdrop" class="backdrop" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="editTitle">
-    <header>
-      <h3 id="editTitle">Edit Expense</h3>
-      <button id="editClose" class="btn secondary sm" type="button">×</button>
-    </header>
-    <div class="grid">
-      <div><label for="edit-date">Date</label><input id="edit-date" type="date"></div>
-      <div><label for="edit-entity">Entity</label><select id="edit-entity"><option>Personal</option></select></div>
-      <div><label for="edit-payee">Payee</label><input id="edit-payee"></div>
-      <div><label for="edit-amount">Amount (USD)</label><input id="edit-amount" type="number" step="0.01" min="0"></div>
-      <div>
-        <label for="edit-category">Category</label>
-        <select id="edit-category">
-          <option>Housing</option><option>Utilities</option><option>Groceries</option>
-          <option>Transport</option><option>Health</option><option>Education</option>
-          <option>Subscriptions</option><option>Personal</option><option>Gifts/Charity</option><option>Other</option>
-        </select>
+<style>
+/* CTA container: side-by-side, scrollable if needed */
+.cta-row.scroll-x {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 6px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Buttons align in a line, snap neatly */
+.cta-row.scroll-x .btn {
+  flex: 0 0 auto;              /* prevents shrinking */
+  scroll-snap-align: start;    /* aligns to left edge when scrolling */
+  white-space: nowrap;         /* prevents multi-line buttons */
+}
+
+/* Optional: subtle horizontal scroll indicator */
+.cta-row.scroll-x::-webkit-scrollbar {
+  height: 6px;
+}
+.cta-row.scroll-x::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+.cta-row.scroll-x::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+</style>
+
+    <!-- KPIs -->
+    <div class="kpi">
+      <div class="k"><strong id="kmBuilt">0.00</strong><span class="muted">km funded</span></div>
+      <div class="k"><strong id="segments">0</strong><span class="muted">25 m segments</span></div>
+      <div class="k"><strong id="meals">0</strong><span class="muted">worker meals</span></div>
+      <div class="k">
+        <div class="countbox">
+          <div class="time"><strong id="d">00</strong><span class="muted">days</span></div>
+          <div class="time"><strong id="h">00</strong><span class="muted">hrs</span></div>
+          <div class="time"><strong id="m">00</strong><span class="muted">min</span></div>
+        </div>
+        <div class="muted small">Next supply dispatch</div>
       </div>
-      <div><label for="edit-method">Payment Method</label>
-        <select id="edit-method"><option>Card</option><option>ACH / Bank</option><option>Cash</option><option>Check</option><option>Other</option></select>
+    </div>
+  </div>
+</header>
+
+<!-- MADE IN RWANDA / OWNERSHIP -->
+<section class="wrap">
+  <div class="rwanda-strip">
+    <div class="rwanda-header">
+      <span class="pill">Made in Rwanda</span>
+      <h2 class="rw-h">Rwanda is building the path to its future</h2>
+      <p class="rw-sub">
+        This road belongs to Rwanda. Built by local crews, using 100% natural materials
+        sourced in Rwanda—designed to outperform typical feeder roads through smart
+        stabilization and careful curing.
+      </p>
+    </div>
+
+    <div class="rwanda-marquee">
+      <div class="marquee-row top" aria-label="Key pillars row 1">
+        <div class="marquee-track">
+          <div class="dup">
+            <div class="p"><div class="ic">🏗️</div><strong>Community-built</strong><span>Local crews trained & certified; skills stay in Rwanda.</span></div>
+            <div class="p"><div class="ic">🌋</div><strong>Locally sourced and natural</strong><span>Basalt fines, lime, and cement tuned to local soils.</span></div>
+            <div class="p"><div class="ic">🌧️</div><strong>Weather-resilient</strong><span>Proper crown, drainage, and tarp curing for the rains.</span></div>
+          </div>
+          <div class="dup">
+            <div class="p"><div class="ic">🏗️</div><strong>Community-built</strong><span>Local crews trained & certified; skills stay in Rwanda.</span></div>
+            <div class="p"><div class="ic">🌋</div><strong>Basalt-based & natural</strong><span>Basalt fines, lime, and cement tuned to local soils.</span></div>
+            <div class="p"><div class="ic">🌧️</div><strong>Weather-resilient</strong><span>Proper crown, drainage, and tarp curing for the rains.</span></div>
+          </div>
+        </div>
       </div>
-      <div><label for="edit-invoice">Reference # (optional)</label><input id="edit-invoice"></div>
-      <div><label for="edit-stmt">Statement Ref (optional)</label><input id="edit-stmt"></div>
-      <div style="grid-column:1/-1"><label for="edit-memo">Memo / Purpose</label><textarea id="edit-memo"></textarea></div>
-      <div style="grid-column:1/-1" class="small muted" id="hashInfo"></div>
+
+      <div class="marquee-row bottom" aria-label="Key pillars row 2">
+        <div class="marquee-track">
+          <div class="dup">
+            <div class="p"><div class="ic">🔬</div><strong>Proven by testing</strong><span>Field mixes & curing logs documented openly.</span></div>
+            <div class="p"><div class="ic">🌍</div><strong>New & comparable</strong><span>We’ll publish results vs. other African roads—then global.</span></div>
+            <div class="p"><div class="ic">🛣️</div><strong>Built to last</strong><span>Dense, well-cured surface = fewer regradings.</span></div>
+          </div>
+          <div class="dup">
+            <div class="p"><div class="ic">🔬</div><strong>Proven by testing</strong><span>Field mixes & curing logs documented openly.</span></div>
+            <div class="p"><div class="ic">🌍</div><strong>New & comparable</strong><span>We’ll publish results vs. other African roads—then global.</span></div>
+            <div class="p"><div class="ic">🛣️</div><strong>Built to last</strong><span>Dense, well-cured surface = fewer regradings.</span></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="toolbar" style="justify-content:flex-end">
-      <button id="editSave" class="btn" type="button">Save changes</button>
-      <button id="editCancel" class="btn secondary" type="button">Cancel</button>
+
+    <div class="rwanda-footer">
+      <h3 style="margin-top:0;">Why it matters</h3>
+      <p>
+        Each kilometer of road empowers communities through employment, training,
+        and ownership. Crews learn transferable construction skills while improving the
+        infrastructure that connects markets, schools, and hospitals.
+      </p>
     </div>
+  </div>
+</section>
+
+<main class="wrap grid" id="donate">
+
+<!-- FULL-WIDTH Before/After image slider -->
+<section class="ba-section" aria-label="Before and after">
+
+  <div class="ba">
+    <img src="resources/feeder_road.jpeg" alt="Road before upgrade">
+    <img src="resources/feeder_work.jpeg"  alt="Road after upgrade">
+    <input type="range" min="0" max="100" value="50" aria-label="Reveal after">
+  </div>
+  <div class="small muted">Slide to compare</div>
+</section>
+
+<style>
+/* make the section span the full viewport width */
+.ba-section{
+  width:100vw;
+  margin-left:calc(50% - 50vw); /* break out of centered container */
+  background:#fff;
+  padding:0;
+  text-align:center;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+
+/* tighter headline spacing */
+.ba-title{
+  margin:16px 0 8px 0;
+  font-size:clamp(20px,4vw,32px);
+}
+
+/* slider container fills full width */
+.ba{
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  overflow:hidden;
+}
+
+/* edge-to-edge images */
+.ba img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* reveal logic */
+.ba img:nth-of-type(2){clip-path:inset(0 0 0 50%)}
+
+/* range control, minimal style */
+.ba input[type=range]{
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:22px;
+  appearance:none;
+  background:#0001;
+  cursor:pointer;
+}
+.ba input[type=range]::-webkit-slider-thumb{
+  appearance:none;
+  width:10px;
+  height:10px;
+  background:#b38f47;
+  border-radius:50%;
+}
+.ba input[type=range]::-moz-range-thumb{
+  width:10px;
+  height:10px;
+  background:#b38f47;
+  border:none;
+  border-radius:50%;
+}
+
+/* small caption */
+.ba-section .small{
+  margin:6px 0 16px 0;
+  display:block;
+}
+</style>
+
+<script>
+document.querySelectorAll('.ba').forEach(el=>{
+  const after = el.querySelector('img:nth-of-type(2)');
+  const slider = el.querySelector('input[type=range]');
+  slider.addEventListener('input', ()=> after.style.clipPath = `inset(0 0 0 ${slider.value}%)`);
+});
+</script>
+
+  <!-- PROGRESS + IMPACT -->
+  <section class="card">
+    <h2 class="sr">Progress</h2>
+    <div class="progress" aria-live="polite">
+      <div class="nums">
+        <div><strong id="raised">$0</strong> raised</div>
+        <div class="muted">Goal <strong id="goal">$0</strong></div>
+      </div>
+      <div class="bar" aria-label="donation progress"><div class="fill" id="fill"></div></div>
+    </div>
+
+    <!-- =========================================
+         BUDGET DONUT (replaces category grid)
+         ========================================= -->
+    <div style="margin-top:14px">
+      <h3>Budget split (per 1 km)</h3>
+
+      <!-- Donut + center label -->
+      <div class="donut-wrap" aria-hidden="false">
+        <svg id="budgetDonut" viewBox="0 0 42 42" role="img" aria-label="Budget allocation donut"></svg>
+        <div class="donut-center">
+          <div class="center-top" id="donutTotal">$7,000</div>
+          <div class="center-sub">per 1 km</div>
+        </div>
+      </div>
+
+      <!-- Live-updating legend -->
+      <ul class="legend" id="budgetLegend" aria-label="Budget legend"></ul>
+
+      <p class="small muted">Percentages are fixed per km; dollar amounts scale with live donations.</p>
+    </div>
+
+    <!-- Milestones -->
+    <div class="milestones" id="miles" style="margin-top:10px"></div>
+
+    <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+      <a class="btn" href="#donate-form">Donate securely</a>
+      <button class="btn secondary" onclick="document.getElementById('updates').scrollIntoView({behavior:'smooth'})">See updates</button>
+    </div>
+
+    <hr style="margin:18px 0;border:0;border-top:1px solid var(--line)" />
+
+    <div id="how">
+      <h3>Where your gift goes</h3>
+      <ul class="list">
+        <li><strong>Equipment & tarps</strong> for weather-safe curing and quality.</li>
+        <li><strong>Food & hydration</strong> for local crews (high-energy, culturally aligned).</li>
+        <li><strong>Worker bonuses & logistics</strong> to retain trained builders and move supplies.</li>
+      </ul>
+    </div>
+
+    <div style="margin-top:14px">
+      <h3>Transparency</h3>
+      <p class="muted small">Receipts + photo proof posted after each shipment. No office overheads are charged to this fund. 🔒 Processed by Stripe/PayPal · PCI-DSS compliant</p>
+    </div>
+  </section>
+
+  <!-- DONUT CSS (scoped) -->
+  <style>
+  /* === BUDGET DONUT: layout === */
+  .donut-wrap{
+    position:relative;
+    width:min(360px,100%);
+    aspect-ratio:1/1;
+    margin:6px auto 8px auto;
+  }
+  #budgetDonut{
+    width:100%;
+    height:100%;
+    transform:rotate(-90deg); /* start arcs at 12 o’clock */
+  }
+  .donut-center{
+    position:absolute;
+    inset:0;
+    display:grid;
+    place-items:center;
+    text-align:center;
+    pointer-events:none;
+  }
+  .donut-center .center-top{ font-weight:800; font-size:clamp(16px,3.6vw,22px) }
+  .donut-center .center-sub{ color:var(--muted); font-size:12px }
+
+  /* === BUDGET DONUT: legend === */
+  .legend{
+    list-style:none;
+    margin:10px 0 0;
+    padding:0;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+    gap:8px 14px;
+  }
+  .legend li{
+    display:flex; align-items:center; gap:10px;
+    background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px;
+  }
+  .legend .sw{ width:14px; height:14px; border-radius:3px; flex-shrink:0; border:1px solid #0002 }
+  .legend .lbl{ font-weight:700 }
+  .legend .pct{ margin-left:auto; font-variant-numeric:tabular-nums; color:var(--muted) }
+  .legend .amt{ display:block; font-size:12px; color:var(--muted) }
+  </style>
+
+  <!-- DONATION FORM -->
+  <aside class="card" id="donate-form" aria-label="Donation">
+    <h2>Donate</h2>
+    <form onsubmit="event.preventDefault(); fakeDonate();">
+      <label class="small muted" for="amt">Amount (USD)</label>
+      <input id="amt" type="number" min="5" step="5" value="50"
+             style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;margin:6px 0 10px" />
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <button type="button" class="btn secondary" onclick="setPreset(20)">$20</button>
+        <button type="button" class="btn secondary" onclick="setPreset(50)">$50</button>
+        <button type="button" class="btn secondary" onclick="setPreset(100)">$100</button>
+        <button type="button" class="btn secondary" onclick="setPreset(250)">$250</button>
+      </div>
+      <button class="btn" type="submit">Donate securely</button>
+      <p class="small muted" style="margin-top:8px">Secure processing. You’ll get a receipt and project updates.</p>
+    </form>
+
+    <!-- email capture -->
+    <form onsubmit="event.preventDefault(); alert('Subscribed! (Demo)');" style="margin-top:10px">
+      <label class="small muted" for="email">Get build updates</label>
+      <input id="email" type="email" required placeholder="you@domain.com"
+             style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;margin:6px 0 10px">
+      <button class="btn secondary" type="submit">Subscribe</button>
+    </form>
+
+    <hr style="margin:18px 0;border:0;border-top:1px solid var(--line)" />
+    <h3>About Rwanda Road Trust Fund</h3>
+    <p class="small">A field fund supporting the HiveWay pilot: training local crews, upgrading feeder roads, and documenting results openly. Powered by Hive Technologies (R&D) with local partners.</p>
+  </aside>
+</main>
+
+<!-- Who we are -->
+<section class="wrap card" id="about">
+  <h2>Who we are</h2>
+  <p class="small">
+    Rwanda Road Trust Fund is a field fund for the HiveWay pilot—veteran-founded, community-first.
+    We work with district engineers and local cooperatives to train crews and publish open field logs.
+  </p>
+  <ul class="list small muted">
+    <li>Governance: 3-person advisory (engineering, community, finance)</li>
+    <li>Transparency: receipts & weekly photo logs posted publicly</li>
+    <li>Funds flow: 0% office overhead from this page—direct to field line items</li>
+  </ul>
+</section>
+
+<section class="wrap card" id="updates" aria-label="Project updates">
+  <h2>Latest updates</h2>
+
+  <!-- ===== REAL PHOTO GALLERY =====
+       Swap each <img> src to your real files.
+       Tip: keep a larger version in data-full for the lightbox.
+  -->
+  <div class="gallery photos" id="updatesGallery" style="margin-top:10px">
+    <figure class="shot">
+      <img
+        src="resources/Cross-sectional.png"
+        data-full="resources/photos/clearing-1600.jpg"
+        loading="lazy"
+        width="640" height="480"
+        alt="Using well known road layering processes" />
+      <figcaption class="small muted">Road layers > 80% natural local resources</figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img
+        src="resources/tarp_roller.PNG"
+        data-full="resources/tarp_roller.PNG"
+        loading="lazy"
+        width="640" height="480"
+        alt="Innovative custom tool creation lowers cost and increases productivity " />
+      <figcaption class="small muted"> Quick-deploy tarp roller protecting curing roads from cracking and weather.</figcaption>
+    </figure>
+  </div>
+
+  <!-- If you want to show the cross-section image you shared, you can add it as a 4th figure:
+  <figure class="shot">
+    <img
+      src="resources/sections/road-section-640.png"
+      data-full="resources/sections/road-section-1600.png"
+      loading="lazy"
+      alt="Road build-up: surface, base, sub-base, subgrade" />
+    <figcaption class="small muted">Design reference — typical section build-up.</figcaption>
+  </figure>
+  -->
+
+  <!-- Lightbox dialog (accessibility-friendly; works with keyboard & ESC) -->
+  <dialog id="lightbox" class="lightbox">
+    <button class="lightbox-close" aria-label="Close">×</button>
+    <img id="lightboxImg" alt="" />
+    <p id="lightboxCap" class="small muted"></p>
+  </dialog>
+</section>
+
+<style>
+/* ===== Gallery visuals (real photos) ===== */
+.gallery.photos{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:10px;
+}
+.gallery.photos .shot{
+  margin:0;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:12px;
+  overflow:hidden;            /* clip image corners */
+}
+.gallery.photos img{
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:4/3;
+  object-fit:cover;
+  transition:transform .25s ease;
+  cursor:zoom-in;             /* hint that it opens */
+}
+.gallery.photos img:hover{ transform:scale(1.01) }
+.gallery.photos figcaption{ padding:8px 10px }
+
+/* ===== Lightbox ===== */
+.lightbox{
+  padding:0;
+  border:none;
+  max-width:min(96vw,1200px);
+  width:fit-content;
+  background:#0000;
+}
+.lightbox::backdrop{ background:rgba(0,0,0,.6) }
+.lightbox img{
+  display:block;
+  max-width:96vw;
+  max-height:78vh;
+  border-radius:12px;
+  box-shadow:0 6px 30px rgba(0,0,0,.35);
+}
+.lightbox p{
+  margin:8px 2px 0;
+  color:#fff;
+  text-align:center;
+}
+.lightbox-close{
+  position:absolute;
+  top:8px; right:10px;
+  font-size:24px; line-height:1;
+  background:#000c; color:#fff;
+  border:1px solid #fff3;
+  border-radius:8px;
+  padding:2px 8px; cursor:pointer;
+}
+@media (prefers-reduced-motion: reduce){
+  .gallery.photos img{ transition:none }
+}
+</style>
+
+<script>
+/* ===== Lightbox behavior (delegated for easy maintenance) ===== */
+(function(){
+  const gallery = document.getElementById('updatesGallery');
+  const dlg = document.getElementById('lightbox');
+  if(!gallery || !dlg) return;
+
+  const img = document.getElementById('lightboxImg');
+  const cap = document.getElementById('lightboxCap');
+  const btn = dlg.querySelector('.lightbox-close');
+
+  // Open on image click
+  gallery.addEventListener('click', (e)=>{
+    const target = e.target;
+    if(!(target instanceof HTMLElement)) return;
+    if(target.tagName !== 'IMG') return;
+
+    const full = target.getAttribute('data-full') || target.getAttribute('src');
+    img.src = full || '';
+    img.alt = target.alt || '';
+    cap.textContent = target.closest('figure')?.querySelector('figcaption')?.textContent || '';
+    dlg.showModal();
+  });
+
+  // Close on button, backdrop, or ESC (dialog handles ESC natively)
+  btn.addEventListener('click', ()=> dlg.close());
+  dlg.addEventListener('click', (e)=>{
+    // close if user clicks outside the image (backdrop hit-test)
+    const rect = img.getBoundingClientRect();
+    const inside = e.clientX >= rect.left && e.clientX <= rect.right &&
+                   e.clientY >= rect.top  && e.clientY <= rect.bottom;
+    if(!inside) dlg.close();
+  });
+})();
+</script>
+
+<!-- Sponsors -->
+<section class="wrap card" id="sponsor" aria-label="Sponsors">
+  <h2>Our sponsors</h2>
+  <p class="muted">Mission-aligned brands and NGOs supporting the pilot.</p>
+
+  <!-- ===== HORIZONTAL SPONSOR STRIP =====
+       - The track is filled from the SPONSORS array below
+       - Auto-scrolls when content is wider than the viewport
+  -->
+  <div class="sponsor-strip" id="sponsorStrip" aria-live="polite">
+    <div class="sponsor-track" id="sponsorTrack"></div>
+  </div>
+
+<!-- Optional actions -->
+<div class="btn-row">
+  <a class="btn" href="mailto:partners@hive.example?subject=Sponsorship%20Inquiry%20Rwanda%20Road%20Trust">
+    Become a sponsor
+  </a>
+  <a class="btn secondary" href="#how">How your gift helps</a>
+</div>
+
+<style>
+/* === Button row: always side-by-side, scrollable if overflow === */
+.btn-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;                /* prevent wrapping */
+  overflow-x: auto;                 /* allow horizontal scroll on small screens */
+  overflow-y: hidden;
+  padding-bottom: 6px;              /* extra space for thumb scrolling */
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+}
+
+.btn-row .btn {
+  flex: 0 0 auto;                   /* keeps each button from shrinking */
+  white-space: nowrap;              /* prevents multi-line text */
+  scroll-snap-align: start;         /* snaps nicely when scrolled */
+}
+
+/* optional: hide scrollbar for cleaner look */
+.btn-row::-webkit-scrollbar {
+  height: 6px;
+}
+.btn-row::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+.btn-row::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+</style>
+
+<style>
+/* ===== SPONSOR STRIP (carousel-style, auto-scroll) ===== */
+.sponsor-strip{
+  position:relative;
+  overflow:hidden;
+  border:1px dashed var(--line);
+  border-radius:12px;
+  background:#fff;
+  padding:10px 0;
+}
+
+/* The moving lane */
+.sponsor-track{
+  display:inline-flex;
+  align-items:stretch;
+  gap:14px;
+  white-space:nowrap;          /* keep cards on one row */
+  padding:4px 10px;
+  will-change:transform;
+}
+
+/* Individual sponsor card */
+.sponsor-card{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-width:160px;             /* controls “tile” width */
+  padding:10px 12px;
+  background:#faf9f7;
+  border:1px solid var(--line);
+  border-radius:10px;
+  text-align:center;
+}
+
+.sponsor-card img{
+  display:block;
+  width:120px;                 /* adjust per logo aspect */
+  height:60px;
+  object-fit:contain;          /* keep logos tidy */
+  filter:saturate(.92);
+}
+
+.sponsor-card .sname{
+  font-size:13px;
+  color:var(--muted);
+}
+
+/* Animation (CSS driven) */
+@keyframes sponsorScrollLeft{ from{ transform:translateX(0)} to{ transform:translateX(-50%) } }
+.sponsor-strip .animate{
+  animation:sponsorScrollLeft 45s linear infinite;
+}
+
+/* Pause animation on hover or focus for accessibility */
+.sponsor-strip:hover .animate,
+.sponsor-strip:focus-within .animate{ animation-play-state:paused }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .sponsor-strip .animate{ animation:none }
+}
+</style>
+
+<script>
+/* ===== SPONSOR STRIP POPULATION & AUTOSCROLL =====
+   Edit the SPONSORS array to add/remove logos.
+   - src: path to logo image (SVG/PNG recommended with transparent BG)
+   - name: display name under the logo
+   - url: optional; if present, card becomes a link (opens in new tab)
+*/
+const SPONSORS = [
+  { src:'resources/Hiveway_logo.png',  name:'Hiveway LLC',  url:'https://example.com' },
+  { src:'resources/Hivetech_logo.PNG',name:'Hive Technologies' },
+
+  // Add more here…
+];
+
+(function initSponsors(){
+  const strip = document.getElementById('sponsorStrip');
+  const track = document.getElementById('sponsorTrack');
+  if(!strip || !track) return;
+
+  // Helper to make one card
+  const makeCard = (sp) => {
+    const card = document.createElement(sp.url ? 'a' : 'div');
+    card.className = 'sponsor-card';
+    if(sp.url){ card.href = sp.url; card.target = '_blank'; card.rel = 'noopener noreferrer'; card.title = sp.name; }
+
+    card.innerHTML = `
+      <img src="${sp.src}" alt="${sp.name} logo">
+      <div class="sname">${sp.name}</div>
+    `;
+    return card;
+  };
+
+  // Build the first set
+  SPONSORS.forEach(sp => track.appendChild(makeCard(sp)));
+
+  // If content is wider than the strip, duplicate once for seamless loop
+  // and add the 'animate' class to auto-scroll.
+  requestAnimationFrame(()=>{
+    const needsScroll = track.scrollWidth > strip.clientWidth + 20;
+    if(needsScroll){
+      // duplicate content to allow continuous marquee
+      const clone = track.cloneNode(true);
+      // move children of clone into the same track as a contiguous run
+      while(clone.firstChild) track.appendChild(clone.firstChild);
+      track.classList.add('animate');
+    } else {
+      // When few items, center the row and no animation
+      track.style.justifyContent = 'center';
+    }
+  });
+
+  // Touch interaction: pause while swiping
+  let touchTimer;
+  strip.addEventListener('touchstart', ()=> {
+    track.style.animationPlayState = 'paused';
+    clearTimeout(touchTimer);
+  }, {passive:true});
+  strip.addEventListener('touchend', ()=> {
+    touchTimer = setTimeout(()=> track.style.animationPlayState = 'running', 1200);
+  }, {passive:true});
+})();
+</script>
+<!-- SIMPLE INTERACTIVE MAP (Updated with Province Highlights + Refined Text) -->
+<section class="wrap card" id="pilot">
+  <h2>Where the pilot runs</h2>
+  <div id="pilotMap" style="height:420px; border:1px solid var(--line); border-radius:12px;"></div>
+  <p class="small muted" style="margin-top:8px">
+    Approximate pilot area highlighted. Interactive for context — zoom or drag to explore.
+  </p>
+
+  <!-- Added refined descriptive section -->
+  <p class="small muted" style="margin-top:6px">
+    The pilot goal focuses on supporting Rwanda’s rural development through sustainable road building.
+    Priority interest is given to districts that demonstrate accessible local resources and strong
+    community readiness for collaboration.
+  </p>
+  <p class="small muted" style="margin-top:6px">
+    Preliminary pilot interest focuses on select districts within the Northern and Western Provinces —
+    including <strong>Musanze</strong>, <strong>Burera</strong>, and <strong>Rusizi</strong> —
+    where local collaboration and road accessibility align with long-term sustainability goals.
+  </p>
+</section>
+
+<!-- Leaflet (load once) -->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  crossorigin=""
+/>
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+  crossorigin=""
+></script>
+
+<script>
+  // === Leaflet map init (kept as-is) ===
+  const map = L.map('pilotMap', {
+    scrollWheelZoom: false,
+    zoomControl: true,
+    attributionControl: false
+  }).setView([-1.94, 29.9], 8); // roughly center on Rwanda
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 15,
+    minZoom: 6
+  }).addTo(map);
+
+  const pilotArea = L.circle([-1.95, 30.05], {
+    color: '#b38f47',
+    fillColor: '#b38f47',
+    fillOpacity: 0.25,
+    radius: 10000 // ~10 km radius for visual reference
+  }).addTo(map);
+
+  pilotArea.bindPopup(
+    '<strong>Hiveway Phase 1 Pilot</strong><br>Approximate 2 km feeder road test zone.'
+  );
+
+  const highlightStyle = {
+    color: '#b38f47',
+    weight: 2,
+    opacity: 0.5,
+    fillColor: '#b38f47',
+    fillOpacity: 0.08
+  };
+
+  const provinces = [
+    { name: 'Musanze District', coords: [-1.51, 29.63] },
+    { name: 'Burera District', coords: [-1.42, 29.85] },
+    { name: 'Rusizi District', coords: [-2.48, 28.90] }
+  ];
+
+  provinces.forEach(p => {
+    const area = L.circle(p.coords, { ...highlightStyle, radius: 20000 }).addTo(map);
+    area.bindPopup('<strong>' + p.name + '</strong><br>High-interest development district.');
+  });
+</script>
+
+<!-- FAQ (Vertical auto-scroller) -->
+<section class="wrap card" id="faq" aria-label="Frequently Asked Questions">
+  <h2>FAQ</h2>
+
+  <div class="faq-viewport" id="faqViewport" tabindex="0" aria-label="Scrollable list of common questions and answers">
+    <div class="faq-track" id="faqTrack">
+      <!-- START: FAQ CARDS (source set) -->
+      <article class="faqcard"><div class="faqicon">⏰</div><div class="faqcontent"><h3>When does building start?</h3><p class="small muted">Target: Feb 2028, or earlier if funding is reached.</p></div></article>
+      <article class="faqcard"><div class="faqicon">🎯</div><div class="faqcontent"><h3>What’s the initial goal?</h3><p class="small muted">2 km pilot; progress posted weekly with receipts and photos.</p></div></article>
+      <article class="faqcard"><div class="faqicon">💵</div><div class="faqcontent"><h3>How are funds allocated?</h3><p class="small muted">Pre-set budget split: equipment/tarps, food & hydration, worker retention/logistics.</p></div></article>
+      <article class="faqcard"><div class="faqicon">🔍</div><div class="faqcontent"><h3>How do you ensure transparency?</h3><p class="small muted">We publish itemized spend, dated receipts, and progress photos for each dispatch.</p></div></article>
+      <article class="faqcard"><div class="faqicon">📜</div><div class="faqcontent"><h3>Is my gift tax-deductible?</h3><p class="small muted">Depends on fiscal sponsor status; we’ll state clearly at checkout.</p></div></article>
+      <article class="faqcard"><div class="faqicon">🔐</div><div class="faqcontent"><h3>How are payments processed?</h3><p class="small muted">Via a secure provider (e.g., Stripe/PayPal) with PCI-DSS compliance.</p></div></article>
+      <article class="faqcard"><div class="faqicon">♻️</div><div class="faqcontent"><h3>What if you exceed the goal?</h3><p class="small muted">We extend the pilot and prioritize drainage/culvert upgrades.</p></div></article>
+      <article class="faqcard"><div class="faqicon">↩️</div><div class="faqcontent"><h3>Refunds/cancellations?</h3><p class="small muted">We follow standard donation policies; errors are corrected promptly.</p></div></article>
+      <article class="faqcard"><div class="faqicon">🤝</div><div class="faqcontent"><h3>Do you accept sponsorships?</h3><p class="small muted">Yes—tiered recognition and reporting are available.</p></div></article>
+      <article class="faqcard"><div class="faqicon">🎁</div><div class="faqcontent"><h3>In-kind donations?</h3><p class="small muted">We accept relevant, locally serviceable materials (case-by-case).</p></div></article>
+      <article class="faqcard"><div class="faqicon">🔁</div><div class="faqcontent"><h3>Can I make a recurring gift?</h3><p class="small muted">Monthly options are supported and can be changed anytime.</p></div></article>
+      <article class="faqcard"><div class="faqicon">🏢</div><div class="faqcontent"><h3>Corporate matching?</h3><p class="small muted">We provide receipts/confirmations to help process matching gifts.</p></div></article>
+      <article class="faqcard"><div class="faqicon">🧭</div><div class="faqcontent"><h3>Where exactly is the pilot?</h3><p class="small muted">We share precise coordinates with donors; public maps are schematic.</p></div></article>
+      <article class="faqcard"><div class="faqicon">🧱</div><div class="faqcontent"><h3>What materials are used?</h3><p class="small muted">Locally sourced natural aggregates with stabilization and proper curing.</p></div></article>
+      <article class="faqcard"><div class="faqicon">🌧️</div><div class="faqcontent"><h3>How do you handle heavy rains?</h3><p class="small muted">Crown and drainage first, with documented curing and maintenance.</p></div></article>
+      <article class="faqcard"><div class="faqicon">📈</div><div class="faqcontent"><h3>How is quality verified?</h3><p class="small muted">On-site checks, mix logs, and scheduled inspections are recorded.</p></div></article>
+      <article class="faqcard"><div class="faqicon">🛠️</div><div class="faqcontent"><h3>Who maintains the road?</h3><p class="small muted">Local partners with trained crews and simple maintenance playbooks.</p></div></article>
+      <article class="faqcard"><div class="faqicon">📦</div><div class="faqcontent"><h3>What does a dispatch include?</h3><p class="small muted">Tarps, hand tools, safety gear, and fuel/food support as needed.</p></div></article>
+      <article class="faqcard"><div class="faqicon">🧩</div><div class="faqcontent"><h3>How are segments selected?</h3><p class="small muted">Access need, drainage feasibility, and community coordination.</p></div></article>
+      <article class="faqcard"><div class="faqicon">⚖️</div><div class="faqcontent"><h3>Key risks?</h3><p class="small muted">Weather windows, logistics delays, and equipment wear; mitigated via staging.</p></div></article>
+      <article class="faqcard"><div class="faqicon">🗓️</div><div class="faqcontent"><h3>Typical timeline?</h3><p class="small muted">Mobilize → grade/drain → stabilize → cure → publish results.</p></div></article>
+      <article class="faqcard"><div class="faqicon">🧑‍🤝‍🧑</div><div class="faqcontent"><h3>Can I volunteer?</h3><p class="small muted">Local roles prioritized; remote help accepted for communications/admin.</p></div></article>
+      <article class="faqcard"><div class="faqicon">🔒</div><div class="faqcontent"><h3>Privacy & data use?</h3><p class="small muted">We minimize data collection and never sell donor information.</p></div></article>
+      <article class="faqcard"><div class="faqicon">📬</div><div class="faqcontent"><h3>How to contact the team?</h3><p class="small muted">Use the contact email in the footer; we respond within a few business days.</p></div></article>
+
+      <!-- : Funding & Transparency (FAQ CARDS)-->
+<article class="faqcard"><div class="faqicon">💰</div><div class="faqcontent">
+<h3>Where does the money go?</h3>
+<p class="small muted">Every dollar is directed to field costs — equipment, food, and local labor. No office or marketing overhead is taken from this fund.</p>
+</div></article>
+
+<article class="faqcard"><div class="faqicon">📦</div><div class="faqcontent">
+<h3>Who manages the funds?</h3>
+<p class="small muted">The Rwanda Road Trust Fund is administered by Hive Technologies with transparent reporting, receipts, and photos for every purchase.</p>
+</div></article>
+
+<article class="faqcard"><div class="faqicon">🔍</div><div class="faqcontent">
+<h3>How can I verify spending?</h3>
+<p class="small muted">All receipts, dated shipments, and site photos are uploaded publicly after each dispatch for donor review.</p>
+</div></article>
+
+<article class="faqcard"><div class="faqicon">🏦</div><div class="faqcontent">
+<h3>Do funds ever leave Rwanda?</h3>
+<p class="small muted">No. All purchases, wages, and materials are sourced and paid within Rwanda to strengthen the local economy.</p>
+</div></article>
+<!-- : Mission & Impact (FAQ CARDS)-->
+<article class="faqcard"><div class="faqicon">🌍</div><div class="faqcontent">
+<h3>How does this help Rwanda?</h3>
+<p class="small muted">Each kilometer built connects farms, schools, and clinics — directly improving access, trade, and daily life for nearby villages.</p>
+</div></article>
+
+<article class="faqcard"><div class="faqicon">🧱</div><div class="faqcontent">
+<h3>What is a “feeder road”?</h3>
+<p class="small muted">Feeder roads are short, rural routes linking villages to main roads — small in distance but vital for agriculture and trade.</p>
+</div></article>
+
+<article class="faqcard"><div class="faqicon">👷</div><div class="faqcontent">
+<h3>Who builds the roads?</h3>
+<p class="small muted">Local crews are trained, equipped, and paid through the fund — keeping jobs and skills within the community.</p>
+</div></article>
+
+<article class="faqcard"><div class="faqicon">🏡</div><div class="faqcontent">
+<h3>What communities benefit first?</h3>
+<p class="small muted">The pilot prioritizes rural districts with limited access to markets but strong community readiness to work together.</p>
+</div></article>
+<!-- : About the Project (FAQ CARDS)-->
+<article class="faqcard"><div class="faqicon">🚀</div><div class="faqcontent">
+<h3>Who started this fund?</h3>
+<p class="small muted">The Rwanda Road Trust Fund was founded by Hive Technologies — a veteran-led initiative focused on sustainable infrastructure and local empowerment.</p>
+</div></article>
+
+<article class="faqcard"><div class="faqicon">🧠</div><div class="faqcontent">
+<h3>Why is this different?</h3>
+<p class="small muted">We combine modern road science with local labor and natural materials — cutting costs while building lasting community ownership.</p>
+</div></article>
+
+<article class="faqcard"><div class="faqicon">🔬</div><div class="faqcontent">
+<h3>What makes your method innovative?</h3>
+<p class="small muted">Our road mix uses basalt fines and improved curing techniques for longer-lasting, weather-resilient surfaces compared to typical feeder roads.</p>
+</div></article>
+
+<article class="faqcard"><div class="faqicon">🪜</div><div class="faqcontent">
+<h3>Is this a one-time pilot?</h3>
+<p class="small muted">The 2 km pilot sets the framework. Once proven, the same transparent model will expand kilometer by kilometer with local teams.</p>
+</div></article>
+<!-- : About the Project (FAQ CARDS)-->
+<article class="faqcard"><div class="faqicon">🤝</div><div class="faqcontent">
+<h3>Can companies sponsor a section?</h3>
+<p class="small muted">Yes. Sponsors are listed publicly and receive photo proof of the exact segment they helped fund.</p>
+</div></article>
+
+<article class="faqcard"><div class="faqicon">📣</div><div class="faqcontent">
+<h3>Can I volunteer or promote the project?</h3>
+<p class="small muted">Local work is prioritized for Rwandan crews, but volunteers can help with awareness, translations, or documentation online.</p>
+</div></article>
+
+<article class="faqcard"><div class="faqicon">💬</div><div class="faqcontent">
+<h3>Can donors track updates?</h3>
+<p class="small muted">Yes — build logs, photos, and funding progress are posted weekly right on this site and via email updates.</p>
+</div></article>
+<!-- END: FAQ CARDS (source set) -->
+    </div>
+  </div>
+</section>
+
+<style>
+/* FAQ visual cards (grid->stack for scroller) */
+#faq .faq-viewport{
+  max-height: 360px;              /* << fixed viewport height */
+  overflow: hidden;               /* we drive scroll via script for smooth looping */
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  padding: 8px;
+  position: relative;
+  background: #fff;
+}
+#faq .faq-track{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  will-change: transform;
+}
+#faq .faqcard{
+  display:flex; align-items:flex-start; gap:12px;
+  background:#fff; border:1px solid var(--line);
+  border-radius:12px; padding:12px;
+}
+#faq .faqicon{font-size:22px;line-height:1;flex-shrink:0}
+#faq .faqcontent h3{margin:0;font-size:16px}
+#faq .faqcontent p{margin:4px 0 0}
+</style>
+
+<script>
+/* ===== FAQ Vertical Auto-Scroll (looping, pauses on hover/focus) ===== */
+(function(){
+  const viewport = document.getElementById('faqViewport');
+  const track    = document.getElementById('faqTrack');
+  if(!viewport || !track) return;
+
+  // Duplicate once to allow seamless loop
+  const itemsHTML = track.innerHTML;
+  track.insertAdjacentHTML('beforeend', itemsHTML);
+
+  // State
+  let paused = false;
+  let y = 0;                         // translateY offset
+  const speed = 12;                  // px per second (tweak)
+  let lastTs = null;
+
+  // Pause/resume on hover/focus
+  function setPaused(p){ paused = p; }
+  viewport.addEventListener('mouseenter', ()=>setPaused(true));
+  viewport.addEventListener('mouseleave', ()=>setPaused(false));
+  viewport.addEventListener('focusin',   ()=>setPaused(true));
+  viewport.addEventListener('focusout',  ()=>setPaused(false));
+
+  // If user scrolls/touches, pause briefly
+  let wheelTimeout;
+  viewport.addEventListener('wheel', ()=>{
+    setPaused(true);
+    clearTimeout(wheelTimeout);
+    wheelTimeout = setTimeout(()=>setPaused(false), 2000);
+  }, {passive:true});
+  viewport.addEventListener('touchstart', ()=>setPaused(true), {passive:true});
+  viewport.addEventListener('touchend',   ()=>setPaused(false), {passive:true});
+
+  function step(ts){
+    if(lastTs === null) lastTs = ts;
+    const dt = (ts - lastTs) / 1000; lastTs = ts;
+
+    const singleHeight = track.scrollHeight / 2; // height of one set
+    if(!paused){
+      y -= speed * dt;                           // move up
+      if(Math.abs(y) >= singleHeight){          // wrap
+        y += singleHeight;
+      }
+      track.style.transform = `translateY(${y}px)`;
+    }
+    requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+})();
+</script>
+
+<footer>
+  <div class="wrap footgrid">
+    <div><strong>Rwanda Road Trust Fund</strong><br/>
+      <span class="small muted">Community-first road upgrades using local labor, transparent funding, and simple tech.</span></div>
+    <div class="small">
+      <div><a href="#donate">Donate</a> · <a href="#updates">Updates</a> · <a href="#how">How it works</a></div>
+      <div style="margin-top:6px"><a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · <a href="mailto:hello@hive.example">Contact</a></div>
+      <div class="muted">© <span id="yr"></span> Hive Technologies</div>
+    </div>
+  </div>
+</footer>
+
+<!-- Sticky donate on mobile -->
+<div class="sticky-donate" role="region" aria-label="Quick donate">
+  <div class="wrap">
+    <span class="small">Every $175 ≈ 25 m of road</span>
+    <button class="btn" onclick="document.getElementById('donate-form').scrollIntoView({behavior:'smooth'})">Donate now</button>
   </div>
 </div>
 
 <script>
-/* ================= i18n + Theme ================= */
-const KEY_LANG  = 'hive_lang';
-const KEY_THEME = 'hive_theme';
-const I18N = {
-  en:{app_title:"Expense Tracker — Personal",
-      tab_add:"Add Expense",tab_ledger:"Ledger",tab_audit:"Audit Tools",
-      h_add:"Add Expense",h_ledger:"Ledger",h_audit:"Audit Tools",
-      date:"Date",entity:"Entity",payee:"Payee",amount:"Amount (USD)",category:"Category",method:"Payment Method",
-      invoice:"Reference # (optional)",stmt:"Statement Ref (optional)",memo:"Memo / Purpose",receipt:"Attach Receipt (image/PDF)",receipt_status:"Receipt Status",
-      ph_payee:"Who did you pay?",ph_amount:"0.00",ph_invoice:"e.g., INV-2031 / Conf #",ph_stmt:"e.g., bank txn id",ph_memo:"Context so Future-You or an auditor understands.",
-      add_expense:"Add Expense",clear:"Clear",apply_filters:"Apply Filters",reset:"Reset",export_filtered:"Export CSV (Filtered)",backup_all:"Backup JSON (All)",restore_lbl:"Restore:",monthly_csv:"Export Monthly CSVs",
-      dup_hint:"Duplicate check uses Date + Payee + Amount.",tips_title:"Tips",tip_1:"Use consistent payee names: helps searching and duplicate detection.",tip_2:"Attach receipts for big purchases or any cash ≥ $25.",tip_3:"Write clear memos—Future-You will thank you.",
-      ledger_note:"Entries are chained with a tamper-evident hash. Click a row to expand details & receipt.",
-      from:"From",to:"To",filter_entity:"Entity",filter_category:"Category",filter_method:"Method",filter_receipt:"Receipt",has_receipt:"Has receipt",no_receipt:"No receipt",
-      th_date:"Date",th_entity:"Entity",th_payee:"Payee",th_amount:"Amount",th_category:"Category",th_method:"Method",th_receipt:"Receipt",th_actions:"Actions",
-      kpi_total_filtered:"Total (filtered)",kpi_entries_filtered:"Entries (filtered)",kpi_with_receipts:"With receipts",kpi_grand_total:"Grand total (all)",
-      audit_summary:"How to keep clean personal records",audit_tip_1:"Attach a receipt image/PDF for significant purchases or any cash ≥ $25.",audit_tip_2:"Write a clear Memo (what/why). Future-You will thank you.",audit_tip_3:"Export CSV monthly; back up JSON to cloud storage.",audit_tip_4:"Use consistent payee names (helps duplicate detection).",audit_monthly_help:"Creates separate CSV files for each month in your current filter range.",
-      no_file:"No file selected",tip_receipt_generic:"Tip: Add a receipt when possible.",tip_receipt_cash:"Receipt strongly recommended for cash ≥ $25",must_fill:"Please fill Date, Payee, and Amount.",dup_detected:"Possible duplicate detected (same date, payee, amount).",confirm_no_receipt:"No receipt attached for a cash ≥ $25 expense. Add anyway?",no_entries_filter:"No entries in current filter.",download_receipt:"Download receipt",
-      d_title:"Expense Details",d_reference:"Reference #",d_statement:"Statement Ref",d_created:"Created",d_updated:"Updated",d_hash:"Hash",d_prev:"Prev",d_receipt:"Receipt",
-      theme_dark:"🌙 Dark", theme_light:"☀️ Light",
-      edit_title:"Edit Expense",save_changes:"Save changes",cancel:"Cancel",edit:"Edit",del:"Delete",confirm_delete:"Delete this entry? This will recalculate the chain.",
-      id_label:"ID",prev_label:"Prev hash",hash_label:"Current hash",
-      set_csv_folder:"Set CSV Folder", csv_pick_dir:"Pick or create a folder named “CSV”",
-      csv_api_unavailable:"Monthly folder save is not supported in this browser. Falling back to downloads.",
-      csv_summary:"Monthly export summary", csv_saved_to:"Saved:", csv_skipped:"Skipped (already exists):", csv_saved:"saved", csv_exists:"already exists"},
-  es:{app_title:"Hive Gastos — Personal · Listo para Auditoría",
-      tab_add:"Agregar gasto",tab_ledger:"Libro mayor",tab_audit:"Herramientas de auditoría",
-      h_add:"Agregar gasto",h_ledger:"Libro mayor",h_audit:"Herramientas de auditoría",
-      date:"Fecha",entity:"Entidad",payee:"Beneficiario",amount:"Importe (USD)",category:"Categoría",method:"Método de pago",
-      invoice:"Referencia # (opcional)",stmt:"Referencia de estado (opcional)",memo:"Memo / Propósito",receipt:"Adjuntar recibo (imagen/PDF)",receipt_status:"Estado del recibo",
-      ph_payee:"¿A quién pagaste?",ph_amount:"0.00",ph_invoice:"p. ej., INV-2031 / Núm. de conf.",ph_stmt:"p. ej., id de transacción bancaria",ph_memo:"Contexto para que tú o un auditor lo entiendan.",
-      add_expense:"Agregar gasto",clear:"Limpiar",apply_filters:"Aplicar filtros",reset:"Restablecer",export_filtered:"Exportar CSV (filtrado)",backup_all:"Respaldo JSON (todo)",restore_lbl:"Restaurar:",monthly_csv:"Exportar CSV mensuales",
-      dup_hint:"La detección de duplicados usa Fecha + Beneficiario + Importe.",tips_title:"Consejos",tip_1:"Usa nombres de beneficiario consistentes: ayuda a buscar y detectar duplicados.",tip_2:"Adjunta recibos para compras grandes o efectivo ≥ $25.",tip_3:"Escribe memos claros: el Tú del futuro te lo agradecerá.",
-      ledger_note:"Las entradas se encadenan con un hash a prueba de manipulación. Haz clic en una fila para ver detalles y recibo.",
-      from:"Desde",to:"Hasta",filter_entity:"Entidad",filter_category:"Categoría",filter_method:"Método",filter_receipt:"Recibo",has_receipt:"Con recibo",no_receipt:"Sin recibo",
-      th_date:"Fecha",th_entity:"Entidad",th_payee:"Beneficiario",th_amount:"Importe",th_category:"Categoría",th_method:"Método",th_receipt:"Recibo",th_actions:"Acciones",
-      kpi_total_filtered:"Total (filtrado)",kpi_entries_filtered:"Entradas (filtrado)",kpi_with_receipts:"Con recibos",kpi_grand_total:"Total general (todo)",
-      audit_summary:"Cómo mantener registros personales limpios",audit_tip_1:"Adjunta un recibo (imagen/PDF) para compras importantes o efectivo ≥ $25.",audit_tip_2:"Escribe un Memo claro (qué/por qué). El Tú del futuro te lo agradecerá.",audit_tip_3:"Exporta CSV mensualmente; respalda el JSON en la nube.",audit_tip_4:"Usa nombres de beneficiario consistentes (ayuda a detectar duplicados).",audit_monthly_help:"Crea archivos CSV separados por cada mes dentro del rango filtrado.",
-      no_file:"Ningún archivo seleccionado",tip_receipt_generic:"Consejo: agrega un recibo cuando sea posible.",tip_receipt_cash:"Recibo muy recomendado para efectivo ≥ $25",must_fill:"Completa Fecha, Beneficiario e Importe.",dup_detected:"Posible duplicado detectado (misma fecha, beneficiario e importe).",confirm_no_receipt:"No adjuntaste recibo para un pago en efectivo ≥ $25. ¿Agregar de todos modos?",no_entries_filter:"No hay entradas en el filtro actual.",download_receipt:"Descargar recibo",
-      d_title:"Detalles del gasto",d_reference:"Referencia #",d_statement:"Referencia de estado",d_created:"Creado",d_updated:"Actualizado",d_hash:"Hash",d_prev:"Anterior",d_receipt:"Recibo",
-      theme_dark:"🌙 Oscuro", theme_light:"☀️ Claro",
-      edit_title:"Editar gasto",save_changes:"Guardar cambios",cancel:"Cancelar",edit:"Editar",del:"Eliminar",confirm_delete:"¿Eliminar esta entrada? Esto recalculará la cadena.",
-      id_label:"ID",prev_label:"Hash anterior",hash_label:"Hash actual",
-      set_csv_folder:"Elegir carpeta CSV", csv_pick_dir:"Elige o crea una carpeta llamada “CSV”",
-      csv_api_unavailable:"El guardado en carpeta no está disponible en este navegador. Usaré descargas normales.",
-      csv_summary:"Resumen de exportación mensual", csv_saved_to:"Guardados:", csv_skipped:"Omitidos (ya existen):", csv_saved:"guardado", csv_exists:"ya existe"}
-};
-let LANG = localStorage.getItem(KEY_LANG) || (navigator.language||'en').slice(0,2);
-if(!['en','es'].includes(LANG)) LANG='en';
-function t(k){ return (I18N[LANG] && I18N[LANG][k]) || k; }
+  // ============================
+  // EDIT BLOCK A — FUNDING MODEL
+  // ============================
+  const COST_PER_KM = 7000;          // $7k funds 1 km
+  const KM_GOAL = 2;                 // total kilometers targeted
+  const START_RAISED = 7000;         // replace with backend value
+  const GOAL = COST_PER_KM * KM_GOAL;
 
-function applyI18N(){
-  document.title = t('app_title');
-  const h1 = document.querySelector('h1'); if(h1) h1.innerHTML = t('app_title');
-  const tabAdd=$('#tab-add'), tabLed=$('#tab-ledger'), tabAud=$('#tab-audit');
-  if(tabAdd) tabAdd.textContent=t('tab_add'); if(tabLed) tabLed.textContent=t('tab_ledger'); if(tabAud) tabAud.textContent=t('tab_audit');
-  const hAdd=$('#panel-add h2'), hLed=$('#panel-ledger h2'), hAud=$('#panel-audit h2');
-  if(hAdd) hAdd.textContent=t('h_add'); if(hLed) hLed.textContent=t('h_ledger'); if(hAud) hAud.textContent=t('h_audit');
+  const SEGMENT_LENGTH_M = 25;
+  const SEGMENTS_PER_KM = 1000 / SEGMENT_LENGTH_M;        // 40
+  const USD_PER_SEGMENT = COST_PER_KM / SEGMENTS_PER_KM;  // 175
+  const USD_PER_MEAL = 5.25;
 
-  const setL=id=>{const el=document.querySelector(`label[for="${id}"]`); if(el) el.textContent=t(id.replace(/^edit-/,'').replace(/^f/,'filter_'))||el.textContent;};
-  ['date','entity','payee','amount','category','method','invoice','stmt','memo','receipt',
-   'edit-date','edit-entity','edit-payee','edit-amount','edit-category','edit-method','edit-invoice','edit-stmt','edit-memo',
-   'from','to','fEntity','fCat','fMethod','fReceipt'
-  ].forEach(setL);
+  // Pilot rule: start by date OR when goal reached
+  const PILOT_START = new Date('2028-02-01T00:00:00Z');
 
-  const setPH=(id,key)=>{const el=document.getElementById(id); if(el) el.placeholder=t(key);};
-  setPH('payee','ph_payee'); setPH('amount','ph_amount'); setPH('invoice','ph_invoice'); setPH('stmt','ph_stmt'); const memo=$('#memo'); if(memo) memo.placeholder=t('ph_memo');
+  // =======================================
+  // EDIT BLOCK B — BUDGET PERCENT ALLOCATION
+  // =======================================
+  const BUDGET = [
+    { key:"equipment", label:"Equipment & Tarps", pct: 45, blurb:"Curing tarps, bamboo/PVC poles, ropes, basic tools." },
+    { key:"food",      label:"Food & Hydration",   pct: 35, blurb:"Market staples + high-energy supplements." },
+    { key:"other",     label:"Worker Bonus & Logistics", pct: 20, blurb:"Retention bonuses and local transport." }
+  ];
 
-  $('#addBtn') && ($('#addBtn').textContent=t('add_expense'));
-  $('#clearForm') && ($('#clearForm').textContent=t('clear'));
-  $('#applyFilters') && ($('#applyFilters').textContent=t('apply_filters'));
-  $('#resetFilters') && ($('#resetFilters').textContent=t('reset'));
-  $('#exportCsv') && ($('#exportCsv').textContent=t('export_filtered'));
-  $('#backupJson') && ($('#backupJson').textContent=t('backup_all'));
-  $('#monthlyCsv') && ($('#monthlyCsv').textContent=t('monthly_csv'));
-  $('#setCsvDir') && ($('#setCsvDir').textContent=t('set_csv_folder'));
+  // ================================
+  // EDIT BLOCK C — MILESTONES & DATES
+  // ================================
+  const MILESTONES = [
+    {label:"Meals & hydration funded",   target:1000},
+    {label:"Tarp kits & tools funded",   target:2500},
+    {label:"Worker bonus pool started",  target:5000},
+    {label:"Stretch: demo basalt pavers",target:7000}
+  ];
+  const NEXT_SHIP = new Date(); NEXT_SHIP.setDate(NEXT_SHIP.getDate() + 9);
 
-  const restoreLbl = Array.from(document.querySelectorAll('.toolbar .small')).find(n=>/^Restore:|^Restaurar:/.test(n.textContent.trim()));
-  if(restoreLbl){ const input = restoreLbl.querySelector('input'); restoreLbl.textContent = t('restore_lbl')+' '; if(input) restoreLbl.appendChild(input); }
+  // ---- Helpers ----
+  const $ = id => document.getElementById(id);
+  const fmt = n => n.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0});
+  const pctFmt = n => `${n.toFixed(0)}%`;
 
-  const dupHint = Array.from(document.querySelectorAll('#panel-add .small.muted')).find(n=>/Duplicate check|detección de duplicados/i.test(n.textContent));
-  if(dupHint) dupHint.textContent=t('dup_hint');
-  const ledgerNote = document.querySelector('#panel-ledger .small.muted'); if(ledgerNote) ledgerNote.textContent=t('ledger_note');
+  let raised = START_RAISED;
 
-  const ths = document.querySelectorAll('#table thead th');
-  if(ths.length>=8){
-    ths[0].textContent=t('th_date'); ths[1].textContent=t('th_entity'); ths[2].textContent=t('th_payee'); ths[3].textContent=t('th_amount');
-    ths[4].textContent=t('th_category'); ths[5].textContent=t('th_method'); ths[6].textContent=t('th_receipt'); ths[7].textContent=t('th_actions');
+  function computeKPIs(total){
+    const segments = total / USD_PER_SEGMENT;
+    const km = (segments * SEGMENT_LENGTH_M) / 1000;
+    const meals = Math.floor(total / USD_PER_MEAL);
+    return {segments, km, meals};
   }
 
-  const summary = document.querySelector('#panel-audit summary'); if(summary) summary.textContent=t('audit_summary');
-  const auditUl = document.querySelector('#panel-audit ul.small');
-  if(auditUl){ auditUl.innerHTML = `<li>${t('audit_tip_1')}</li><li>${t('audit_tip_2')}</li><li>${t('audit_tip_3')}</li><li>${t('audit_tip_4')}</li>`; }
-  const help = document.querySelector('#panel-audit .small.muted'); if(help) help.textContent=t('audit_monthly_help');
+  // === BUDGET DONUT: draw donut and legend (replaces legacy category grid) ===
+  const DONUT_COLORS = ['#b38f47', '#e1c06f', '#8e723a']; // order maps to BUDGET entries
 
-  const rs = $('#receiptStatus');
-  if(rs && (/^No file selected$|^Ningún archivo seleccionado$/.test(rs.textContent.trim()))) rs.textContent=t('no_file');
+  function renderBudgetDonut(total){
+    const svg = $('budgetDonut');
+    const leg = $('budgetLegend');
+    if(!svg || !leg) return;
 
-  const themeBtn = $('#themeToggle');
-  if(themeBtn){ const light=document.documentElement.classList.contains('light'); themeBtn.textContent=light?t('theme_light'):t('theme_dark'); themeBtn.setAttribute('aria-pressed', String(light)); }
-}
-function setLanguage(lang){ LANG=['en','es'].includes(lang)?lang:'en'; localStorage.setItem(KEY_LANG,LANG); applyI18N(); render(); }
-function initLanguage(){ const sel=$('#langToggle'); if(sel){ sel.value=LANG; sel.addEventListener('change',()=>setLanguage(sel.value)); } applyI18N(); }
-function initTheme(){
-  const btn=$('#themeToggle');
-  const saved = localStorage.getItem(KEY_THEME) || 'dark';
-  document.documentElement.classList.toggle('light', saved==='light');
-  const upd=()=>{ const light=document.documentElement.classList.contains('light'); btn.textContent=light?t('theme_light'):t('theme_dark'); btn.setAttribute('aria-pressed', String(light)); localStorage.setItem(KEY_THEME, light?'light':'dark'); };
-  upd(); btn.addEventListener('click',()=>{ document.documentElement.classList.toggle('light'); upd(); });
-}
+    // Center label always shows the per-km cost (COST_PER_KM)
+    const center = $('donutTotal');
+    if(center) center.textContent = COST_PER_KM.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0});
 
-/* ================= Tabs + scroll-to-top ================= */
-const tabsBar   = document.querySelector('.tabs');
-const tabBtns   = Array.from(document.querySelectorAll('.tab'));
-const tabPanels = Array.from(document.querySelectorAll('.view'));
-function setActiveTab(btn){
-  const targetId = btn.getAttribute('aria-controls'); const panel = document.getElementById(targetId); if(!panel) return;
-  tabBtns.forEach(b => b.setAttribute('aria-selected', String(b===btn)));
-  tabPanels.forEach(p => p.classList.toggle('is-active', p===panel));
-  window.scrollTo({top:0,behavior:'smooth'}); panel.focus();
-}
-function activateTab(btn){ setActiveTab(btn); }
-tabsBar.addEventListener('click', (e)=>{ const btn=e.target.closest('.tab'); if(!btn) return; e.preventDefault(); setActiveTab(btn); });
-tabsBar.addEventListener('keydown', (e)=>{
-  const i=tabBtns.findIndex(b=>b.getAttribute('aria-selected')==='true'); if(i<0) return;
-  if(e.key==='ArrowRight'){e.preventDefault(); setActiveTab(tabBtns[(i+1)%tabBtns.length]);}
-  else if(e.key==='ArrowLeft'){e.preventDefault(); setActiveTab(tabBtns[(i-1+tabBtns.length)%tabBtns.length]);}
-  else if(e.key==='Home'){e.preventDefault(); setActiveTab(tabBtns[0]);}
-  else if(e.key==='End'){e.preventDefault(); setActiveTab(tabBtns[tabBtns.length-1]);}
-});
-setActiveTab(document.querySelector('.tab[aria-selected="true"]') || tabBtns[0]);
-window.activateTab = activateTab;
+    // Geometry for 42x42 viewBox donut
+    const R = 15.915;               // radius for classic SVG donut pattern
+    const STROKE = 8;               // thickness
+    const CIRC = 2 * Math.PI * R;   // circumference
 
-/* ================= Utilities ================= */
-const $  = sel => document.querySelector(sel);
-const $$ = sel => Array.from(document.querySelectorAll(sel));
-const fmtUSD = n => Number(n||0).toLocaleString(undefined,{style:'currency',currency:'USD'});
-const sha = async (txt)=>{ const enc=new TextEncoder(); const buf=await crypto.subtle.digest('SHA-256', enc.encode(txt)); return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join(''); };
-function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
+    // Clear old nodes
+    svg.innerHTML = '';
 
-/* ================= Storage ================= */
-const KEY = 'hive_expenses_personal_v1';
-function loadAll(){ try{ const raw=localStorage.getItem(KEY); return raw?JSON.parse(raw):{entries:[], lastHash:"GENESIS"}; }catch(e){ return {entries:[], lastHash:"GENESIS"}; } }
-function saveAll(state){ localStorage.setItem(KEY, JSON.stringify(state)); }
+    // Background ring (light grey)
+    const bg = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    bg.setAttribute('cx','21'); bg.setAttribute('cy','21'); bg.setAttribute('r', String(R));
+    bg.setAttribute('fill','none'); bg.setAttribute('stroke','#eee'); bg.setAttribute('stroke-width', String(STROKE));
+    svg.appendChild(bg);
 
-/* ================= State ================= */
-let state = loadAll();
-let filtered = [];
+    // Build arcs from BUDGET percentages
+    let offset = 0;
+    const totalPct = BUDGET.reduce((a,b)=>a+b.pct,0) || 100;
 
-/* ================= Add Form ================= */
-const dateEl=$('#date'), entityEl=$('#entity'), payeeEl=$('#payee'), amountEl=$('#amount');
-const categoryEl=$('#category'), methodEl=$('#method'), memoEl=$('#memo');
-const invoiceEl=$('#invoice'), stmtEl=$('#stmt'), receiptEl=$('#receipt');
-const receiptStatus=$('#receiptStatus'), receiptRule=$('#receiptRule');
-
-function setToday(){ dateEl.valueAsDate=new Date(); }
-setToday();
-function updateReceiptRule(){
-  const amt=Number(amountEl.value||0); const method=methodEl.value;
-  let rule=t('tip_receipt_generic'); if(method==='Cash' && amt>=25){ rule=t('tip_receipt_cash'); }
-  receiptRule.textContent=rule;
-}
-updateReceiptRule();
-methodEl.addEventListener('change',updateReceiptRule);
-amountEl.addEventListener('input',updateReceiptRule);
-receiptEl.addEventListener('change',()=>{ const f=receiptEl.files?.[0]; receiptStatus.textContent = f ? `Attached: ${f.name}` : t('no_file'); });
-$('#clearForm').addEventListener('click',()=>{ $('#payee').value=''; $('#amount').value=''; $('#memo').value=''; $('#invoice').value=''; $('#stmt').value=''; $('#receipt').value=''; receiptStatus.textContent=t('no_file'); setToday(); });
-function isDuplicate(d,p,a){
-  const key=`${d}||${(p||'').trim().toLowerCase()}||${Number(a||0).toFixed(2)}`;
-  return state.entries.some(e => `${e.date}||${e.payee.trim().toLowerCase()}||${Number(e.amount).toFixed(2)}`===key);
-}
-$('#addBtn').addEventListener('click', async ()=>{
-  const d=dateEl.value, ent=entityEl.value, p=(payeeEl.value||'').trim();
-  const amt=Number(amountEl.value||0); const cat=categoryEl.value; const m=methodEl.value;
-  const memo=(memoEl.value||'').trim(); const inv=(invoiceEl.value||'').trim(); const stmt=(stmtEl.value||'').trim();
-  $('#dupWarn').textContent='';
-  if(!d || !p || !(amt>0)){ alert(t('must_fill')); return; }
-  if(isDuplicate(d,p,amt)){ $('#dupWarn').textContent=t('dup_detected'); }
-  let receiptData=null, receiptName=null, receiptType=null;
-  if(receiptEl.files && receiptEl.files[0]){
-    const f=receiptEl.files[0]; receiptName=f.name; receiptType=f.type;
-    const b64=await new Promise(res=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.readAsDataURL(f); });
-    receiptData=b64;
-  }else{ if(m==='Cash' && amt>=25){ if(!confirm(t('confirm_no_receipt'))) return; } }
-  const createdAt=new Date().toISOString();
-  const payload={date:d, entity:ent, payee:p, amount:amt, category:cat, method:m, memo, invoice:inv, statement:stmt, createdAt, updatedAt:createdAt, receiptName, receiptType};
-  const recordStr=JSON.stringify(payload);
-  const prev=state.lastHash || 'GENESIS';
-  const linkHash=await sha(prev + recordStr);
-  const entry={...payload, receiptData, hash:linkHash, prevHash:prev, id:crypto.randomUUID()};
-  state.entries.unshift(entry);
-  state.lastHash=linkHash;
-  saveAll(state);
-  render();
-  $('#clearForm').click();
-});
-
-/* ================= Hash Recompute (for edit/delete) ================= */
-async function recomputeChain(){
-  let last = 'GENESIS';
-  const oldestFirst = [...state.entries].reverse();
-  for(const e of oldestFirst){
-    e.prevHash = last;
-    const recordStr = JSON.stringify({
-      date:e.date, entity:e.entity, payee:e.payee, amount:e.amount, category:e.category, method:e.method,
-      memo:e.memo, invoice:e.invoice, statement:e.statement, createdAt:e.createdAt, updatedAt:e.updatedAt,
-      receiptName:e.receiptName, receiptType:e.receiptType
+    BUDGET.forEach((item, idx) => {
+      const pct = item.pct / totalPct;  // normalized [0..1]
+      const len = CIRC * pct;           // arc length
+      const dash = `${len} ${CIRC - len}`;
+      const arc = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      arc.setAttribute('cx','21'); arc.setAttribute('cy','21'); arc.setAttribute('r', String(R));
+      arc.setAttribute('fill','none');
+      arc.setAttribute('stroke', DONUT_COLORS[idx % DONUT_COLORS.length]);
+      arc.setAttribute('stroke-width', String(STROKE));
+      arc.setAttribute('stroke-dasharray', dash);
+      arc.setAttribute('stroke-dashoffset', String(offset));
+      arc.setAttribute('stroke-linecap','butt');
+      arc.style.transition = 'stroke-dashoffset .6s ease, stroke-dasharray .6s ease';
+      svg.appendChild(arc);
+      offset -= len; // next arc continues where this one ended
     });
-    e.hash = await sha(last + recordStr);
-    last = e.hash;
-  }
-  state.entries = oldestFirst.reverse();
-  state.lastHash = last;
-}
 
-/* ================= Filters + render ================= */
-const fromEl=$('#from'), toEl=$('#to'), fEntityEl=$('#fEntity'), fCatEl=$('#fCat'), fMethodEl=$('#fMethod'), fReceiptEl=$('#fReceipt');
-$('#applyFilters').addEventListener('click', render);
-$('#resetFilters').addEventListener('click', ()=>{ fromEl.value=''; toEl.value=''; fEntityEl.value=''; fCatEl.value=''; fMethodEl.value=''; fReceiptEl.value=''; render(); });
-function within(d, from, to){ const tms=new Date(d).getTime(); if(from && tms<new Date(from).getTime()) return false; if(to && tms>new Date(to).getTime()) return false; return true; }
-
-function render(){
-  const from=fromEl.value, to=toEl.value, fe=fEntityEl.value, fc=fCatEl.value, fm=fMethodEl.value, fr=fReceiptEl.value;
-  filtered = state.entries.filter(e=>{
-    if(!within(e.date, from, to)) return false;
-    if(fe && e.entity!==fe) return false;
-    if(fc && e.category!==fc) return false;
-    if(fm && e.method!==fm) return false;
-    if(fr==='yes' && !e.receiptData) return false;
-    if(fr==='no'  &&  e.receiptData) return false;
-    return true;
-  });
-
-  const tb = $('#table tbody'); tb.innerHTML='';
-  for(const e of filtered){
-    const tr=document.createElement('tr');
-    tr.innerHTML = `
-      <td class="nowrap cell-open">${e.date}</td>
-      <td class="cell-open">${e.entity}</td>
-      <td class="cell-open">${escapeHtml(e.payee)}</td>
-      <td class="right cell-open">${fmtUSD(e.amount)}</td>
-      <td class="cell-open">${e.category}</td>
-      <td class="cell-open">${e.method}</td>
-      <td class="cell-open">${e.receiptData ? '<span class="pill">'+t('has_receipt')+'</span>' : '<span class="badge">'+t('no_receipt')+'</span>'}</td>
-      <td>
-        <div class="actions">
-          <button class="btn secondary sm btn-edit">${t('edit')}</button>
-          <button class="btn danger sm btn-del">${t('del')}</button>
-        </div>
-      </td>
-    `;
-    tr.querySelectorAll('.cell-open').forEach(td=> td.addEventListener('click', ()=> showDetails(e)));
-    tr.querySelector('.btn-edit').addEventListener('click', (ev)=>{ ev.stopPropagation(); openEdit(e.id); });
-    tr.querySelector('.btn-del').addEventListener('click',  (ev)=>{ ev.stopPropagation(); deleteEntry(e.id); });
-    tb.appendChild(tr);
-  }
-
-  const total = filtered.reduce((s,e)=>s+Number(e.amount||0),0);
-  const totalAll = state.entries.reduce((s,e)=>s+Number(e.amount||0),0);
-  const withRcpt = filtered.filter(e=>e.receiptData).length;
-
-  $('#kpis').innerHTML = `
-    <div class="k"><strong>${fmtUSD(total)}</strong><span class="small muted">${t('kpi_total_filtered')}</span></div>
-    <div class="k"><strong>${filtered.length}</strong><span class="small muted">${t('kpi_entries_filtered')}</span></div>
-    <div class="k"><strong>${withRcpt}/${filtered.length}</strong><span class="small muted">${t('kpi_with_receipts')}</span></div>
-    <div class="k"><strong>${fmtUSD(totalAll)}</strong><span class="small muted">${t('kpi_grand_total')}</span></div>
-  `;
-}
-
-/* ================= Details pop-out ================= */
-function showDetails(e){
-  const has = !!e.receiptData;
-  const w = window.open('', '_blank', 'width=740,height=640');
-  const rcpt = has
-    ? (e.receiptType==='application/pdf'
-        ? `<embed src="${e.receiptData}" type="application/pdf" width="100%" height="480">`
-        : `<img src="${e.receiptData}" class="receipt-thumb" style="max-width:100%;height:auto">`)
-    : `<span class="badge">${t('no_receipt')}</span>`;
-  w.document.write(`<!doctype html>
-    <title>${t('d_title')}</title>
-    <style>
-      :root{--bg:#0f1012;--card:#14161a;--line:#262a31;----text:#d0b06a;--muted:#a2a9b3;--accent:#b38f47}
-      body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Inter,Arial;margin:0;padding:16px}
-      .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-      .card{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--card)}
-      a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
-      @media(max-width:760px){.row{grid-template-columns:1fr}}
-      .mono{font-family:ui-monospace, Menlo, Consolas, monospace}
-    </style>
-    <h2 style="margin:0 0 8px 0">${t('d_title')}</h2>
-    <div class="row">
-      <div class="card">
-        <p><b>${t('date')}:</b> ${e.date}</p>
-        <p><b>${t('entity')}:</b> ${e.entity}</p>
-        <p><b>${t('payee')}:</b> ${escapeHtml(e.payee)}</p>
-        <p><b>${t('amount')}:</b> ${fmtUSD(e.amount)}</p>
-        <p><b>${t('category')}:</b> ${e.category}</p>
-        <p><b>${t('method')}:</b> ${e.method}</p>
-        <p><b>${t('d_reference')}:</b> ${escapeHtml(e.invoice||'')}</p>
-        <p><b>${t('d_statement')}:</b> ${escapeHtml(e.statement||'')}</p>
-        <p><b>${t('memo')}:</b><br>${escapeHtml(e.memo||'')}</p>
-        <p><b>${t('d_created')}:</b> ${e.createdAt}<br><b>${t('d_updated')}:</b> ${e.updatedAt}</p>
-        <p><b>${t('d_hash')}:</b> <span class="mono">${e.hash.slice(0,16)}…</span><br>
-           <b>${t('d_prev')}:</b> <span class="mono">${(e.prevHash||'').slice(0,16)}…</span></p>
-      </div>
-      <div class="card">
-        <h3 style="margin:4px 0 8px">${t('d_receipt')}</h3>
-        ${rcpt}
-        ${has ? `<p style="margin-top:10px"><a download="${(e.receiptName||'receipt')}" href="${e.receiptData}">${t('download_receipt')}</a></p>`:''}
-      </div>
-    </div>
-  `);
-  w.document.close();
-}
-
-/* ================= Export / Import (single CSV / JSON) ================= */
-function toCSV(rows){
-  const headers=['date','entity','payee','amount','category','method','invoice','statement','memo','has_receipt','createdAt','updatedAt','hash','prevHash','id'];
-  const esc = s => `"${String(s??'').replace(/"/g,'""')}"`;
-  return [headers.join(',')].concat(rows.map(e=>[
-    e.date,e.entity,e.payee,e.amount,e.category,e.method,e.invoice||'',e.statement||'',e.memo||'',
-    e.receiptData?'yes':'no',e.createdAt,e.updatedAt,e.hash,e.prevHash,e.id
-  ].map(esc).join(','))).join('\n');
-}
-$('#exportCsv').addEventListener('click', ()=>{
-  const csv=toCSV(filtered); const blob=new Blob([csv],{type:'text/csv'}); const a=document.createElement('a');
-  const range=(fromEl.value||'ALL') + '_to_' + (toEl.value||'ALL');
-  a.href=URL.createObjectURL(blob); a.download=`hive_expenses_personal_${range}.csv`; a.click(); URL.revokeObjectURL(a.href);
-});
-$('#backupJson').addEventListener('click', ()=>{
-  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}); const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob); a.download=`hive_expenses_personal_backup_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(a.href);
-});
-$('#restoreJson').addEventListener('change', async (ev)=>{
-  const f=ev.target.files?.[0]; if(!f) return;
-  const txt=await f.text();
-  try{
-    const obj=JSON.parse(txt);
-    if(!obj.entries){ alert('Invalid backup file'); return; }
-    if(!confirm('Restore this backup? This will replace your current data.')) return;
-    state=obj; await recomputeChain(); saveAll(state); render(); activateTab($('#tab-ledger'));
-  }catch(e){ alert('Could not parse backup.'); }
-});
-
-/* ===================== CSV folder (File System Access API) ===================== */
-/* IndexedDB tiny helper to store/retrieve directory handle */
-const FS_DB = 'hive-expenses-fs';
-const FS_STORE = 'handles';
-function idbOpen(){
-  return new Promise((res,rej)=>{
-    const req = indexedDB.open(FS_DB,1);
-    req.onupgradeneeded = ()=> req.result.createObjectStore(FS_STORE);
-    req.onsuccess = ()=> res(req.result);
-    req.onerror = ()=> rej(req.error);
-  });
-}
-async function idbSet(key,val){
-  const db = await idbOpen();
-  return new Promise((res,rej)=>{
-    const tx = db.transaction(FS_STORE,'readwrite');
-    tx.objectStore(FS_STORE).put(val,key);
-    tx.oncomplete=()=>res(); tx.onerror=()=>rej(tx.error);
-  });
-}
-async function idbGet(key){
-  const db = await idbOpen();
-  return new Promise((res,rej)=>{
-    const tx = db.transaction(FS_STORE,'readonly');
-    const r = tx.objectStore(FS_STORE).get(key);
-    r.onsuccess=()=>res(r.result||null);
-    r.onerror=()=>rej(r.error);
-  });
-}
-
-/* Permission check */
-async function verifyPermission(handle, mode='readwrite'){
-  if(!handle) return false;
-  const opts = {mode};
-  if((await handle.queryPermission(opts)) === 'granted') return true;
-  return (await handle.requestPermission(opts)) === 'granted';
-}
-
-/* Pick & save directory handle */
-async function pickCsvDirectory(){
-  if(!window.showDirectoryPicker){
-    alert(t('csv_api_unavailable'));
-    return null;
-  }
-  const dir = await window.showDirectoryPicker({id:'csv-dir', mode:'readwrite', startIn:'documents'});
-  await idbSet('csvDir', dir);
-  return dir;
-}
-
-/* Get directory handle from IDB or prompt user */
-async function getCsvDirectory(){
-  let dir = await idbGet('csvDir');
-  if(dir && await verifyPermission(dir,'readwrite')) return dir;
-  return await pickCsvDirectory();
-}
-
-/* Write or skip a month file if it exists */
-async function writeMonthCsv(dirHandle, ym, rows){
-  const fileName = `${ym} Expenses.csv`;
-  // Check if exists
-  let exists = true;
-  try{
-    await dirHandle.getFileHandle(fileName, {create:false});
-  }catch(_){ exists = false; }
-  if(exists){
-    return {ym, status:'exists'};
-  }
-  // Create & write
-  const fh = await dirHandle.getFileHandle(fileName, {create:true});
-  const ws = await fh.createWritable();
-  await ws.write(toCSV(rows));
-  await ws.close();
-  return {ym, status:'saved'};
-}
-
-/* ========= Monthly export (folder mode with duplicate check; fallback to downloads) ========= */
-async function exportMonthlyToFolder(){
-  activateTab($('#tab-ledger'));
-  if(!filtered.length){ alert(t('no_entries_filter')); return; }
-
-  if(!window.showDirectoryPicker){
-    // Fallback: downloads per month
-    alert(t('csv_api_unavailable'));
-    const buckets={};
-    for(const e of filtered){ const ym=(e.date||'').slice(0,7)||'UNKNOWN'; (buckets[ym]=buckets[ym]||[]).push(e); }
-    Object.entries(buckets).forEach(([ym,rows])=>{
-      const csv=toCSV(rows);
-      const blob=new Blob([csv],{type:'text/csv'});
-      const a=document.createElement('a');
-      a.href=URL.createObjectURL(blob);
-      a.download=`${ym} Expenses.csv`;
-      a.click();
-      URL.revokeObjectURL(a.href);
+    // Legend with live $ funded towards each category (capped at category goal)
+    leg.innerHTML = '';
+    BUDGET.forEach((item, idx) => {
+      const li = document.createElement('li');
+      const goalAmt = GOAL * (item.pct/100);
+      const funded  = Math.min(total * (item.pct/100), goalAmt);
+      li.innerHTML = `
+        <span class="sw" style="background:${DONUT_COLORS[idx % DONUT_COLORS.length]}"></span>
+        <span class="lbl">${item.label}</span>
+        <span class="pct">${item.pct.toFixed(0)}%</span>
+        <span class="amt">${funded.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0})}
+          / ${goalAmt.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0})}</span>
+      `;
+      leg.appendChild(li);
     });
-    return;
   }
 
-  const dir = await getCsvDirectory();
-  if(!dir) return; // user cancelled
-
-  const buckets={};
-  for(const e of filtered){ const ym=(e.date||'').slice(0,7)||'UNKNOWN'; (buckets[ym]=buckets[ym]||[]).push(e); }
-
-  const results = [];
-  for(const [ym,rows] of Object.entries(buckets)){
-    // optional: ensure you're in a folder actually called CSV (not required, but suggested)
-    results.push(await writeMonthCsv(dir, ym, rows));
+  // === MILESTONES / PILOT TEXT / TOTALS ===
+  function renderMilestones(total){
+    const box = $("miles"); box.innerHTML = "";
+    MILESTONES.forEach(m=>{
+      const hit = total >= m.target;
+      const el = document.createElement("div");
+      el.className = "mile";
+      el.innerHTML = `<div class="tick" aria-hidden="true">${hit ? "✓" : "•"}</div>
+        <div><strong>${m.label}</strong>
+        <div class="small muted">${fmt(m.target)} goal ${hit ? "— achieved" : ""}</div></div>`;
+      box.appendChild(el);
+    });
   }
 
-  // Summarize to user
-  const saved = results.filter(r=>r.status==='saved').map(r=>r.ym);
-  const skipped = results.filter(r=>r.status==='exists').map(r=>r.ym);
-  alert(
-    `${t('csv_summary')}\n\n`+
-    `${t('csv_saved_to')} ${saved.length? saved.join(', ') : '—'}\n`+
-    `${t('csv_skipped')} ${skipped.length? skipped.join(', ') : '—'}`
-  );
-}
-
-/* Buttons */
-$('#setCsvDir').addEventListener('click', async ()=>{
-  const dir = await pickCsvDirectory();
-  if(dir){ alert(t('csv_pick_dir')); }
-});
-
-$('#monthlyCsv').addEventListener('click', exportMonthlyToFolder);
-
-/* ================= Edit / Delete ================= */
-let editingId = null;
-const backdrop = $('#editBackdrop');
-const editRefs = {
-  date: $('#edit-date'), entity: $('#edit-entity'), payee: $('#edit-payee'), amount: $('#edit-amount'),
-  category: $('#edit-category'), method: $('#edit-method'), invoice: $('#edit-invoice'), stmt: $('#edit-stmt'), memo: $('#edit-memo')
-};
-function openEdit(id){
-  const e = state.entries.find(x=>x.id===id); if(!e) return;
-  editingId = id;
-  editRefs.date.value = e.date || '';
-  editRefs.entity.value = e.entity || 'Personal';
-  editRefs.payee.value = e.payee || '';
-  editRefs.amount.value = Number(e.amount||0).toFixed(2);
-  editRefs.category.value = e.category || 'Other';
-  editRefs.method.value = e.method || 'Card';
-  editRefs.invoice.value = e.invoice || '';
-  editRefs.stmt.value = e.statement || '';
-  editRefs.memo.value = e.memo || '';
-  $('#hashInfo').innerHTML = `<span class="small muted">${t('id_label')}: <code>${e.id}</code> · ${t('prev_label')}: <code>${(e.prevHash||'').slice(0,16)}…</code> · ${t('hash_label')}: <code>${(e.hash||'').slice(0,16)}…</code></span>`;
-  $('#editTitle').textContent = t('edit_title'); $('#editSave').textContent=t('save_changes'); $('#editCancel').textContent=t('cancel');
-  backdrop.classList.add('show'); backdrop.setAttribute('aria-hidden','false');
-}
-function closeEdit(){
-  editingId = null;
-  backdrop.classList.remove('show'); backdrop.setAttribute('aria-hidden','true');
-}
-$('#editClose').addEventListener('click', closeEdit);
-$('#editCancel').addEventListener('click', closeEdit);
-backdrop.addEventListener('click', (e)=>{ if(e.target===backdrop) closeEdit(); });
-
-$('#editSave').addEventListener('click', async ()=>{
-  if(!editingId) return;
-  const idx = state.entries.findIndex(x=>x.id===editingId); if(idx<0) return;
-  const e = state.entries[idx];
-  if(!editRefs.date.value || !editRefs.payee.value.trim() || !(Number(editRefs.amount.value)>0)){
-    alert(t('must_fill')); return;
+  function pilotText(total){
+    const early = total >= GOAL;
+    const dt = early ? new Date() : PILOT_START;
+    const fmtDate = dt.toLocaleDateString(undefined,{year:'numeric',month:'short'});
+    const el = $("pilotDateTxt");
+    if(el) el.textContent = early ? 'as soon as funding clears' : fmtDate;
   }
-  e.date = editRefs.date.value;
-  e.entity = editRefs.entity.value;
-  e.payee = editRefs.payee.value.trim();
-  e.amount = Number(editRefs.amount.value||0);
-  e.category = editRefs.category.value;
-  e.method = editRefs.method.value;
-  e.invoice = editRefs.invoice.value.trim();
-  e.statement = editRefs.stmt.value.trim();
-  e.memo = editRefs.memo.value;
-  e.updatedAt = new Date().toISOString();
-  await recomputeChain();
-  saveAll(state);
-  render();
-  closeEdit();
-  activateTab($('#tab-ledger'));
-});
 
-async function deleteEntry(id){
-  if(!confirm(t('confirm_delete'))) return;
-  const idx = state.entries.findIndex(e=>e.id===id); if(idx<0) return;
-  state.entries.splice(idx,1);
-  await recomputeChain();
-  saveAll(state);
-  render();
-  activateTab($('#tab-ledger'));
-}
+  function renderTotals(total){
+    $("raised").textContent = fmt(total);
+    $("goal").textContent   = fmt(GOAL);
+    const pct = Math.min(100, Math.round((total/GOAL)*100));
+    $("fill").style.width = pct + "%";
 
-/* ================= Boot ================= */
-function applyThemeBtn(){ const themeBtn=$('#themeToggle'); if(themeBtn){ const light=document.documentElement.classList.contains('light'); themeBtn.textContent=light?t('theme_light'):t('theme_dark'); } }
-initTheme();
-initLanguage();
-render();
-applyThemeBtn();
+    const {segments, km, meals} = computeKPIs(total);
+    $("segments").textContent = segments.toFixed(1);
+    $("kmBuilt").textContent  = km.toFixed(2);
+    $("meals").textContent    = meals.toLocaleString();
+  }
+
+  // === COUNTDOWN ===
+  function tick(){
+    const now = new Date();
+    const diff = Math.max(0, NEXT_SHIP - now);
+    const d = Math.floor(diff/864e5), h = Math.floor((diff%864e5)/36e5), m = Math.floor((diff%36e5)/6e4);
+    $("d").textContent = String(d).padStart(2,"0");
+    $("h").textContent = String(h).padStart(2,"0");
+    $("m").textContent = String(m).padStart(2,"0");
+  }
+
+  // === DONATION UI (demo) ===
+  function setPreset(v){ $("amt").value = v }
+  function fakeDonate(){
+    const v = Math.max(0, Number($("amt").value||0));
+    if(!v) return;
+    raised += v; renderAll();
+    alert("Thank you! (Demo) In production this would redirect to secure checkout and update via webhook.");
+  }
+
+  // === MAIN RENDER LOOP ===
+  function renderAll(){
+    renderTotals(raised);
+    renderBudgetDonut(raised);   // << NEW donut render
+    renderMilestones(raised);
+    pilotText(raised);
+  }
+
+  $("yr").textContent = new Date().getFullYear();
+  renderAll(); tick(); setInterval(tick, 30_000);
+
+  /* IMPACT BANNER */
+  const FACTS = [
+    "Rwanda’s road, built by Rwandans",
+    "Local crews trained & certified",
+    "100% natural mineral materials from Rwanda",
+    "Basalt-based surface designed for tropical rains",
+    "Consistent 3–5% crown & clear drains reduce washouts",
+    "Dense, well-cured surface = fewer regradings",
+    "Less imported haul = fewer transport emissions",
+    "Lower dust vs. untreated gravel in dry season",
+    "Tarp-cured sections improve early strength",
+    "Maintenance-first design: easy to patch & keep open",
+    "Every $7,000 funds 1 km of road",
+    "Transparent: receipts & photo proof posted",
+    "Community pride: local names in the build history",
+    "Built to compare with Africa’s best feeder roads",
+    "Step-up durability from basic gravel/laterite"
+  ];
+  function makeRowHTML(items){
+    return (
+      '<div class="impact-scroll">' +
+        items.map(txt => `
+          <span class="impact-chip">
+            <span class="dot" aria-hidden="true"></span>${txt}
+          </span>`).join('') +
+        items.map(txt => `
+          <span class="impact-chip">
+            <span class="dot" aria-hidden="true"></span>${txt}
+          </span>`).join('') +
+      '</div>'
+    );
+  }
+  function mountImpactBanner(){
+    const top = document.getElementById('impactTop');
+    const bot = document.getElementById('impactBottom');
+    if(!top || !bot) return;
+    const rowA = FACTS.slice();
+    const rowB = FACTS.slice().reverse();
+    top.innerHTML = makeRowHTML(rowA);
+    bot.innerHTML = makeRowHTML(rowB);
+    const topScroll = top.querySelector('.impact-scroll');
+    const botScroll = bot.querySelector('.impact-scroll');
+    topScroll.style.animation = 'scrollLeft 40s linear infinite';
+    botScroll.style.animation = 'scrollRight 50s linear infinite';
+  }
+  mountImpactBanner();
 </script>
 </body>
 </html>
