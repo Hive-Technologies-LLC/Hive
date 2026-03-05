@@ -1,0 +1,216 @@
+/* ============================================================
+  HiveOS Lite — App Styles
+  File: app.css
+  Rev: 0.1.0
+  Purpose:
+    All layout + component styling (panels, cards, charts, lists).
+    Tokens live in tokens.css.
+
+  QUICK JUMPS (Search These Tags):
+    [CSS:BASE]
+    [CSS:LAYOUT]
+    [CSS:UPLOAD]
+    [CSS:PANELS]
+    [CSS:RESULTS]
+    [CSS:GRID]
+    [CSS:SOC]
+    [CSS:SOH]
+    [CSS:ANIMATIONS]
+============================================================ */
+
+/* [CSS:BASE] */
+*{ box-sizing:border-box; }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+}
+
+/* [CSS:LAYOUT] */
+.wrap{ max-width:960px; margin:36px auto; padding:0 16px; }
+.title{
+  text-align:center;
+  line-height:0.7;
+  margin:0 0 18px;
+  font-size:26px;
+  font-weight:900;
+  letter-spacing:.2px;
+}
+.muted{ color:var(--muted); text-align:center; margin-top:10px; }
+.mutedSmall{ color:var(--muted); font-size:13px; }
+.kpi{ font-size:32px; font-weight:900; }
+.divider{ height:30px; }
+.spacer8{ height:8px; }
+.mb8{ margin-bottom:8px; }
+
+/* [CSS:UPLOAD] */
+.controls{
+  text-align:center;
+  background:var(--panel);
+  border:1.5px solid var(--gold);
+  border-radius:14px;
+  padding:24px 16px;
+  box-shadow:0 0 12px rgba(212,175,55,0.20);
+  transition:box-shadow .3s ease, transform .2s ease;
+}
+.controls:hover{
+  box-shadow:0 0 18px rgba(212,175,55,0.35);
+  transform:translateY(-2px);
+}
+input[type=file]{
+  appearance:none;
+  background:#0f171c;
+  border:1px solid #1b2a30;
+  border-radius:10px;
+  color:var(--text);
+  padding:10px;
+  cursor:pointer;
+  transition:border-color .25s ease, box-shadow .25s ease;
+}
+input[type=file]:hover{
+  border-color:var(--gold);
+  box-shadow:0 0 8px rgba(212,175,55,0.30);
+}
+
+/* [CSS:PANELS] */
+.panel, .card{
+  background:var(--card);
+  border:1.5px solid var(--gold);
+  border-radius:12px;
+  padding:16px;
+  box-shadow:0 0 10px rgba(212,175,55,0.15);
+  transition:box-shadow .3s ease, transform .2s ease;
+}
+.panel:hover, .card:hover{
+  box-shadow:0 0 18px rgba(212,175,55,0.35);
+  transform:translateY(-2px);
+}
+.panel{ background:var(--panel); }
+
+/* [CSS:RESULTS] */
+#results{
+  display:none;
+  opacity:0;
+  transition:opacity .45s ease;
+  margin-top:18px;
+}
+#results.show{
+  display:grid;
+  opacity:1;
+  gap:16px;
+}
+
+/* [CSS:GRID] */
+.grid{
+  display:grid;
+  grid-template-columns:1.4fr .8fr .8fr;
+  gap:16px;
+}
+@media (max-width:960px){
+  .grid{ grid-template-columns:1fr; }
+}
+
+/* [CSS:SOC] */
+.socWrap{
+  display:grid;
+  grid-template-columns:220px 1fr 190px;
+  gap:16px;
+  align-items:center;
+}
+@media (max-width:960px){
+  .socWrap{ grid-template-columns:1fr; }
+}
+.spark{
+  height:64px;
+  width:100%;
+  background:#0c1418;
+  border:1px solid #122029;
+  border-radius:10px;
+  overflow:hidden;
+}
+.soc-stats{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:12px;
+  border:1px solid rgba(212,175,55,.35);
+  border-radius:10px;
+  background:#0f1419;
+  box-shadow:inset 0 0 0 1px rgba(212,175,55,.08);
+}
+.stat-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-size:14px;
+  color:#cbd5e1;
+}
+.stat-row .label{
+  color:#94a3b8;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.stat-row .value{ font-weight:700; color:#e5eef7; }
+.stat-dot{
+  width:8px; height:8px; border-radius:50%;
+  background:#12d18e; box-shadow:0 0 8px #12d18e80;
+}
+
+/* [CSS:SOH] */
+.battery-horizontal{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:40px;
+  margin:12px 0;
+  gap:6px;
+}
+.battery-body-h{
+  flex:1;
+  height:100%;
+  background:#0d1419;
+  border:2px solid #1f2b34;
+  border-radius:8px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.03);
+}
+#batteryFillH{
+  position:absolute; top:0; left:0;
+  width:0%; height:100%;
+  background:linear-gradient(90deg, #0bfc8f, #00d4ff, #0bfc8f);
+  background-size:200% 100%;
+  transition:width 500ms ease, background-color 300ms ease, filter 300ms ease;
+  animation:glowShift 3s linear infinite;
+  filter:drop-shadow(0 0 8px rgba(18,209,142,0.60));
+}
+.battery-overlay-h{
+  position:absolute; inset:0;
+  background:linear-gradient(to right, rgba(255,255,255,0.08), rgba(255,255,255,0));
+  border-radius:6px;
+  pointer-events:none;
+}
+.battery-cap-h{
+  width:10px; height:18px;
+  background:#0d1419;
+  border:2px solid #1f2b34;
+  border-left:none;
+  border-radius:0 4px 4px 0;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.03);
+}
+
+/* [CSS:ANIMATIONS] */
+@keyframes glowShift{
+  0% { background-position:0% 50% }
+  50% { background-position:100% 50% }
+  100% { background-position:0% 50% }
+}
+@keyframes pulseGlow{
+  0% { filter:drop-shadow(0 0 4px rgba(18,209,142,0.30)) }
+  50% { filter:drop-shadow(0 0 16px rgba(18,209,142,0.80)) }
+  100% { filter:drop-shadow(0 0 4px rgba(18,209,142,0.30)) }
+}
+.glowPulse{ animation:pulseGlow 2.5s infinite; }
