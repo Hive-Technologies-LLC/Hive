@@ -1,0 +1,104 @@
+/* ============================================================
+  HiveOS Website — Layout System
+  File: css/layout.css
+  Rev: 0.1.1
+  Purpose: Containers, grids, section spacing, page structure
+
+  QUICK JUMPS (Search These Tags):
+    [LAYOUT:CONTAINERS]
+    [LAYOUT:SECTIONS]
+    [LAYOUT:GRID]
+    [LAYOUT:STACKS]
+    [LAYOUT:RESPONSIVE]
+============================================================ */
+
+
+/* ============================================================
+   [LAYOUT:CONTAINERS]
+   Global page width + padding
+============================================================ */
+.container{
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.site-main{
+  min-height: calc(100vh - 76px); /* approx nav height */
+}
+
+
+/* ============================================================
+   [LAYOUT:SECTIONS]
+   Consistent section spacing
+============================================================ */
+.section{
+  padding: 56px 0;
+}
+
+.section--tight{
+  padding: 36px 0;
+}
+
+.section--loose{
+  padding: 80px 0;
+}
+
+
+/* ============================================================
+   [LAYOUT:GRID]
+   Simple layout helpers (2-col, 3-col)
+============================================================ */
+.grid{
+  display: grid;
+  gap: 18px;
+}
+
+.grid--2{
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid--3{
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.align-center{
+  align-items: center;
+}
+
+
+/* ============================================================
+   [LAYOUT:STACKS]
+   Vertical rhythm helpers
+============================================================ */
+.stack{
+  display: grid;
+  gap: 14px;
+}
+
+.stack--sm{ gap: 10px; }
+.stack--lg{ gap: 18px; }
+
+
+/* ============================================================
+   [LAYOUT:RESPONSIVE]
+   Breakpoints
+============================================================ */
+@media (max-width: 900px){
+  .grid--3{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px){
+  .container{
+    padding: 0 18px;
+  }
+  .grid--2,
+  .grid--3{
+    grid-template-columns: 1fr;
+  }
+  .section{
+    padding: 44px 0;
+  }
+}
