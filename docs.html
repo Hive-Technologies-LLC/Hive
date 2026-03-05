@@ -1,0 +1,274 @@
+<!-- ============================================================
+  HiveOS Website — Docs
+  File: docs.html
+  Rev: 0.1.2
+  Purpose: Documentation hub (overview, quick start, concepts, formats, integrations)
+
+  QUICK JUMPS (Search These Tags):
+    [HTML:HEAD]
+    [HTML:NAV-PLACEHOLDER]
+    [HTML:MAIN]
+      [HTML:SECTION-DOCS-SHELL]
+        [HTML:DOCS-SIDEBAR]
+        [HTML:DOCS-CONTENT]
+    [HTML:FOOTER-PLACEHOLDER]
+    [HTML:SCRIPTS]
+============================================================ -->
+<!doctype html>
+<html lang="en">
+
+<!-- ============================================================
+  [HTML:HEAD]
+============================================================ -->
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Platform Guide — HiveOS</title>
+
+  <!-- Global Styles (Order Matters) -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/background.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <!-- Page Specific -->
+  <link rel="stylesheet" href="css/pages/docs.css">
+</head>
+
+<body>
+
+<!-- ============================================================
+  [HTML:NAV-PLACEHOLDER]
+============================================================ -->
+<div data-include="partials/nav.html"></div>
+
+<!-- ============================================================
+  [HTML:MAIN]
+============================================================ -->
+<main class="site-main">
+
+  <!-- ==========================================================
+    [HTML:SECTION-DOCS-SHELL]
+  =========================================================== -->
+  <section class="section docs-shell">
+    <div class="container docs-shell__grid">
+
+      <!-- Mobile/Tablet Drawer Toggle -->
+      <div class="docs-toolbar">
+        <button class="btn btn--ghost docs-menu-btn" type="button" data-docs-open>
+          Menu
+        </button>
+      </div>
+
+      <!-- Overlay (mobile only) -->
+      <div class="docs-overlay" data-docs-close aria-hidden="true"></div>
+
+      <!-- ========================================================
+        [HTML:DOCS-SIDEBAR] (Drawer on small screens)
+      ========================================================= -->
+      <aside class="docs-sidebar" aria-label="Docs Navigation" data-docs-drawer>
+        <div class="docs-sidebar__card">
+
+          <div class="docs-sidebar__top">
+            <div class="docs-sidebar__heading">Platform Guide Navigation</div>
+
+            <!-- Close button (mobile only) -->
+            <button class="docs-close" type="button" aria-label="Close docs menu" data-docs-close>
+              ✕
+            </button>
+          </div>
+
+          <div class="docs-nav">
+
+            <div class="docs-nav__group">
+              <div class="docs-nav__label">Start</div>
+              <a class="docs-nav__link is-active" href="#overview">Overview</a>
+              <a class="docs-nav__link" href="#quickstart">Quick Start</a>
+            </div>
+
+            <div class="docs-nav__group">
+              <div class="docs-nav__label">Core Concepts</div>
+              <a class="docs-nav__link" href="#standardization">Data Standardization</a>
+              <a class="docs-nav__link" href="#socsoh">SOC &amp; SOH</a>
+              <a class="docs-nav__link" href="#faults">Fault Diagnostics</a>
+            </div>
+
+            <div class="docs-nav__group">
+              <div class="docs-nav__label">Data &amp; Formats</div>
+              <a class="docs-nav__link" href="#inputs">Supported Inputs</a>
+              <a class="docs-nav__link" href="#fields">Required Fields</a>
+              <a class="docs-nav__link" href="#errors">Common Errors</a>
+            </div>
+
+            <div class="docs-nav__group">
+              <div class="docs-nav__label">Integrations</div>
+              <a class="docs-nav__link" href="#solar">Solar Exports</a>
+              <a class="docs-nav__link" href="#bms">BMS Telemetry</a>
+            </div>
+
+            <div class="docs-nav__group">
+              <div class="docs-nav__label">Roadmap</div>
+              <a class="docs-nav__link" href="#api">API (Coming Soon)</a>
+              <a class="docs-nav__link" href="#firmware">Firmware Plans</a>
+            </div>
+
+          </div>
+        </div>
+      </aside>
+
+      <!-- ========================================================
+        [HTML:DOCS-CONTENT]
+      ========================================================= -->
+      <div class="docs-content">
+        <div class="docs-surface">
+
+          <!-- [DOCS:OVERVIEW] -->
+          <section id="overview" class="docs-section">
+            <h1 class="docs-title">Platform Guide</h1>
+            <p class="docs-subtitle">Documentation to help you get started and scale.</p>
+            <hr class="docs-rule">
+            <h2 class="docs-h2">Welcome to HiveOS Platform Guide</h2>
+            <p class="docs-p">Your resource for battery intelligence and integration guides.</p>
+          </section>
+
+          <!-- [DOCS:QUICKSTART-CARD] -->
+          <section id="quickstart" class="docs-section">
+            <div class="docs-feature">
+              <div class="docs-feature__icon" aria-hidden="true">
+                <svg class="docs-ico" viewBox="0 0 24 24" fill="none">
+                  <path d="M14 4c3 1 6 4 6 7-3 0-6 3-7 6-2 0-4-1-6-3 1-3 4-6 7-10Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                  <path d="M9 15l-3 3v-4l2-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M13 7h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </div>
+
+              <div class="docs-feature__body">
+                <h3 class="docs-h3">Quick Start Guide</h3>
+                <p class="docs-p">
+                  Initial setup, data import tips, and key concepts to begin.
+                </p>
+                <a class="btn btn--ghost docs-feature__btn" href="#inputs">Read More</a>
+              </div>
+            </div>
+          </section>
+
+          <!-- [DOCS:GRID-SECTIONS] -->
+          <section class="docs-section">
+            <div class="docs-split">
+
+              <!-- Core Concepts -->
+              <div>
+                <h3 class="docs-h3 docs-blocktitle">Core Concepts</h3>
+
+                <div class="docs-cardgrid">
+                  <a id="standardization" class="docs-mini" href="#standardization">
+                    <div class="docs-mini__icon" aria-hidden="true"></div>
+                    <div>
+                      <div class="docs-mini__title">Data Standardization</div>
+                      <div class="docs-mini__text">Transform diverse telemetry into a unified model.</div>
+                    </div>
+                  </a>
+
+                  <a id="socsoh" class="docs-mini" href="#socsoh">
+                    <div class="docs-mini__icon" aria-hidden="true"></div>
+                    <div>
+                      <div class="docs-mini__title">SOC &amp; SOH Metrics</div>
+                      <div class="docs-mini__text">Understand State of Charge and State of Health.</div>
+                    </div>
+                  </a>
+
+                  <a id="faults" class="docs-mini" href="#faults">
+                    <div class="docs-mini__icon" aria-hidden="true"></div>
+                    <div>
+                      <div class="docs-mini__title">Fault Diagnostics</div>
+                      <div class="docs-mini__text">Track anomalies and classify severity signals.</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Integration Guides -->
+              <div>
+                <h3 class="docs-h3 docs-blocktitle">Integration Guides</h3>
+
+                <div class="docs-cardgrid">
+                  <a id="solar" class="docs-mini" href="#solar">
+                    <div class="docs-mini__icon" aria-hidden="true"></div>
+                    <div>
+                      <div class="docs-mini__title">Solar Monitoring</div>
+                      <div class="docs-mini__text">Connect inverter and solar exports.</div>
+                    </div>
+                  </a>
+
+                  <a id="bms" class="docs-mini" href="#bms">
+                    <div class="docs-mini__icon" aria-hidden="true"></div>
+                    <div>
+                      <div class="docs-mini__title">BMS Connections</div>
+                      <div class="docs-mini__text">Integrate telemetry from BMS systems.</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- [DOCS:NOTE] -->
+          <section class="docs-section">
+            <div class="docs-note" role="note" aria-label="Note">
+              <div class="docs-note__badge" aria-hidden="true">i</div>
+              <p class="docs-note__text">
+                Ensure input files are properly formatted before uploading to avoid parsing errors.
+              </p>
+            </div>
+          </section>
+
+          <!-- [DOCS:PLACEHOLDER-SECTIONS] -->
+          <section id="inputs" class="docs-section">
+            <h3 class="docs-h3">Supported Inputs</h3>
+            <p class="docs-p">Add your supported file types here (CSV, JSON, CAN logs, BMS exports).</p>
+          </section>
+
+          <section id="fields" class="docs-section">
+            <h3 class="docs-h3">Required Fields</h3>
+            <p class="docs-p">List required columns/keys for a successful import (cell_id, voltage, temp, timestamp, etc.).</p>
+          </section>
+
+          <section id="errors" class="docs-section">
+            <h3 class="docs-h3">Common Errors</h3>
+            <p class="docs-p">Show typical formatting issues and how HiveOS interprets/flags them.</p>
+          </section>
+
+          <section id="api" class="docs-section">
+            <h3 class="docs-h3">API (Coming Soon)</h3>
+            <p class="docs-p">Placeholder for future endpoints and integration paths.</p>
+          </section>
+
+          <section id="firmware" class="docs-section">
+            <h3 class="docs-h3">Firmware Plans</h3>
+            <p class="docs-p">Placeholder for future tier docs (Tray/Crate/Rack/Master) and ABMS behaviors.</p>
+          </section>
+
+        </div><!-- /docs-surface -->
+      </div><!-- /docs-content -->
+
+    </div><!-- /docs-shell__grid -->
+  </div><!-- /container -->
+</section><!-- /docs-shell -->
+
+</main>
+
+<!-- ============================================================
+  [HTML:FOOTER-PLACEHOLDER]
+============================================================ -->
+<div data-include="partials/footer.html"></div>
+
+<!-- ============================================================
+  [HTML:SCRIPTS]
+============================================================ -->
+<script src="js/include.js"></script>
+<script src="js/docs.js"></script>
+
+</body>
+</html>
