@@ -1,0 +1,23 @@
+/* ============================================================
+  HiveOS Lite — Theme Tokens
+  File: tokens.css
+  Rev: 0.1.0
+  Purpose:
+    Global design tokens (colors, core theme variables).
+    Edit here first when changing the look.
+
+  QUICK JUMPS (Search These Tags):
+    [CSS:TOKENS]
+============================================================ */
+
+/* [CSS:TOKENS] */
+:root{
+  --bg:#0b0f12;
+  --panel:#11161b;
+  --card:#0f1419;
+  --text:#e5eef7;
+  --muted:#94a3b8;
+  --primary:#12d18e;
+  --primary-600:#0fb67a;
+  --gold:#d4af37;
+}
