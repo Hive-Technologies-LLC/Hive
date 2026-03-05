@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ============================================================
+    HiveOS Lite — Frontend
+    File: index.html
+    Purpose: Upload UI + results dashboard (SOC/SOH/Faults)
+    Notes:
+      - Uses ES modules (js/*.js)
+      - Run via local server for offline demo stability
+  ============================================================ -->
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HiveOS Lite</title>
+
+  <!-- QUICK JUMPS (Search These Tags):
+    [HTML:CSS]
+    [HTML:LAYOUT]
+      [HTML:UPLOAD]
+      [HTML:INSTRUCTIONS]
+      [HTML:RESULTS]
+    [HTML:SCRIPTS]
+  -->
+
+  <!-- [HTML:CSS] -->
+  <link rel="stylesheet" href="./css/tokens.css" />
+  <link rel="stylesheet" href="./css/app.css" />
+</head>
+
+<body>
+  <div class="wrap">
+    <!-- [HTML:LAYOUT] -->
+    <h1 class="title">Battery Analyzer</h1>
+
+    <!-- [HTML:UPLOAD] -->
+    <div id="uploadBox" class="panel controls">
+      <input id="file" type="file" accept=".csv,.json,application/json,text/csv" />
+      <div id="status" class="muted">Choose a file to analyze</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- [HTML:INSTRUCTIONS] -->
+    <section id="instructions" class="panel instructions">
+      <h3>How it works</h3>
+      <ol>
+        <li><strong>Upload</strong> your <code>.json</code> or <code>.csv</code> battery file.</li>
+        <li><strong>Receive instant insights</strong> — SOC, SOH, and early fault detection.</li>
+        <li><strong>Save money</strong> on future repairs and gain <strong>peace of mind</strong>.</li>
+      </ol>
+    </section>
+
+    <!-- [HTML:RESULTS] -->
+    <div id="results">
+
+      <!-- SOC GAUGE + SPARKLINE + QUICK STATS -->
+      <div class="panel">
+        <div class="socWrap">
+          <canvas id="gauge" width="220" height="220"></canvas>
+
+          <div>
+            <div class="kpi" id="socText">—</div>
+            <div class="mutedSmall">State of Charge</div>
+            <div class="spacer8"></div>
+            <div class="mutedSmall">Trend</div>
+            <canvas id="spark" class="spark"></canvas>
+          </div>
+
+          <div id="socStats" class="soc-stats">
+            <div class="stat-row"><div class="label"><span class="stat-dot"></span>Voltage</div><div class="value" id="statVoltage">—</div></div>
+            <div class="stat-row"><div class="label"><span class="stat-dot"></span>Current</div><div class="value" id="statCurrent">—</div></div>
+            <div class="stat-row"><div class="label"><span class="stat-dot"></span>Est. Range</div><div class="value" id="statRange">—</div></div>
+            <div class="stat-row"><div class="label"><span class="stat-dot"></span>Time to Full</div><div class="value" id="statTTF">—</div></div>
+          </div>
+        </div>
+      </div>
+
+<!-- KPI CARDS -->
+<div class="grid">
+  <div class="card" id="sohCard">
+    <div class="mutedSmall">Battery Health</div>
+    <div class="battery-horizontal" aria-label="Battery health">
+      <div class="battery-body-h">
+        <div id="batteryFillH"></div>
+        <div class="battery-overlay-h"></div>
+      </div>
+      <div class="battery-cap-h"></div>
+    </div>
+    <div class="kpi" id="sohText">—</div>
+  </div>
+
+  <div class="card" id="tempCard">
+    <div class="mutedSmall">Temperature</div>
+    <div class="kpi" id="tempText">—</div>
+  </div>
+
+  <div class="card" id="faultCard">
+    <div class="mutedSmall">Faults</div>
+    <div class="kpi"><span id="faultCount">0</span></div>
+  </div>
+
+  <div class="card" id="confidenceCard">
+    <div class="mutedSmall">Analysis Confidence</div>
+    <div class="kpi" id="confidenceText">—</div>
+  </div>
+</div>
+
+      <!-- RECENT FAULTS -->
+      <div class="panel">
+        <div class="mutedSmall mb8">Recent Faults</div>
+        <div id="faultList" class="list">
+          <div class="item"><span class="mutedSmall">No issues detected.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- [HTML:SCRIPTS] -->
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
