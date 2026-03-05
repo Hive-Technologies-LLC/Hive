@@ -1,0 +1,278 @@
+<!-- ============================================================
+  HiveOS Website — About
+  File: about.html
+  Rev: 0.1.1
+  Purpose: Software-first credibility page (mission + founder + differentiation)
+
+  QUICK JUMPS (Search These Tags):
+    [HTML:HEAD]
+    [HTML:NAV-PLACEHOLDER]
+    [HTML:MAIN]
+      [HTML:SECTION-ABOUT-HERO]
+      [HTML:SECTION-WHY-DIFFERENT]
+      [HTML:SECTION-MISSION]
+      [HTML:SECTION-FOUNDER]
+      [HTML:SECTION-VALUES]
+      [HTML:SECTION-CTA]
+    [HTML:FOOTER-PLACEHOLDER]
+    [HTML:SCRIPTS]
+============================================================ -->
+<!doctype html>
+<html lang="en">
+
+<!-- ============================================================
+  [HTML:HEAD]
+============================================================ -->
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>About — HiveOS</title>
+
+  <!-- Global Styles (Order Matters) -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/background.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <!-- Page Specific -->
+  <link rel="stylesheet" href="css/pages/about.css">
+</head>
+
+<body>
+
+<!-- ============================================================
+  [HTML:NAV-PLACEHOLDER]
+============================================================ -->
+<div data-include="partials/nav.html"></div>
+
+<!-- ============================================================
+  [HTML:MAIN]
+============================================================ -->
+<main class="site-main">
+
+  <!-- ==========================================================
+    [HTML:SECTION-ABOUT-HERO]
+  =========================================================== -->
+  <section class="section about-hero">
+    <div class="container about-hero__grid">
+
+      <div class="stack stack--lg">
+        <h1 class="about-title">About HiveOS</h1>
+        <p class="about-subtitle">
+          HiveOS is built for one job: turn messy, inconsistent battery telemetry into reliable intelligence —
+          across vendors, formats, and real-world operating conditions.
+        </p>
+
+        <div class="btn-row">
+          <a href="docs.html" class="btn btn--primary">Explore Docs</a>
+          <a href="contact.html" class="btn btn--ghost">Talk to Us</a>
+        </div>
+      </div>
+
+      <div class="about-hero__card card card--padded">
+        <h3 class="card__title">What HiveOS Delivers</h3>
+        <p class="card__muted">
+          Unified ingestion → standardization → diagnostics → predictive insights —
+          designed to scale from one pack to entire fleets.
+        </p>
+
+        <div class="about-pills">
+          <span class="badge badge--ok">Hardware-Agnostic</span>
+          <span class="badge">Telemetry Normalization</span>
+          <span class="badge">Fault Classification</span>
+          <span class="badge">Confidence Scoring</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================
+    [HTML:SECTION-WHY-DIFFERENT]
+  =========================================================== -->
+  <section class="section section--tight">
+    <div class="container">
+
+      <div class="stack stack--lg">
+        <h2 class="section-title">Why HiveOS Is Different</h2>
+        <p class="about-lead">
+          Most tools stop at dashboards. HiveOS focuses on the hard part:
+          building a consistent intelligence layer when the data is inconsistent.
+        </p>
+
+        <div class="grid grid--3">
+          <div class="about-diff card card--padded">
+            <h3 class="card__title">Built for Dirty Data</h3>
+            <p class="card__muted">
+              Exports vary by vendor, firmware version, and site configuration.
+              HiveOS standardizes inputs into a unified model before analysis.
+            </p>
+          </div>
+
+          <div class="about-diff card card--padded">
+            <h3 class="card__title">System-Level Diagnostics</h3>
+            <p class="card__muted">
+              Diagnose cell, module, and pack behaviors — not just “alerts.”
+              Trace faults with structured metadata so operators can act fast.
+            </p>
+          </div>
+
+          <div class="about-diff card card--padded">
+            <h3 class="card__title">Confidence-Based Risk</h3>
+            <p class="card__muted">
+              HiveOS includes confidence scoring to reduce false positives and
+              highlight what’s actually trustworthy in the telemetry.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================
+    [HTML:SECTION-MISSION]
+  =========================================================== -->
+  <section class="section">
+    <div class="container">
+
+      <div class="about-split">
+        <div class="stack stack--lg">
+          <h2 class="section-title">Mission</h2>
+          <p class="about-text">
+            Make battery intelligence usable at scale — so solar, storage, and energy infrastructure operators
+            can trust their data, prevent failures earlier, and expand deployments with confidence.
+          </p>
+          <p class="about-text">
+            HiveOS is designed to be the software layer that works across hardware ecosystems —
+            bringing standardization and predictive diagnostics to systems that were never built to speak the same language.
+          </p>
+        </div>
+
+        <div class="card card--padded about-proof">
+          <h3 class="card__title">Designed for Scale</h3>
+          <ul class="about-bullets">
+            <li>Works across mixed fleets (multi-vendor environments)</li>
+            <li>Supports multiple file and telemetry formats (CSV / JSON / CAN)</li>
+            <li>Structured fault metadata (location + severity + trace)</li>
+            <li>Extensible analytics modules (SOC / SOH / degradation models)</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================
+    [HTML:SECTION-FOUNDER]
+  =========================================================== -->
+  <section class="section section--tight">
+    <div class="container">
+
+      <div class="about-founder card card--padded">
+        <div class="about-founder__grid">
+
+          <div class="stack">
+            <h2 class="section-title">Founder</h2>
+            <p class="about-text">
+              HiveOS is built by a founder focused on solving a practical, high-impact problem:
+              battery data is abundant, but actionable intelligence is rare.
+            </p>
+            <p class="about-text">
+              The approach is product-first: standardize data, prove diagnostics value, then scale into fleet intelligence.
+              This emphasis keeps HiveOS grounded in real operational needs — not just visual dashboards.
+            </p>
+          </div>
+
+          <div class="about-founder__facts">
+            <div class="about-fact">
+              <div class="about-fact__k">Focus</div>
+              <div class="about-fact__v">Battery telemetry → intelligence</div>
+            </div>
+            <div class="about-fact">
+              <div class="about-fact__k">Design</div>
+              <div class="about-fact__v">Modular + hardware-agnostic</div>
+            </div>
+            <div class="about-fact">
+              <div class="about-fact__k">Core Output</div>
+              <div class="about-fact__v">SOC / SOH + fault tracing + risk scoring</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================
+    [HTML:SECTION-VALUES]
+  =========================================================== -->
+  <section class="section">
+    <div class="container">
+
+      <div class="stack stack--lg">
+        <h2 class="section-title">What We Value</h2>
+
+        <div class="grid grid--3">
+          <div class="card card--padded">
+            <h3 class="card__title">Accuracy Over Assumptions</h3>
+            <p class="card__muted">Don’t guess. Validate inputs, score confidence, and show what’s reliable.</p>
+          </div>
+
+          <div class="card card--padded">
+            <h3 class="card__title">Operator Clarity</h3>
+            <p class="card__muted">Diagnostics should be actionable, not noisy. Clear faults, clear priorities.</p>
+          </div>
+
+          <div class="card card--padded">
+            <h3 class="card__title">Modular by Default</h3>
+            <p class="card__muted">New vendors and new formats shouldn’t require a rebuild — just plug-in modules.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================
+    [HTML:SECTION-CTA]
+  =========================================================== -->
+  <section class="section section--tight">
+    <div class="container">
+      <div class="card card--padded about-cta">
+        <div class="about-cta__grid">
+          <div class="stack">
+            <h2 class="section-title">Want to Integrate HiveOS?</h2>
+            <p class="about-text">
+              If you manage solar + storage systems or battery fleets and deal with inconsistent exports,
+              HiveOS can help standardize your data and turn it into usable health intelligence.
+            </p>
+          </div>
+
+          <div class="btn-row">
+            <a href="docs.html" class="btn btn--primary">Read the Docs</a>
+            <a href="contact.html" class="btn btn--ghost">Contact</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+  [HTML:FOOTER-PLACEHOLDER]
+============================================================ -->
+<div data-include="partials/footer.html"></div>
+
+<!-- ============================================================
+  [HTML:SCRIPTS]
+============================================================ -->
+<script src="js/include.js"></script>
+
+</body>
+</html>
