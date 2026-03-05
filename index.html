@@ -1,1540 +1,264 @@
+<!-- ============================================================
+  HiveOS Website — Home
+  File: index.html
+  Rev: 0.1.4
+  Purpose: Primary landing page scaffold (hero split desktop, stacked mobile)
+
+  QUICK JUMPS (Search These Tags):
+    [HTML:HEAD]
+    [HTML:NAV-PLACEHOLDER]
+    [HTML:MAIN]
+    [HTML:SECTION-HERO]
+    [HTML:SECTION-PROBLEM-SOLUTION]
+    [HTML:SECTION-PLATFORM-OVERVIEW]
+    [HTML:SECTION-ABOUT]
+    [HTML:FOOTER-PLACEHOLDER]
+    [HTML:SCRIPTS]
+============================================================ -->
 <!doctype html>
 <html lang="en">
+
+<!-- ============================================================
+  [HTML:HEAD]
+============================================================ -->
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Rwanda Road Trust Fund — Help Rwanda build their future</title>
-<meta name="description" content="Transparent, live-tracked donations that fund equipment, food, and worker support for the HiveWay pilot in Rwanda." />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HiveOS — Battery Intelligence Platform</title>
 
-<!-- Open Graph / Twitter -->
-<meta property="og:title" content="Fund 2 km of Rwanda Feeder Roads — Pilot starts Feb 2028 or when funded" />
-<meta property="og:description" content="Every $7,000 funds 1 km. Transparent logs, local crews, real results." />
-<meta property="og:image" content="https://yourdomain.com/resources/feeder_work_og.jpg" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://yourdomain.com/" />
-<meta name="twitter:card" content="summary_large_image" />
+  <!-- Global Styles (Order Matters) -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/background.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
 
-<!-- Schema.org -->
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"Project",
-  "name":"Rwanda Road Trust Fund — HiveWay Pilot",
-  "description":"Transparent, live-tracked donations that fund equipment, food, and worker support for the HiveWay pilot in Rwanda.",
-  "startDate":"2028-02-01",
-  "funder":{"@type":"Organization","name":"Hive Technologies"},
-  "areaServed":{"@type":"Country","name":"Rwanda"},
-  "url":"https://yourdomain.com/"
-}
-</script>
-
-<style>
-/* ===== Mobile hardening & full-bleed utilities ===== */
-html, body { overflow-x: hidden; -webkit-text-size-adjust: 100%; }
-img, video { max-width: 100%; height: auto; display: block; }
-
-/* Utility: full-bleed without accidental horizontal scroll on mobile */
-.full-bleed {
-  position: relative;
-  width: 100vw;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-}
-
-/* Make full-bleed sections respect iOS dynamic toolbars a bit better */
-@supports (width: 100svw) {
-  .full-bleed { width: 100svw; margin-left: calc(-50svw + 50%); margin-right: calc(-50svw + 50%); }
-}
-
-/* Prevent the sticky bar from covering content on phones */
-@media (max-width: 840px) {
-  body { padding-bottom: 64px; }
-}
-
-/* CTA row: keep one line, swipe horizontally if needed, nice momentum */
-.cta-row.scroll-x {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 8px 0 10px;       /* a bit more touch target space */
-  scroll-snap-type: x proximity;
-  -webkit-overflow-scrolling: touch;
-  max-width: 100%;
-}
-.cta-row.scroll-x .btn {
-  flex: 0 0 auto;
-  white-space: nowrap;
-  scroll-snap-align: start;
-}
-
-/* === CTA row: force one-line + horizontal scroll on small screens ===
-   - Keeps “Become a sponsor” immediately after “How your gift helps”
-   - Falls back to horizontal swipe instead of wrapping */
-.cta-row.scroll-x{
-  flex-wrap: nowrap;              /* override the base .cta-row wrap */
-  overflow-x: auto;               /* already present, ensures scrolling */
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x proximity;  /* nice snapping */
-  max-width: 100%;
-}
-.cta-row.scroll-x .btn{
-  flex: 0 0 auto;                 /* prevent shrinking */
-  white-space: nowrap;            /* keep labels on one line */
-  scroll-snap-align: start;
-}
-
-/* Before/After slider: bigger thumb on touch devices */
-@media (pointer: coarse) {
-  .ba input[type=range] { height: 28px; }
-  .ba input[type=range]::-webkit-slider-thumb { width: 18px; height: 18px; }
-  .ba input[type=range]::-moz-range-thumb { width: 18px; height: 18px; }
-}
-
-/* Leaflet map: consistent mobile height */
-#pilotMap { height: clamp(300px, 55vh, 460px) !important; }
-
-/* =========================================
- *  THEME TOKENS & GLOBAL RESET
- * ========================================= */
-:root {
-  --bg:#f7f5f3; --text:#222; --muted:#666; --line:#ddd;
-  --accent:#b38f47; --accent-dark:#8e723a; --card:#fff; --success:#2e7d32;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
-.wrap{max-width:1100px;margin:auto;padding:24px}
-.small{font-size:13px}.muted{color:var(--muted)}.list{margin:0;padding-left:18px}.sr{position:absolute;left:-9999px}
-
-.brand-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.brand-logo {
-  max-width: 320px;
-  height: auto;
-  display: inline-block;
-  transition: transform 0.3s ease;
-}
-
-.brand-logo:hover {
-  transform: scale(1.03);
-}
-
-/* =========================================
- *  HEADER / HERO
- * ========================================= */
-header{background:linear-gradient(180deg,#f0ede9 0%,#f7f5f3 100%);border-bottom:1px solid var(--line)}
-.hero{display:grid;gap:18px;padding:36px 0}
-.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.3px}
-.logo{width:36px;height:36px;border-radius:8px;background:
-  conic-gradient(from 180deg at 50% 50%, #0000 0 25%, var(--accent) 0 50%, #0000 0 75%, var(--accent) 0),
-  radial-gradient(60% 60% at 50% 50%, #333 0 60%, #0000 61%);outline:1px solid var(--line)}
-h1{margin:0;font-size:clamp(24px,4.5vw,40px)} .sub{color:var(--muted);font-size:clamp(15px,2.6vw,18px)}
-.cta-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-.btn{appearance:none;border:none;cursor:pointer;background:var(--accent);color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;letter-spacing:.2px}
-.btn:hover{background:var(--accent-dark)}
-.btn.secondary{background:#fff;color:var(--text);border:1px solid var(--line)}
-
-/* Photo hero */
-.photo-hero{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/9;background:#ddd;border:1px solid var(--line)}
-.photo-hero img{width:100%;height:100%;object-fit:cover;display:block}
-.cap{position:absolute;left:0;right:0;color:#fff;text-align:center;padding:14px 16px;font-weight:800;text-shadow:0 2px 8px rgba(0,0,0,.35)}
-.cap.top{top:0;background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0));font-size:clamp(20px,3.6vw,34px)}
-.cap.bottom{bottom:0;background:linear-gradient(to top,rgba(0,0,0,.55),rgba(0,0,0,0));font-weight:600;font-size:clamp(10px,2.4vw,18px)}
-
-/* sticky donate on mobile */
-.sticky-donate{position:fixed;left:0;right:0;bottom:0;z-index:9998;background:#111;color:#fff;padding:10px;border-top:1px solid #222;display:none}
-.sticky-donate .wrap{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:0 16px}
-.sticky-donate .btn{padding:10px 14px}
-@media (max-width: 840px){ .sticky-donate{display:block} }
-
-/* =========================================
- *  LAYOUT GRID & CARDS
- * ========================================= */
-.grid{display:grid;gap:16px;grid-template-columns:1fr;margin:22px 0}
-@media(min-width:860px){.grid{grid-template-columns:2fr 1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
-
-/* =========================================
- *  PROGRESS BAR & KPI STRIP
- * ========================================= */
-.progress{display:grid;gap:10px;margin-top:12px}
-.nums{display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
-.bar{width:100%;height:14px;overflow:hidden;background:#eee;border:1px solid #e2e2e2;border-radius:999px}
-.fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#d0b06a);transition:width .6s ease}
-
-.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
-.k{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
-.k strong{font-size:clamp(16px,5vw,20px);display:block}
-
-.countbox{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;width:100%;max-width:100%}
-.time{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px;text-align:center;min-width:64px}
-.time strong{display:block;font-size:clamp(16px,4.2vw,20px);line-height:1.1}
-
-/* =========================================
- *  MILESTONES
- * ========================================= */
-.milestones{display:grid;gap:10px;margin-top:10px}
-.mile{display:flex;align-items:flex-start;gap:10px;background:#fff;border:1px dashed var(--line);padding:10px;border-radius:10px}
-.tick{color:var(--success);font-weight:900}
-
-/* =========================================
- *  GALLERIES / PLACEHOLDERS
- * ========================================= */
-.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
-.ph{aspect-ratio:4/3;background:linear-gradient(135deg,#ece9e4,#e7e2da);border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden}
-.ph::after{content:"Photo";position:absolute;inset:auto 10px 10px;color:#666;font-size:14px}
-
-/* =========================================
- *  CATEGORY GRID (legacy styles kept for reference)
- * ========================================= */
-.catgrid{display:grid;gap:12px;grid-template-columns:1fr}
-@media(min-width:860px){.catgrid{grid-template-columns:repeat(3,1fr)}}
-.cat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}
-.cat h4{margin:0 0 6px 0}.cat .small{display:block;margin-top:6px}
-
-/* =========================================
- *  “MADE IN RWANDA” / PILLARS STRIP
- * ========================================= */
-.rwanda-strip{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px 18px;margin-top:12px;text-align:center}
-.pill{display:inline-block;background:#efe7d3;color:#5b4a22;border:1px solid #e0d3b4;border-radius:999px;padding:6px 10px;font-weight:700;font-size:12px;letter-spacing:.2px}
-.rw-h{margin:8px 0 6px 0;font-size:clamp(20px,3.6vw,28px)}
-.rw-sub{color:var(--muted);margin:0 0 10px 0;max-width:640px;margin-left:auto;margin-right:auto}
-.p{background:#faf9f7;border:1px dashed var(--line);border-radius:12px;padding:12px;min-width:220px}
-.p .ic{font-size:20px;margin-bottom:6px}.p strong{display:block;margin-bottom:2px}.p span{color:var(--muted);font-size:13px}
-.rwanda-marquee{display:grid;gap:10px}
-.marquee-row{position:relative;overflow:hidden;border:1px dashed var(--line);border-radius:10px;background:#faf9f7}
-.marquee-track{display:inline-flex;gap:10px;align-items:stretch;white-space:nowrap;padding:10px;will-change:transform}
-.marquee-track .dup{display:inline-flex;gap:10px}
-@keyframes rwandaScrollLeft{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@keyframes rwandaScrollRight{from{transform:translateX(-50%)}to{transform:translateX(0)}}
-.marquee-row.top .marquee-track{animation:rwandaScrollLeft 40s linear infinite}
-.marquee-row.bottom .marquee-track{animation:rwandaScrollRight 50s linear infinite}
-@media(prefers-reduced-motion:reduce){.marquee-track{animation:none}}
-.marquee-row:hover .marquee-track{animation-play-state:paused}
-.rwanda-footer{text-align:left;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
-@media(max-width:360px){.p{min-width:200px;padding:10px}.rw-h{font-size:clamp(18px,5.8vw,24px)}}
-
-/* =========================================
- *  BLOG CARDS (MINI ARTICLES)
- * ========================================= */
-.bloggrid{display:grid;gap:12px;grid-template-columns:1fr}
-@media(min-width:860px){.bloggrid{grid-template-columns:repeat(3,1fr)}}
-.blog{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}
-.blog h3{margin:0 0 6px 0;font-size:18px}.blog p{margin:0 0 8px 0;color:#muted}
-.more{font-weight:700;text-decoration:none;border-bottom:1px solid currentColor}.more:hover{opacity:.8}
-
-/* =========================================
- *  IMPACT BANNER (TOP, DOUBLE SCROLLER)
- * ========================================= */
-.impact-banner{position:sticky;top:0;z-index:9999;background:#161616;color:#f2efe9;border-bottom:1px solid #2b2b2b;font-size:14px;line-height:1;overflow:hidden}
-.impact-track{display:flex;align-items:center;gap:28px;white-space:nowrap;padding:10px 0;border-bottom:1px solid #222;mask-image:linear-gradient(90deg,transparent 0%,black 8%,black 92%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,black 8%,black 92%,transparent 100%)}
-.impact-track--bottom{border-bottom:none}
-.impact-chip{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:#202020;color:#eae6db;border:1px solid #2e2e2e}
-.impact-chip .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
-@keyframes scrollLeft{from{transform:translateX(0)}to{transform:translateX(-30%)}}
-@keyframes scrollRight{from{transform:translateX(-20%)}to{transform:translateX(0)}}
-.impact-scroll{display:inline-block;will-change:transform;animation-timing-function:linear;animation-iteration-count:infinite}
-
-/* =========================================
- *  FOOTER
- * ========================================= */
-footer{border-top:1px solid var(--line);margin-top:28px;background:#faf9f7}
-.footgrid{display:grid;gap:14px;grid-template-columns:1fr;padding:20px 0}
-@media(min-width:720px){.footgrid{grid-template-columns:2fr 1fr}}
-</style>
+  <!-- Page Specific -->
+  <link rel="stylesheet" href="css/pages/home.css">
 </head>
 
 <body>
-<!-- Impact banner -->
-<section class="impact-banner" aria-label="Impact at a glance">
-  <div class="impact-track impact-track--top" id="impactTop"></div>
-  <div class="impact-track impact-track--bottom" id="impactBottom"></div>
-</section>
 
+<!-- ============================================================
+  [HTML:NAV-PLACEHOLDER]
+============================================================ -->
+<div data-include="partials/nav.html"></div>
 
-<!-- HERO WITH LOGO ABOVE THE IMAGE -->
-<div class="hero-wrap">
+<!-- ============================================================
+  [HTML:MAIN]
+============================================================ -->
+<main class="site-main">
 
-  <!-- Logo positioned above the hero -->
-  <div class="brand-top">
-    <img src="resources/rrtf.PNG" alt="Rwanda Road Trust Fund logo" class="brand-logo">
-  </div>
+  <!-- ==========================================================
+    [HTML:SECTION-HERO]
+    Text left / Image right (Desktop)
+  =========================================================== -->
+  <section class="section home-hero">
+    <div class="container home-hero__grid">
 
-  <figure class="photo-hero full" role="img" aria-label="Community crews building a rural road in Rwanda">
-    <img src="resources/Hiveway.png" loading="lazy" alt="Rwandan community crews grading and leveling a rural road">
+      <!-- LEFT SIDE (TEXT) -->
+      <div class="stack stack--lg home-hero__content">
+        <h1>Battery Intelligence for Energy Infrastructure</h1>
+        <p>Advanced telemetry and diagnostics for solar and storage systems.</p>
 
-    <figcaption class="cap top">Help Rwanda build their future</figcaption>
-    <figcaption class="cap bottom">
-      Every meter built connects a child to school, a farmer to market, a family to hope.
-    </figcaption>
-
-<style>
-/* === HERO WITH LOGO ABOVE IMAGE === */.hero-wrap {
-  position: relative;
-}
-
-.brand-top {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  margin: -50px auto 5px;
-  transform: translate(-50%, -40%);
-  z-index: 3;
-}
-
-.brand-logo {
-  max-width: min(48vw, 380px);
-  height: auto;
-}
-
-/* full-width hero */
-.photo-hero.full {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-top: 80px;
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 16/9;
-  border: none;
-  border-bottom: 1px solid var(--line);
-  background: #ddd;
-}
-.photo-hero.full img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* captions */
-.photo-hero.full .cap {
-  position: absolute;
-  left: 0;
-  right: 0;
-  color: #fff;
-  text-align: center;
-  padding: 14px 16px;
-  font-weight: 800;
-  text-shadow: 0 2px 8px rgba(0,0,0,.35);
-}
-.photo-hero.full .cap.top {
-  top: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,0));
-  font-size: clamp(22px, 3.8vw, 38px);
-}
-.photo-hero.full .cap.bottom {
-  bottom: 0;
-  background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0));
-  font-weight: 600;
-  font-size: clamp(12px, 2.5vw, 18px);
-}
-.photo-hero.full .cap.bottom.certainty {
-  transform: translateY(-40px);
-  font-weight: 700;
-  font-size: clamp(13px, 2.6vw, 18px);
-  background: none;
-  text-shadow: 0 2px 8px rgba(0,0,0,.4);
-}
-</style>
-
-<div class="cta-row scroll-x">
-  <button class="btn" onclick="document.getElementById('donate').scrollIntoView({behavior:'smooth'})">Donate now</button>
-  <button class="btn secondary" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How your gift helps</button>
-  <button class="btn secondary" onclick="document.getElementById('sponsor').scrollIntoView({behavior:'smooth'})">Become a sponsor</button>
-</div>
-
-<style>
-/* CTA container: side-by-side, scrollable if needed */
-.cta-row.scroll-x {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding-bottom: 6px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Buttons align in a line, snap neatly */
-.cta-row.scroll-x .btn {
-  flex: 0 0 auto;              /* prevents shrinking */
-  scroll-snap-align: start;    /* aligns to left edge when scrolling */
-  white-space: nowrap;         /* prevents multi-line buttons */
-}
-
-/* Optional: subtle horizontal scroll indicator */
-.cta-row.scroll-x::-webkit-scrollbar {
-  height: 6px;
-}
-.cta-row.scroll-x::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 4px;
-}
-.cta-row.scroll-x::-webkit-scrollbar-thumb:hover {
-  background: #aaa;
-}
-</style>
-
-    <!-- KPIs -->
-    <div class="kpi">
-      <div class="k"><strong id="kmBuilt">0.00</strong><span class="muted">km funded</span></div>
-      <div class="k"><strong id="segments">0</strong><span class="muted">25 m segments</span></div>
-      <div class="k"><strong id="meals">0</strong><span class="muted">worker meals</span></div>
-      <div class="k">
-        <div class="countbox">
-          <div class="time"><strong id="d">00</strong><span class="muted">days</span></div>
-          <div class="time"><strong id="h">00</strong><span class="muted">hrs</span></div>
-          <div class="time"><strong id="m">00</strong><span class="muted">min</span></div>
-        </div>
-        <div class="muted small">Next supply dispatch</div>
-      </div>
-    </div>
-  </div>
-</header>
-
-<!-- MADE IN RWANDA / OWNERSHIP -->
-<section class="wrap">
-  <div class="rwanda-strip">
-    <div class="rwanda-header">
-      <span class="pill">Made in Rwanda</span>
-      <h2 class="rw-h">Rwanda is building the path to its future</h2>
-      <p class="rw-sub">
-        This road belongs to Rwanda. Built by local crews, using 100% natural materials
-        sourced in Rwanda—designed to outperform typical feeder roads through smart
-        stabilization and careful curing.
-      </p>
-    </div>
-
-    <div class="rwanda-marquee">
-      <div class="marquee-row top" aria-label="Key pillars row 1">
-        <div class="marquee-track">
-          <div class="dup">
-            <div class="p"><div class="ic">🏗️</div><strong>Community-built</strong><span>Local crews trained & certified; skills stay in Rwanda.</span></div>
-            <div class="p"><div class="ic">🌋</div><strong>Locally sourced and natural</strong><span>Basalt fines, lime, and cement tuned to local soils.</span></div>
-            <div class="p"><div class="ic">🌧️</div><strong>Weather-resilient</strong><span>Proper crown, drainage, and tarp curing for the rains.</span></div>
-          </div>
-          <div class="dup">
-            <div class="p"><div class="ic">🏗️</div><strong>Community-built</strong><span>Local crews trained & certified; skills stay in Rwanda.</span></div>
-            <div class="p"><div class="ic">🌋</div><strong>Basalt-based & natural</strong><span>Basalt fines, lime, and cement tuned to local soils.</span></div>
-            <div class="p"><div class="ic">🌧️</div><strong>Weather-resilient</strong><span>Proper crown, drainage, and tarp curing for the rains.</span></div>
-          </div>
+        <div class="btn-row">
+          <a href="#" class="btn btn--primary">View Demo</a>
+          <a href="contact.html" class="btn btn--ghost">Contact Us</a>
         </div>
       </div>
 
-      <div class="marquee-row bottom" aria-label="Key pillars row 2">
-        <div class="marquee-track">
-          <div class="dup">
-            <div class="p"><div class="ic">🔬</div><strong>Proven by testing</strong><span>Field mixes & curing logs documented openly.</span></div>
-            <div class="p"><div class="ic">🌍</div><strong>New & comparable</strong><span>We’ll publish results vs. other African roads—then global.</span></div>
-            <div class="p"><div class="ic">🛣️</div><strong>Built to last</strong><span>Dense, well-cured surface = fewer regradings.</span></div>
-          </div>
-          <div class="dup">
-            <div class="p"><div class="ic">🔬</div><strong>Proven by testing</strong><span>Field mixes & curing logs documented openly.</span></div>
-            <div class="p"><div class="ic">🌍</div><strong>New & comparable</strong><span>We’ll publish results vs. other African roads—then global.</span></div>
-            <div class="p"><div class="ic">🛣️</div><strong>Built to last</strong><span>Dense, well-cured surface = fewer regradings.</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="rwanda-footer">
-      <h3 style="margin-top:0;">Why it matters</h3>
-      <p>
-        Each kilometer of road empowers communities through employment, training,
-        and ownership. Crews learn transferable construction skills while improving the
-        infrastructure that connects markets, schools, and hospitals.
-      </p>
-    </div>
-  </div>
-</section>
-
-<main class="wrap grid" id="donate">
-
-<!-- FULL-WIDTH Before/After image slider -->
-<section class="ba-section" aria-label="Before and after">
-
-  <div class="ba">
-    <img src="resources/feeder_road.jpeg" alt="Road before upgrade">
-    <img src="resources/feeder_work.jpeg"  alt="Road after upgrade">
-    <input type="range" min="0" max="100" value="50" aria-label="Reveal after">
-  </div>
-  <div class="small muted">Slide to compare</div>
-</section>
-
-<style>
-/* make the section span the full viewport width */
-.ba-section{
-  width:100vw;
-  margin-left:calc(50% - 50vw); /* break out of centered container */
-  background:#fff;
-  padding:0;
-  text-align:center;
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
-}
-
-/* tighter headline spacing */
-.ba-title{
-  margin:16px 0 8px 0;
-  font-size:clamp(20px,4vw,32px);
-}
-
-/* slider container fills full width */
-.ba{
-  position:relative;
-  width:100%;
-  aspect-ratio:16/9;
-  overflow:hidden;
-}
-
-/* edge-to-edge images */
-.ba img{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-/* reveal logic */
-.ba img:nth-of-type(2){clip-path:inset(0 0 0 50%)}
-
-/* range control, minimal style */
-.ba input[type=range]{
-  position:absolute;
-  bottom:0;
-  left:0;
-  width:100%;
-  height:22px;
-  appearance:none;
-  background:#0001;
-  cursor:pointer;
-}
-.ba input[type=range]::-webkit-slider-thumb{
-  appearance:none;
-  width:10px;
-  height:10px;
-  background:#b38f47;
-  border-radius:50%;
-}
-.ba input[type=range]::-moz-range-thumb{
-  width:10px;
-  height:10px;
-  background:#b38f47;
-  border:none;
-  border-radius:50%;
-}
-
-/* small caption */
-.ba-section .small{
-  margin:6px 0 16px 0;
-  display:block;
-}
-</style>
-
-<script>
-document.querySelectorAll('.ba').forEach(el=>{
-  const after = el.querySelector('img:nth-of-type(2)');
-  const slider = el.querySelector('input[type=range]');
-  slider.addEventListener('input', ()=> after.style.clipPath = `inset(0 0 0 ${slider.value}%)`);
-});
-</script>
-
-  <!-- PROGRESS + IMPACT -->
-  <section class="card">
-    <h2 class="sr">Progress</h2>
-    <div class="progress" aria-live="polite">
-      <div class="nums">
-        <div><strong id="raised">$0</strong> raised</div>
-        <div class="muted">Goal <strong id="goal">$0</strong></div>
-      </div>
-      <div class="bar" aria-label="donation progress"><div class="fill" id="fill"></div></div>
-    </div>
-
-    <!-- =========================================
-         BUDGET DONUT (replaces category grid)
-         ========================================= -->
-    <div style="margin-top:14px">
-      <h3>Budget split (per 1 km)</h3>
-
-      <!-- Donut + center label -->
-      <div class="donut-wrap" aria-hidden="false">
-        <svg id="budgetDonut" viewBox="0 0 42 42" role="img" aria-label="Budget allocation donut"></svg>
-        <div class="donut-center">
-          <div class="center-top" id="donutTotal">$7,000</div>
-          <div class="center-sub">per 1 km</div>
-        </div>
+      <!-- RIGHT SIDE (IMAGE) -->
+      <div class="hero-media">
+        <img
+          src="assets/images/dashboard/dashboard.jpeg"
+          alt="HiveOS Pack Diagnostics and Cell Monitoring Interface"
+          class="hero-media__img"
+        >
       </div>
 
-      <!-- Live-updating legend -->
-      <ul class="legend" id="budgetLegend" aria-label="Budget legend"></ul>
-
-      <p class="small muted">Percentages are fixed per km; dollar amounts scale with live donations.</p>
-    </div>
-
-    <!-- Milestones -->
-    <div class="milestones" id="miles" style="margin-top:10px"></div>
-
-    <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
-      <a class="btn" href="#donate-form">Donate securely</a>
-      <button class="btn secondary" onclick="document.getElementById('updates').scrollIntoView({behavior:'smooth'})">See updates</button>
-    </div>
-
-    <hr style="margin:18px 0;border:0;border-top:1px solid var(--line)" />
-
-    <div id="how">
-      <h3>Where your gift goes</h3>
-      <ul class="list">
-        <li><strong>Equipment & tarps</strong> for weather-safe curing and quality.</li>
-        <li><strong>Food & hydration</strong> for local crews (high-energy, culturally aligned).</li>
-        <li><strong>Worker bonuses & logistics</strong> to retain trained builders and move supplies.</li>
-      </ul>
-    </div>
-
-    <div style="margin-top:14px">
-      <h3>Transparency</h3>
-      <p class="muted small">Receipts + photo proof posted after each shipment. No office overheads are charged to this fund. 🔒 Processed by Stripe/PayPal · PCI-DSS compliant</p>
     </div>
   </section>
 
-  <!-- DONUT CSS (scoped) -->
-  <style>
-  /* === BUDGET DONUT: layout === */
-  .donut-wrap{
-    position:relative;
-    width:min(360px,100%);
-    aspect-ratio:1/1;
-    margin:6px auto 8px auto;
-  }
-  #budgetDonut{
-    width:100%;
-    height:100%;
-    transform:rotate(-90deg); /* start arcs at 12 o’clock */
-  }
-  .donut-center{
-    position:absolute;
-    inset:0;
-    display:grid;
-    place-items:center;
-    text-align:center;
-    pointer-events:none;
-  }
-  .donut-center .center-top{ font-weight:800; font-size:clamp(16px,3.6vw,22px) }
-  .donut-center .center-sub{ color:var(--muted); font-size:12px }
+  <!-- ==========================================================
+    [HTML:SECTION-PROBLEM-SOLUTION]
+  =========================================================== -->
+  <section class="section section--tight">
+    <div class="container">
 
-  /* === BUDGET DONUT: legend === */
-  .legend{
-    list-style:none;
-    margin:10px 0 0;
-    padding:0;
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
-    gap:8px 14px;
-  }
-  .legend li{
-    display:flex; align-items:center; gap:10px;
-    background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px;
-  }
-  .legend .sw{ width:14px; height:14px; border-radius:3px; flex-shrink:0; border:1px solid #0002 }
-  .legend .lbl{ font-weight:700 }
-  .legend .pct{ margin-left:auto; font-variant-numeric:tabular-nums; color:var(--muted) }
-  .legend .amt{ display:block; font-size:12px; color:var(--muted) }
-  </style>
+      <div class="ps-grid">
 
-  <!-- DONATION FORM -->
-  <aside class="card" id="donate-form" aria-label="Donation">
-    <h2>Donate</h2>
-    <form onsubmit="event.preventDefault(); fakeDonate();">
-      <label class="small muted" for="amt">Amount (USD)</label>
-      <input id="amt" type="number" min="5" step="5" value="50"
-             style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;margin:6px 0 10px" />
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
-        <button type="button" class="btn secondary" onclick="setPreset(20)">$20</button>
-        <button type="button" class="btn secondary" onclick="setPreset(50)">$50</button>
-        <button type="button" class="btn secondary" onclick="setPreset(100)">$100</button>
-        <button type="button" class="btn secondary" onclick="setPreset(250)">$250</button>
+        <!-- LEFT -->
+        <div class="ps-block">
+          <h3 class="ps-title">The Problem</h3>
+          <ul class="ps-list">
+            <li>Huge inconsistent battery data</li>
+            <li>Hardware-agnostic software limitations</li>
+          </ul>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="ps-block">
+          <h3 class="ps-title">The Solution</h3>
+          <p class="ps-text">
+            Unified analytics and predictive diagnostics for smarter energy systems.
+          </p>
+        </div>
+
       </div>
-      <button class="btn" type="submit">Donate securely</button>
-      <p class="small muted" style="margin-top:8px">Secure processing. You’ll get a receipt and project updates.</p>
-    </form>
 
-    <!-- email capture -->
-    <form onsubmit="event.preventDefault(); alert('Subscribed! (Demo)');" style="margin-top:10px">
-      <label class="small muted" for="email">Get build updates</label>
-      <input id="email" type="email" required placeholder="you@domain.com"
-             style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;margin:6px 0 10px">
-      <button class="btn secondary" type="submit">Subscribe</button>
-    </form>
+    </div>
+  </section>
 
-    <hr style="margin:18px 0;border:0;border-top:1px solid var(--line)" />
-    <h3>About Rwanda Road Trust Fund</h3>
-    <p class="small">A field fund supporting the HiveWay pilot: training local crews, upgrading feeder roads, and documenting results openly. Powered by Hive Technologies (R&D) with local partners.</p>
-  </aside>
+  <!-- ==========================================================
+    [HTML:SECTION-PLATFORM-OVERVIEW]
+  =========================================================== -->
+  <section class="section">
+    <div class="container">
+
+      <div class="stack stack--lg">
+        <h2 class="section-title">Platform Overview</h2>
+
+        <div class="overview-grid">
+<p class="overview-sub">
+  A modular battery intelligence framework built to unify, diagnose, and scale.
+</p>
+<!-- Card 1 -->
+<div class="overview-card">
+  <div class="overview-head">
+    <span class="overview-icon" aria-hidden="true"></span>
+    <h3 class="overview-title">Telemetry Standardization</h3>
+  </div>
+  <p class="overview-text">
+    Normalize inconsistent battery exports into a unified data model.
+  </p>
+</div>
+
+<!-- Card 2 -->
+<div class="overview-card">
+  <div class="overview-head">
+    <span class="overview-icon" aria-hidden="true"></span>
+    <h3 class="overview-title">Multi-Vendor Ingestion</h3>
+  </div>
+  <p class="overview-text">
+    Import CSV, JSON, CAN logs, and BMS telemetry across mixed hardware fleets.
+  </p>
+</div>
+
+<!-- Card 3 -->
+<div class="overview-card">
+  <div class="overview-head">
+    <span class="overview-icon" aria-hidden="true"></span>
+    <h3 class="overview-title">SOC / SOH Modeling</h3>
+  </div>
+  <p class="overview-text">
+    Adaptive state-of-charge and health estimation with configurable algorithms.
+  </p>
+</div>
+
+<!-- Card 4 -->
+<div class="overview-card">
+  <div class="overview-head">
+    <span class="overview-icon" aria-hidden="true"></span>
+    <h3 class="overview-title">Predictive Degradation</h3>
+  </div>
+  <p class="overview-text">
+    Trend analysis to forecast performance decline before failure occurs.
+  </p>
+</div>
+
+<!-- Card 5 -->
+<div class="overview-card">
+  <div class="overview-head">
+    <span class="overview-icon" aria-hidden="true"></span>
+    <h3 class="overview-title">Fault Classification</h3>
+  </div>
+  <p class="overview-text">
+    Tiered severity logic with nested fault tracing from cell to system level.
+  </p>
+</div>
+
+<!-- Card 6 -->
+<div class="overview-card">
+  <div class="overview-head">
+    <span class="overview-icon" aria-hidden="true"></span>
+    <h3 class="overview-title">Risk Confidence Scoring</h3>
+  </div>
+  <p class="overview-text">
+    Evaluate anomaly certainty based on telemetry consistency and signal quality.
+  </p>
+</div>
+
+<!-- Card 7 -->
+<div class="overview-card">
+  <div class="overview-head">
+    <span class="overview-icon" aria-hidden="true"></span>
+    <h3 class="overview-title">Fleet-Level Analytics</h3>
+  </div>
+  <p class="overview-text">
+    Aggregate insights across packs, sites, and distributed energy systems.
+  </p>
+</div>
+
+<!-- Card 8 -->
+<div class="overview-card">
+  <div class="overview-head">
+    <span class="overview-icon" aria-hidden="true"></span>
+    <h3 class="overview-title">Hardware-Agnostic Architecture</h3>
+  </div>
+  <p class="overview-text">
+    Modular software designed to integrate with existing and emerging BMS stacks.
+  </p>
+</div>
+  </section>
+
+  <!-- ==========================================================
+    [HTML:SECTION-ABOUT]
+  =========================================================== -->
+  <section class="section section--loose">
+    <div class="container">
+
+      <div class="about-grid">
+
+        <!-- Left: Text -->
+        <div class="about-content stack stack--lg">
+          <h2 class="about-title">About Hive</h2>
+
+          <p class="about-text">
+            Hive was created to solve a fundamental gap in energy infrastructure:
+            battery systems generate massive amounts of data, yet very little of it
+            becomes usable intelligence. Inconsistent formats, vendor silos, and
+            fragmented telemetry prevent operators from seeing the full picture.
+          </p>
+
+          <p class="about-text">
+            HiveOS was built to unify and standardize battery analytics across
+            hardware platforms — transforming raw telemetry into clear, structured
+            health signals that enable smarter monitoring, predictive diagnostics,
+            and scalable energy management.
+          </p>
+        </div>
+
+        <!-- Right: Optional media placeholder (remove if not needed) -->
+        <div class="about-media">
+          <div class="about-media__placeholder"></div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
 </main>
 
-<!-- Who we are -->
-<section class="wrap card" id="about">
-  <h2>Who we are</h2>
-  <p class="small">
-    Rwanda Road Trust Fund is a field fund for the HiveWay pilot—veteran-founded, community-first.
-    We work with district engineers and local cooperatives to train crews and publish open field logs.
-  </p>
-  <ul class="list small muted">
-    <li>Governance: 3-person advisory (engineering, community, finance)</li>
-    <li>Transparency: receipts & weekly photo logs posted publicly</li>
-    <li>Funds flow: 0% office overhead from this page—direct to field line items</li>
-  </ul>
-</section>
+<!-- ============================================================
+  [HTML:FOOTER-PLACEHOLDER]
+============================================================ -->
+<div data-include="partials/footer.html"></div>
+
+<!-- ============================================================
+  [HTML:SCRIPTS]
+============================================================ -->
+<script src="js/include.js"></script>
 
-<section class="wrap card" id="updates" aria-label="Project updates">
-  <h2>Latest updates</h2>
-
-  <!-- ===== REAL PHOTO GALLERY =====
-       Swap each <img> src to your real files.
-       Tip: keep a larger version in data-full for the lightbox.
-  -->
-  <div class="gallery photos" id="updatesGallery" style="margin-top:10px">
-    <figure class="shot">
-      <img
-        src="resources/Cross-sectional.png"
-        data-full="resources/photos/clearing-1600.jpg"
-        loading="lazy"
-        width="640" height="480"
-        alt="Using well known road layering processes" />
-      <figcaption class="small muted">Road layers > 80% natural local resources</figcaption>
-    </figure>
-
-    <figure class="shot">
-      <img
-        src="resources/tarp_roller.PNG"
-        data-full="resources/tarp_roller.PNG"
-        loading="lazy"
-        width="640" height="480"
-        alt="Innovative custom tool creation lowers cost and increases productivity " />
-      <figcaption class="small muted"> Quick-deploy tarp roller protecting curing roads from cracking and weather.</figcaption>
-    </figure>
-  </div>
-
-  <!-- If you want to show the cross-section image you shared, you can add it as a 4th figure:
-  <figure class="shot">
-    <img
-      src="resources/sections/road-section-640.png"
-      data-full="resources/sections/road-section-1600.png"
-      loading="lazy"
-      alt="Road build-up: surface, base, sub-base, subgrade" />
-    <figcaption class="small muted">Design reference — typical section build-up.</figcaption>
-  </figure>
-  -->
-
-  <!-- Lightbox dialog (accessibility-friendly; works with keyboard & ESC) -->
-  <dialog id="lightbox" class="lightbox">
-    <button class="lightbox-close" aria-label="Close">×</button>
-    <img id="lightboxImg" alt="" />
-    <p id="lightboxCap" class="small muted"></p>
-  </dialog>
-</section>
-
-<style>
-/* ===== Gallery visuals (real photos) ===== */
-.gallery.photos{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:10px;
-}
-.gallery.photos .shot{
-  margin:0;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:12px;
-  overflow:hidden;            /* clip image corners */
-}
-.gallery.photos img{
-  display:block;
-  width:100%;
-  height:auto;
-  aspect-ratio:4/3;
-  object-fit:cover;
-  transition:transform .25s ease;
-  cursor:zoom-in;             /* hint that it opens */
-}
-.gallery.photos img:hover{ transform:scale(1.01) }
-.gallery.photos figcaption{ padding:8px 10px }
-
-/* ===== Lightbox ===== */
-.lightbox{
-  padding:0;
-  border:none;
-  max-width:min(96vw,1200px);
-  width:fit-content;
-  background:#0000;
-}
-.lightbox::backdrop{ background:rgba(0,0,0,.6) }
-.lightbox img{
-  display:block;
-  max-width:96vw;
-  max-height:78vh;
-  border-radius:12px;
-  box-shadow:0 6px 30px rgba(0,0,0,.35);
-}
-.lightbox p{
-  margin:8px 2px 0;
-  color:#fff;
-  text-align:center;
-}
-.lightbox-close{
-  position:absolute;
-  top:8px; right:10px;
-  font-size:24px; line-height:1;
-  background:#000c; color:#fff;
-  border:1px solid #fff3;
-  border-radius:8px;
-  padding:2px 8px; cursor:pointer;
-}
-@media (prefers-reduced-motion: reduce){
-  .gallery.photos img{ transition:none }
-}
-</style>
-
-<script>
-/* ===== Lightbox behavior (delegated for easy maintenance) ===== */
-(function(){
-  const gallery = document.getElementById('updatesGallery');
-  const dlg = document.getElementById('lightbox');
-  if(!gallery || !dlg) return;
-
-  const img = document.getElementById('lightboxImg');
-  const cap = document.getElementById('lightboxCap');
-  const btn = dlg.querySelector('.lightbox-close');
-
-  // Open on image click
-  gallery.addEventListener('click', (e)=>{
-    const target = e.target;
-    if(!(target instanceof HTMLElement)) return;
-    if(target.tagName !== 'IMG') return;
-
-    const full = target.getAttribute('data-full') || target.getAttribute('src');
-    img.src = full || '';
-    img.alt = target.alt || '';
-    cap.textContent = target.closest('figure')?.querySelector('figcaption')?.textContent || '';
-    dlg.showModal();
-  });
-
-  // Close on button, backdrop, or ESC (dialog handles ESC natively)
-  btn.addEventListener('click', ()=> dlg.close());
-  dlg.addEventListener('click', (e)=>{
-    // close if user clicks outside the image (backdrop hit-test)
-    const rect = img.getBoundingClientRect();
-    const inside = e.clientX >= rect.left && e.clientX <= rect.right &&
-                   e.clientY >= rect.top  && e.clientY <= rect.bottom;
-    if(!inside) dlg.close();
-  });
-})();
-</script>
-
-<!-- Sponsors -->
-<section class="wrap card" id="sponsor" aria-label="Sponsors">
-  <h2>Our sponsors</h2>
-  <p class="muted">Mission-aligned brands and NGOs supporting the pilot.</p>
-
-  <!-- ===== HORIZONTAL SPONSOR STRIP =====
-       - The track is filled from the SPONSORS array below
-       - Auto-scrolls when content is wider than the viewport
-  -->
-  <div class="sponsor-strip" id="sponsorStrip" aria-live="polite">
-    <div class="sponsor-track" id="sponsorTrack"></div>
-  </div>
-
-<!-- Optional actions -->
-<div class="btn-row">
-  <a class="btn" href="mailto:partners@hive.example?subject=Sponsorship%20Inquiry%20Rwanda%20Road%20Trust">
-    Become a sponsor
-  </a>
-  <a class="btn secondary" href="#how">How your gift helps</a>
-</div>
-
-<style>
-/* === Button row: always side-by-side, scrollable if overflow === */
-.btn-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: nowrap;                /* prevent wrapping */
-  overflow-x: auto;                 /* allow horizontal scroll on small screens */
-  overflow-y: hidden;
-  padding-bottom: 6px;              /* extra space for thumb scrolling */
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x proximity;
-}
-
-.btn-row .btn {
-  flex: 0 0 auto;                   /* keeps each button from shrinking */
-  white-space: nowrap;              /* prevents multi-line text */
-  scroll-snap-align: start;         /* snaps nicely when scrolled */
-}
-
-/* optional: hide scrollbar for cleaner look */
-.btn-row::-webkit-scrollbar {
-  height: 6px;
-}
-.btn-row::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 4px;
-}
-.btn-row::-webkit-scrollbar-thumb:hover {
-  background: #aaa;
-}
-</style>
-
-<style>
-/* ===== SPONSOR STRIP (carousel-style, auto-scroll) ===== */
-.sponsor-strip{
-  position:relative;
-  overflow:hidden;
-  border:1px dashed var(--line);
-  border-radius:12px;
-  background:#fff;
-  padding:10px 0;
-}
-
-/* The moving lane */
-.sponsor-track{
-  display:inline-flex;
-  align-items:stretch;
-  gap:14px;
-  white-space:nowrap;          /* keep cards on one row */
-  padding:4px 10px;
-  will-change:transform;
-}
-
-/* Individual sponsor card */
-.sponsor-card{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  min-width:160px;             /* controls “tile” width */
-  padding:10px 12px;
-  background:#faf9f7;
-  border:1px solid var(--line);
-  border-radius:10px;
-  text-align:center;
-}
-
-.sponsor-card img{
-  display:block;
-  width:120px;                 /* adjust per logo aspect */
-  height:60px;
-  object-fit:contain;          /* keep logos tidy */
-  filter:saturate(.92);
-}
-
-.sponsor-card .sname{
-  font-size:13px;
-  color:var(--muted);
-}
-
-/* Animation (CSS driven) */
-@keyframes sponsorScrollLeft{ from{ transform:translateX(0)} to{ transform:translateX(-50%) } }
-.sponsor-strip .animate{
-  animation:sponsorScrollLeft 45s linear infinite;
-}
-
-/* Pause animation on hover or focus for accessibility */
-.sponsor-strip:hover .animate,
-.sponsor-strip:focus-within .animate{ animation-play-state:paused }
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce){
-  .sponsor-strip .animate{ animation:none }
-}
-</style>
-
-<script>
-/* ===== SPONSOR STRIP POPULATION & AUTOSCROLL =====
-   Edit the SPONSORS array to add/remove logos.
-   - src: path to logo image (SVG/PNG recommended with transparent BG)
-   - name: display name under the logo
-   - url: optional; if present, card becomes a link (opens in new tab)
-*/
-const SPONSORS = [
-  { src:'resources/Hiveway_logo.png',  name:'Hiveway LLC',  url:'https://example.com' },
-  { src:'resources/Hivetech_logo.PNG',name:'Hive Technologies' },
-
-  // Add more here…
-];
-
-(function initSponsors(){
-  const strip = document.getElementById('sponsorStrip');
-  const track = document.getElementById('sponsorTrack');
-  if(!strip || !track) return;
-
-  // Helper to make one card
-  const makeCard = (sp) => {
-    const card = document.createElement(sp.url ? 'a' : 'div');
-    card.className = 'sponsor-card';
-    if(sp.url){ card.href = sp.url; card.target = '_blank'; card.rel = 'noopener noreferrer'; card.title = sp.name; }
-
-    card.innerHTML = `
-      <img src="${sp.src}" alt="${sp.name} logo">
-      <div class="sname">${sp.name}</div>
-    `;
-    return card;
-  };
-
-  // Build the first set
-  SPONSORS.forEach(sp => track.appendChild(makeCard(sp)));
-
-  // If content is wider than the strip, duplicate once for seamless loop
-  // and add the 'animate' class to auto-scroll.
-  requestAnimationFrame(()=>{
-    const needsScroll = track.scrollWidth > strip.clientWidth + 20;
-    if(needsScroll){
-      // duplicate content to allow continuous marquee
-      const clone = track.cloneNode(true);
-      // move children of clone into the same track as a contiguous run
-      while(clone.firstChild) track.appendChild(clone.firstChild);
-      track.classList.add('animate');
-    } else {
-      // When few items, center the row and no animation
-      track.style.justifyContent = 'center';
-    }
-  });
-
-  // Touch interaction: pause while swiping
-  let touchTimer;
-  strip.addEventListener('touchstart', ()=> {
-    track.style.animationPlayState = 'paused';
-    clearTimeout(touchTimer);
-  }, {passive:true});
-  strip.addEventListener('touchend', ()=> {
-    touchTimer = setTimeout(()=> track.style.animationPlayState = 'running', 1200);
-  }, {passive:true});
-})();
-</script>
-<!-- SIMPLE INTERACTIVE MAP (Updated with Province Highlights + Refined Text) -->
-<section class="wrap card" id="pilot">
-  <h2>Where the pilot runs</h2>
-  <div id="pilotMap" style="height:420px; border:1px solid var(--line); border-radius:12px;"></div>
-  <p class="small muted" style="margin-top:8px">
-    Approximate pilot area highlighted. Interactive for context — zoom or drag to explore.
-  </p>
-
-  <!-- Added refined descriptive section -->
-  <p class="small muted" style="margin-top:6px">
-    The pilot goal focuses on supporting Rwanda’s rural development through sustainable road building.
-    Priority interest is given to districts that demonstrate accessible local resources and strong
-    community readiness for collaboration.
-  </p>
-  <p class="small muted" style="margin-top:6px">
-    Preliminary pilot interest focuses on select districts within the Northern and Western Provinces —
-    including <strong>Musanze</strong>, <strong>Burera</strong>, and <strong>Rusizi</strong> —
-    where local collaboration and road accessibility align with long-term sustainability goals.
-  </p>
-</section>
-
-<!-- Leaflet (load once) -->
-<link
-  rel="stylesheet"
-  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-  crossorigin=""
-/>
-<script
-  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-  crossorigin=""
-></script>
-
-<script>
-  // === Leaflet map init (kept as-is) ===
-  const map = L.map('pilotMap', {
-    scrollWheelZoom: false,
-    zoomControl: true,
-    attributionControl: false
-  }).setView([-1.94, 29.9], 8); // roughly center on Rwanda
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 15,
-    minZoom: 6
-  }).addTo(map);
-
-  const pilotArea = L.circle([-1.95, 30.05], {
-    color: '#b38f47',
-    fillColor: '#b38f47',
-    fillOpacity: 0.25,
-    radius: 10000 // ~10 km radius for visual reference
-  }).addTo(map);
-
-  pilotArea.bindPopup(
-    '<strong>Hiveway Phase 1 Pilot</strong><br>Approximate 2 km feeder road test zone.'
-  );
-
-  const highlightStyle = {
-    color: '#b38f47',
-    weight: 2,
-    opacity: 0.5,
-    fillColor: '#b38f47',
-    fillOpacity: 0.08
-  };
-
-  const provinces = [
-    { name: 'Musanze District', coords: [-1.51, 29.63] },
-    { name: 'Burera District', coords: [-1.42, 29.85] },
-    { name: 'Rusizi District', coords: [-2.48, 28.90] }
-  ];
-
-  provinces.forEach(p => {
-    const area = L.circle(p.coords, { ...highlightStyle, radius: 20000 }).addTo(map);
-    area.bindPopup('<strong>' + p.name + '</strong><br>High-interest development district.');
-  });
-</script>
-
-<!-- FAQ (Vertical auto-scroller) -->
-<section class="wrap card" id="faq" aria-label="Frequently Asked Questions">
-  <h2>FAQ</h2>
-
-  <div class="faq-viewport" id="faqViewport" tabindex="0" aria-label="Scrollable list of common questions and answers">
-    <div class="faq-track" id="faqTrack">
-      <!-- START: FAQ CARDS (source set) -->
-      <article class="faqcard"><div class="faqicon">⏰</div><div class="faqcontent"><h3>When does building start?</h3><p class="small muted">Target: Feb 2028, or earlier if funding is reached.</p></div></article>
-      <article class="faqcard"><div class="faqicon">🎯</div><div class="faqcontent"><h3>What’s the initial goal?</h3><p class="small muted">2 km pilot; progress posted weekly with receipts and photos.</p></div></article>
-      <article class="faqcard"><div class="faqicon">💵</div><div class="faqcontent"><h3>How are funds allocated?</h3><p class="small muted">Pre-set budget split: equipment/tarps, food & hydration, worker retention/logistics.</p></div></article>
-      <article class="faqcard"><div class="faqicon">🔍</div><div class="faqcontent"><h3>How do you ensure transparency?</h3><p class="small muted">We publish itemized spend, dated receipts, and progress photos for each dispatch.</p></div></article>
-      <article class="faqcard"><div class="faqicon">📜</div><div class="faqcontent"><h3>Is my gift tax-deductible?</h3><p class="small muted">Depends on fiscal sponsor status; we’ll state clearly at checkout.</p></div></article>
-      <article class="faqcard"><div class="faqicon">🔐</div><div class="faqcontent"><h3>How are payments processed?</h3><p class="small muted">Via a secure provider (e.g., Stripe/PayPal) with PCI-DSS compliance.</p></div></article>
-      <article class="faqcard"><div class="faqicon">♻️</div><div class="faqcontent"><h3>What if you exceed the goal?</h3><p class="small muted">We extend the pilot and prioritize drainage/culvert upgrades.</p></div></article>
-      <article class="faqcard"><div class="faqicon">↩️</div><div class="faqcontent"><h3>Refunds/cancellations?</h3><p class="small muted">We follow standard donation policies; errors are corrected promptly.</p></div></article>
-      <article class="faqcard"><div class="faqicon">🤝</div><div class="faqcontent"><h3>Do you accept sponsorships?</h3><p class="small muted">Yes—tiered recognition and reporting are available.</p></div></article>
-      <article class="faqcard"><div class="faqicon">🎁</div><div class="faqcontent"><h3>In-kind donations?</h3><p class="small muted">We accept relevant, locally serviceable materials (case-by-case).</p></div></article>
-      <article class="faqcard"><div class="faqicon">🔁</div><div class="faqcontent"><h3>Can I make a recurring gift?</h3><p class="small muted">Monthly options are supported and can be changed anytime.</p></div></article>
-      <article class="faqcard"><div class="faqicon">🏢</div><div class="faqcontent"><h3>Corporate matching?</h3><p class="small muted">We provide receipts/confirmations to help process matching gifts.</p></div></article>
-      <article class="faqcard"><div class="faqicon">🧭</div><div class="faqcontent"><h3>Where exactly is the pilot?</h3><p class="small muted">We share precise coordinates with donors; public maps are schematic.</p></div></article>
-      <article class="faqcard"><div class="faqicon">🧱</div><div class="faqcontent"><h3>What materials are used?</h3><p class="small muted">Locally sourced natural aggregates with stabilization and proper curing.</p></div></article>
-      <article class="faqcard"><div class="faqicon">🌧️</div><div class="faqcontent"><h3>How do you handle heavy rains?</h3><p class="small muted">Crown and drainage first, with documented curing and maintenance.</p></div></article>
-      <article class="faqcard"><div class="faqicon">📈</div><div class="faqcontent"><h3>How is quality verified?</h3><p class="small muted">On-site checks, mix logs, and scheduled inspections are recorded.</p></div></article>
-      <article class="faqcard"><div class="faqicon">🛠️</div><div class="faqcontent"><h3>Who maintains the road?</h3><p class="small muted">Local partners with trained crews and simple maintenance playbooks.</p></div></article>
-      <article class="faqcard"><div class="faqicon">📦</div><div class="faqcontent"><h3>What does a dispatch include?</h3><p class="small muted">Tarps, hand tools, safety gear, and fuel/food support as needed.</p></div></article>
-      <article class="faqcard"><div class="faqicon">🧩</div><div class="faqcontent"><h3>How are segments selected?</h3><p class="small muted">Access need, drainage feasibility, and community coordination.</p></div></article>
-      <article class="faqcard"><div class="faqicon">⚖️</div><div class="faqcontent"><h3>Key risks?</h3><p class="small muted">Weather windows, logistics delays, and equipment wear; mitigated via staging.</p></div></article>
-      <article class="faqcard"><div class="faqicon">🗓️</div><div class="faqcontent"><h3>Typical timeline?</h3><p class="small muted">Mobilize → grade/drain → stabilize → cure → publish results.</p></div></article>
-      <article class="faqcard"><div class="faqicon">🧑‍🤝‍🧑</div><div class="faqcontent"><h3>Can I volunteer?</h3><p class="small muted">Local roles prioritized; remote help accepted for communications/admin.</p></div></article>
-      <article class="faqcard"><div class="faqicon">🔒</div><div class="faqcontent"><h3>Privacy & data use?</h3><p class="small muted">We minimize data collection and never sell donor information.</p></div></article>
-      <article class="faqcard"><div class="faqicon">📬</div><div class="faqcontent"><h3>How to contact the team?</h3><p class="small muted">Use the contact email in the footer; we respond within a few business days.</p></div></article>
-
-      <!-- : Funding & Transparency (FAQ CARDS)-->
-<article class="faqcard"><div class="faqicon">💰</div><div class="faqcontent">
-<h3>Where does the money go?</h3>
-<p class="small muted">Every dollar is directed to field costs — equipment, food, and local labor. No office or marketing overhead is taken from this fund.</p>
-</div></article>
-
-<article class="faqcard"><div class="faqicon">📦</div><div class="faqcontent">
-<h3>Who manages the funds?</h3>
-<p class="small muted">The Rwanda Road Trust Fund is administered by Hive Technologies with transparent reporting, receipts, and photos for every purchase.</p>
-</div></article>
-
-<article class="faqcard"><div class="faqicon">🔍</div><div class="faqcontent">
-<h3>How can I verify spending?</h3>
-<p class="small muted">All receipts, dated shipments, and site photos are uploaded publicly after each dispatch for donor review.</p>
-</div></article>
-
-<article class="faqcard"><div class="faqicon">🏦</div><div class="faqcontent">
-<h3>Do funds ever leave Rwanda?</h3>
-<p class="small muted">No. All purchases, wages, and materials are sourced and paid within Rwanda to strengthen the local economy.</p>
-</div></article>
-<!-- : Mission & Impact (FAQ CARDS)-->
-<article class="faqcard"><div class="faqicon">🌍</div><div class="faqcontent">
-<h3>How does this help Rwanda?</h3>
-<p class="small muted">Each kilometer built connects farms, schools, and clinics — directly improving access, trade, and daily life for nearby villages.</p>
-</div></article>
-
-<article class="faqcard"><div class="faqicon">🧱</div><div class="faqcontent">
-<h3>What is a “feeder road”?</h3>
-<p class="small muted">Feeder roads are short, rural routes linking villages to main roads — small in distance but vital for agriculture and trade.</p>
-</div></article>
-
-<article class="faqcard"><div class="faqicon">👷</div><div class="faqcontent">
-<h3>Who builds the roads?</h3>
-<p class="small muted">Local crews are trained, equipped, and paid through the fund — keeping jobs and skills within the community.</p>
-</div></article>
-
-<article class="faqcard"><div class="faqicon">🏡</div><div class="faqcontent">
-<h3>What communities benefit first?</h3>
-<p class="small muted">The pilot prioritizes rural districts with limited access to markets but strong community readiness to work together.</p>
-</div></article>
-<!-- : About the Project (FAQ CARDS)-->
-<article class="faqcard"><div class="faqicon">🚀</div><div class="faqcontent">
-<h3>Who started this fund?</h3>
-<p class="small muted">The Rwanda Road Trust Fund was founded by Hive Technologies — a veteran-led initiative focused on sustainable infrastructure and local empowerment.</p>
-</div></article>
-
-<article class="faqcard"><div class="faqicon">🧠</div><div class="faqcontent">
-<h3>Why is this different?</h3>
-<p class="small muted">We combine modern road science with local labor and natural materials — cutting costs while building lasting community ownership.</p>
-</div></article>
-
-<article class="faqcard"><div class="faqicon">🔬</div><div class="faqcontent">
-<h3>What makes your method innovative?</h3>
-<p class="small muted">Our road mix uses basalt fines and improved curing techniques for longer-lasting, weather-resilient surfaces compared to typical feeder roads.</p>
-</div></article>
-
-<article class="faqcard"><div class="faqicon">🪜</div><div class="faqcontent">
-<h3>Is this a one-time pilot?</h3>
-<p class="small muted">The 2 km pilot sets the framework. Once proven, the same transparent model will expand kilometer by kilometer with local teams.</p>
-</div></article>
-<!-- : About the Project (FAQ CARDS)-->
-<article class="faqcard"><div class="faqicon">🤝</div><div class="faqcontent">
-<h3>Can companies sponsor a section?</h3>
-<p class="small muted">Yes. Sponsors are listed publicly and receive photo proof of the exact segment they helped fund.</p>
-</div></article>
-
-<article class="faqcard"><div class="faqicon">📣</div><div class="faqcontent">
-<h3>Can I volunteer or promote the project?</h3>
-<p class="small muted">Local work is prioritized for Rwandan crews, but volunteers can help with awareness, translations, or documentation online.</p>
-</div></article>
-
-<article class="faqcard"><div class="faqicon">💬</div><div class="faqcontent">
-<h3>Can donors track updates?</h3>
-<p class="small muted">Yes — build logs, photos, and funding progress are posted weekly right on this site and via email updates.</p>
-</div></article>
-<!-- END: FAQ CARDS (source set) -->
-    </div>
-  </div>
-</section>
-
-<style>
-/* FAQ visual cards (grid->stack for scroller) */
-#faq .faq-viewport{
-  max-height: 360px;              /* << fixed viewport height */
-  overflow: hidden;               /* we drive scroll via script for smooth looping */
-  border: 1px dashed var(--line);
-  border-radius: 12px;
-  padding: 8px;
-  position: relative;
-  background: #fff;
-}
-#faq .faq-track{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-  will-change: transform;
-}
-#faq .faqcard{
-  display:flex; align-items:flex-start; gap:12px;
-  background:#fff; border:1px solid var(--line);
-  border-radius:12px; padding:12px;
-}
-#faq .faqicon{font-size:22px;line-height:1;flex-shrink:0}
-#faq .faqcontent h3{margin:0;font-size:16px}
-#faq .faqcontent p{margin:4px 0 0}
-</style>
-
-<script>
-/* ===== FAQ Vertical Auto-Scroll (looping, pauses on hover/focus) ===== */
-(function(){
-  const viewport = document.getElementById('faqViewport');
-  const track    = document.getElementById('faqTrack');
-  if(!viewport || !track) return;
-
-  // Duplicate once to allow seamless loop
-  const itemsHTML = track.innerHTML;
-  track.insertAdjacentHTML('beforeend', itemsHTML);
-
-  // State
-  let paused = false;
-  let y = 0;                         // translateY offset
-  const speed = 12;                  // px per second (tweak)
-  let lastTs = null;
-
-  // Pause/resume on hover/focus
-  function setPaused(p){ paused = p; }
-  viewport.addEventListener('mouseenter', ()=>setPaused(true));
-  viewport.addEventListener('mouseleave', ()=>setPaused(false));
-  viewport.addEventListener('focusin',   ()=>setPaused(true));
-  viewport.addEventListener('focusout',  ()=>setPaused(false));
-
-  // If user scrolls/touches, pause briefly
-  let wheelTimeout;
-  viewport.addEventListener('wheel', ()=>{
-    setPaused(true);
-    clearTimeout(wheelTimeout);
-    wheelTimeout = setTimeout(()=>setPaused(false), 2000);
-  }, {passive:true});
-  viewport.addEventListener('touchstart', ()=>setPaused(true), {passive:true});
-  viewport.addEventListener('touchend',   ()=>setPaused(false), {passive:true});
-
-  function step(ts){
-    if(lastTs === null) lastTs = ts;
-    const dt = (ts - lastTs) / 1000; lastTs = ts;
-
-    const singleHeight = track.scrollHeight / 2; // height of one set
-    if(!paused){
-      y -= speed * dt;                           // move up
-      if(Math.abs(y) >= singleHeight){          // wrap
-        y += singleHeight;
-      }
-      track.style.transform = `translateY(${y}px)`;
-    }
-    requestAnimationFrame(step);
-  }
-  requestAnimationFrame(step);
-})();
-</script>
-
-<footer>
-  <div class="wrap footgrid">
-    <div><strong>Rwanda Road Trust Fund</strong><br/>
-      <span class="small muted">Community-first road upgrades using local labor, transparent funding, and simple tech.</span></div>
-    <div class="small">
-      <div><a href="#donate">Donate</a> · <a href="#updates">Updates</a> · <a href="#how">How it works</a></div>
-      <div style="margin-top:6px"><a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · <a href="mailto:hello@hive.example">Contact</a></div>
-      <div class="muted">© <span id="yr"></span> Hive Technologies</div>
-    </div>
-  </div>
-</footer>
-
-<!-- Sticky donate on mobile -->
-<div class="sticky-donate" role="region" aria-label="Quick donate">
-  <div class="wrap">
-    <span class="small">Every $175 ≈ 25 m of road</span>
-    <button class="btn" onclick="document.getElementById('donate-form').scrollIntoView({behavior:'smooth'})">Donate now</button>
-  </div>
-</div>
-
-<script>
-  // ============================
-  // EDIT BLOCK A — FUNDING MODEL
-  // ============================
-  const COST_PER_KM = 7000;          // $7k funds 1 km
-  const KM_GOAL = 2;                 // total kilometers targeted
-  const START_RAISED = 7000;         // replace with backend value
-  const GOAL = COST_PER_KM * KM_GOAL;
-
-  const SEGMENT_LENGTH_M = 25;
-  const SEGMENTS_PER_KM = 1000 / SEGMENT_LENGTH_M;        // 40
-  const USD_PER_SEGMENT = COST_PER_KM / SEGMENTS_PER_KM;  // 175
-  const USD_PER_MEAL = 5.25;
-
-  // Pilot rule: start by date OR when goal reached
-  const PILOT_START = new Date('2028-02-01T00:00:00Z');
-
-  // =======================================
-  // EDIT BLOCK B — BUDGET PERCENT ALLOCATION
-  // =======================================
-  const BUDGET = [
-    { key:"equipment", label:"Equipment & Tarps", pct: 45, blurb:"Curing tarps, bamboo/PVC poles, ropes, basic tools." },
-    { key:"food",      label:"Food & Hydration",   pct: 35, blurb:"Market staples + high-energy supplements." },
-    { key:"other",     label:"Worker Bonus & Logistics", pct: 20, blurb:"Retention bonuses and local transport." }
-  ];
-
-  // ================================
-  // EDIT BLOCK C — MILESTONES & DATES
-  // ================================
-  const MILESTONES = [
-    {label:"Meals & hydration funded",   target:1000},
-    {label:"Tarp kits & tools funded",   target:2500},
-    {label:"Worker bonus pool started",  target:5000},
-    {label:"Stretch: demo basalt pavers",target:7000}
-  ];
-  const NEXT_SHIP = new Date(); NEXT_SHIP.setDate(NEXT_SHIP.getDate() + 9);
-
-  // ---- Helpers ----
-  const $ = id => document.getElementById(id);
-  const fmt = n => n.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0});
-  const pctFmt = n => `${n.toFixed(0)}%`;
-
-  let raised = START_RAISED;
-
-  function computeKPIs(total){
-    const segments = total / USD_PER_SEGMENT;
-    const km = (segments * SEGMENT_LENGTH_M) / 1000;
-    const meals = Math.floor(total / USD_PER_MEAL);
-    return {segments, km, meals};
-  }
-
-  // === BUDGET DONUT: draw donut and legend (replaces legacy category grid) ===
-  const DONUT_COLORS = ['#b38f47', '#e1c06f', '#8e723a']; // order maps to BUDGET entries
-
-  function renderBudgetDonut(total){
-    const svg = $('budgetDonut');
-    const leg = $('budgetLegend');
-    if(!svg || !leg) return;
-
-    // Center label always shows the per-km cost (COST_PER_KM)
-    const center = $('donutTotal');
-    if(center) center.textContent = COST_PER_KM.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0});
-
-    // Geometry for 42x42 viewBox donut
-    const R = 15.915;               // radius for classic SVG donut pattern
-    const STROKE = 8;               // thickness
-    const CIRC = 2 * Math.PI * R;   // circumference
-
-    // Clear old nodes
-    svg.innerHTML = '';
-
-    // Background ring (light grey)
-    const bg = document.createElementNS('http://www.w3.org/2000/svg','circle');
-    bg.setAttribute('cx','21'); bg.setAttribute('cy','21'); bg.setAttribute('r', String(R));
-    bg.setAttribute('fill','none'); bg.setAttribute('stroke','#eee'); bg.setAttribute('stroke-width', String(STROKE));
-    svg.appendChild(bg);
-
-    // Build arcs from BUDGET percentages
-    let offset = 0;
-    const totalPct = BUDGET.reduce((a,b)=>a+b.pct,0) || 100;
-
-    BUDGET.forEach((item, idx) => {
-      const pct = item.pct / totalPct;  // normalized [0..1]
-      const len = CIRC * pct;           // arc length
-      const dash = `${len} ${CIRC - len}`;
-      const arc = document.createElementNS('http://www.w3.org/2000/svg','circle');
-      arc.setAttribute('cx','21'); arc.setAttribute('cy','21'); arc.setAttribute('r', String(R));
-      arc.setAttribute('fill','none');
-      arc.setAttribute('stroke', DONUT_COLORS[idx % DONUT_COLORS.length]);
-      arc.setAttribute('stroke-width', String(STROKE));
-      arc.setAttribute('stroke-dasharray', dash);
-      arc.setAttribute('stroke-dashoffset', String(offset));
-      arc.setAttribute('stroke-linecap','butt');
-      arc.style.transition = 'stroke-dashoffset .6s ease, stroke-dasharray .6s ease';
-      svg.appendChild(arc);
-      offset -= len; // next arc continues where this one ended
-    });
-
-    // Legend with live $ funded towards each category (capped at category goal)
-    leg.innerHTML = '';
-    BUDGET.forEach((item, idx) => {
-      const li = document.createElement('li');
-      const goalAmt = GOAL * (item.pct/100);
-      const funded  = Math.min(total * (item.pct/100), goalAmt);
-      li.innerHTML = `
-        <span class="sw" style="background:${DONUT_COLORS[idx % DONUT_COLORS.length]}"></span>
-        <span class="lbl">${item.label}</span>
-        <span class="pct">${item.pct.toFixed(0)}%</span>
-        <span class="amt">${funded.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0})}
-          / ${goalAmt.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0})}</span>
-      `;
-      leg.appendChild(li);
-    });
-  }
-
-  // === MILESTONES / PILOT TEXT / TOTALS ===
-  function renderMilestones(total){
-    const box = $("miles"); box.innerHTML = "";
-    MILESTONES.forEach(m=>{
-      const hit = total >= m.target;
-      const el = document.createElement("div");
-      el.className = "mile";
-      el.innerHTML = `<div class="tick" aria-hidden="true">${hit ? "✓" : "•"}</div>
-        <div><strong>${m.label}</strong>
-        <div class="small muted">${fmt(m.target)} goal ${hit ? "— achieved" : ""}</div></div>`;
-      box.appendChild(el);
-    });
-  }
-
-  function pilotText(total){
-    const early = total >= GOAL;
-    const dt = early ? new Date() : PILOT_START;
-    const fmtDate = dt.toLocaleDateString(undefined,{year:'numeric',month:'short'});
-    const el = $("pilotDateTxt");
-    if(el) el.textContent = early ? 'as soon as funding clears' : fmtDate;
-  }
-
-  function renderTotals(total){
-    $("raised").textContent = fmt(total);
-    $("goal").textContent   = fmt(GOAL);
-    const pct = Math.min(100, Math.round((total/GOAL)*100));
-    $("fill").style.width = pct + "%";
-
-    const {segments, km, meals} = computeKPIs(total);
-    $("segments").textContent = segments.toFixed(1);
-    $("kmBuilt").textContent  = km.toFixed(2);
-    $("meals").textContent    = meals.toLocaleString();
-  }
-
-  // === COUNTDOWN ===
-  function tick(){
-    const now = new Date();
-    const diff = Math.max(0, NEXT_SHIP - now);
-    const d = Math.floor(diff/864e5), h = Math.floor((diff%864e5)/36e5), m = Math.floor((diff%36e5)/6e4);
-    $("d").textContent = String(d).padStart(2,"0");
-    $("h").textContent = String(h).padStart(2,"0");
-    $("m").textContent = String(m).padStart(2,"0");
-  }
-
-  // === DONATION UI (demo) ===
-  function setPreset(v){ $("amt").value = v }
-  function fakeDonate(){
-    const v = Math.max(0, Number($("amt").value||0));
-    if(!v) return;
-    raised += v; renderAll();
-    alert("Thank you! (Demo) In production this would redirect to secure checkout and update via webhook.");
-  }
-
-  // === MAIN RENDER LOOP ===
-  function renderAll(){
-    renderTotals(raised);
-    renderBudgetDonut(raised);   // << NEW donut render
-    renderMilestones(raised);
-    pilotText(raised);
-  }
-
-  $("yr").textContent = new Date().getFullYear();
-  renderAll(); tick(); setInterval(tick, 30_000);
-
-  /* IMPACT BANNER */
-  const FACTS = [
-    "Rwanda’s road, built by Rwandans",
-    "Local crews trained & certified",
-    "100% natural mineral materials from Rwanda",
-    "Basalt-based surface designed for tropical rains",
-    "Consistent 3–5% crown & clear drains reduce washouts",
-    "Dense, well-cured surface = fewer regradings",
-    "Less imported haul = fewer transport emissions",
-    "Lower dust vs. untreated gravel in dry season",
-    "Tarp-cured sections improve early strength",
-    "Maintenance-first design: easy to patch & keep open",
-    "Every $7,000 funds 1 km of road",
-    "Transparent: receipts & photo proof posted",
-    "Community pride: local names in the build history",
-    "Built to compare with Africa’s best feeder roads",
-    "Step-up durability from basic gravel/laterite"
-  ];
-  function makeRowHTML(items){
-    return (
-      '<div class="impact-scroll">' +
-        items.map(txt => `
-          <span class="impact-chip">
-            <span class="dot" aria-hidden="true"></span>${txt}
-          </span>`).join('') +
-        items.map(txt => `
-          <span class="impact-chip">
-            <span class="dot" aria-hidden="true"></span>${txt}
-          </span>`).join('') +
-      '</div>'
-    );
-  }
-  function mountImpactBanner(){
-    const top = document.getElementById('impactTop');
-    const bot = document.getElementById('impactBottom');
-    if(!top || !bot) return;
-    const rowA = FACTS.slice();
-    const rowB = FACTS.slice().reverse();
-    top.innerHTML = makeRowHTML(rowA);
-    bot.innerHTML = makeRowHTML(rowB);
-    const topScroll = top.querySelector('.impact-scroll');
-    const botScroll = bot.querySelector('.impact-scroll');
-    topScroll.style.animation = 'scrollLeft 40s linear infinite';
-    botScroll.style.animation = 'scrollRight 50s linear infinite';
-  }
-  mountImpactBanner();
-</script>
 </body>
 </html>
