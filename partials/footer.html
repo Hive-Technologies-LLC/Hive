@@ -1,0 +1,50 @@
+<!-- ============================================================
+  HiveOS Website — Shared Partial: Footer
+  File: partials/footer.html
+  Rev: 0.1.2
+  Purpose: Footer used across all pages (legal, links, contact)
+
+  QUICK JUMPS (Search These Tags):
+    [FOOTER:WRAP]
+    [FOOTER:INNER]
+    [FOOTER:TOP]
+    [FOOTER:LINKS]
+    [FOOTER:LEGAL]
+    [FOOTER:VERSION-STAMP]
+============================================================ -->
+
+<!-- ============================================================
+  [FOOTER:WRAP]
+============================================================ -->
+<footer class="site-footer" role="contentinfo">
+
+  <!-- ==========================================================
+    [FOOTER:INNER]
+  =========================================================== -->
+  <div class="site-footer__inner">
+
+    <!-- ========================================================
+      [FOOTER:LEGAL]
+    ========================================================= -->
+    <div class="site-footer__bottom">
+      <div class="site-footer__legal">
+        © <span id="year"></span> Hive Technologies. All rights reserved.
+      </div>
+
+      <!-- ======================================================
+        [FOOTER:VERSION-STAMP]
+      ======================================================= -->
+      <div class="version-stamp">HiveOS Site — Rev 0.1.2</div>
+    </div>
+
+  </div>
+
+  <!-- Auto year -->
+  <script>
+    (function(){
+      var y = document.getElementById("year");
+      if (y) y.textContent = new Date().getFullYear();
+    })();
+  </script>
+
+</footer>
