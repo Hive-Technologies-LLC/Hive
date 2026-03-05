@@ -1,0 +1,267 @@
+/* ============================================================
+  HiveOS Website — Page Styles: Home
+  File: css/pages/home.css
+  Rev: 0.1.1
+  Purpose: Home-only styling (hero split desktop, stack mobile)
+
+  QUICK JUMPS (Search These Tags):
+    [HOME:HERO]
+    [HOME:HERO-TYPE]
+    [HOME:HERO-ACTIONS]
+    [HOME:HERO-MEDIA]
+    [HOME:RESPONSIVE]
+	 [HOME:PROBLEM-SOLUTION]
+	 [HOME:PLATFORM-OVERVIEW]
+	 [HOME:ABOUT]
+============================================================ */
+
+
+/* ============================================================
+   [HOME:HERO]
+   Desktop: Text left / Image right
+============================================================ */
+
+.home-hero{
+  padding-top: 18px;
+}
+
+.home-hero__grid{
+  display: grid;
+  grid-template-columns: 1.05fr 1fr; /* text slightly wider */
+  gap: 60px;
+  align-items: center;
+}
+
+/* Text block */
+.home-hero__content{
+  text-align: left;
+}
+
+
+/* ============================================================
+   [HOME:HERO-TYPE]
+============================================================ */
+.home-hero h1{
+  margin: 0;
+  font-size: clamp(34px, 4vw, 54px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.home-hero p{
+  margin: 0;
+  font-size: 16px;
+  color: rgba(229,238,247,.72);
+  max-width: 56ch;
+}
+
+
+/* ============================================================
+   [HOME:HERO-ACTIONS]
+============================================================ */
+.home-hero__actions{
+  margin-top: 10px;
+}
+
+
+/* ============================================================
+   [HOME:HERO-MEDIA]
+============================================================ */
+
+.hero-media{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hero-media__img{
+  width: 100%;
+  max-width: 720px;
+  border-radius: 20px;
+  box-shadow:
+    0 40px 100px rgba(0,0,0,.55),
+    0 0 0 1px rgba(255,255,255,.06);
+}
+
+/* ============================================================
+   [HOME:RESPONSIVE]
+   Mobile: stack (text first, media below)
+============================================================ */
+@media (max-width: 900px){
+  .home-hero__grid{
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .hero-media{
+    justify-content: center;
+  }
+}
+
+/* ============================================================
+   [HOME:PROBLEM-SOLUTION]
+   Always 2 columns (no stacking)
+============================================================ */
+
+.ps-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* ALWAYS side by side */
+  gap: clamp(24px, 6vw, 80px);
+  align-items: start;
+}
+
+.ps-block{
+  padding-top: 18px;
+  border-top: 1px solid rgba(255,255,255,.12);
+}
+
+/* Responsive title sizing */
+.ps-title{
+  margin: 0 0 14px;
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: rgba(229,238,247,.90);
+}
+
+/* Bullet list */
+.ps-list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: clamp(8px, 1.5vw, 14px);
+  font-size: clamp(13px, 2.2vw, 16px);
+  color: rgba(229,238,247,.72);
+}
+
+/* Solution text */
+.ps-text{
+  margin: 0;
+  font-size: clamp(13px, 2.2vw, 16px);
+  line-height: 1.6;
+  color: rgba(229,238,247,.75);
+}
+
+/* ============================================================
+   [HOME:PLATFORM-OVERVIEW]
+   Horizontal scroll layout
+============================================================ */
+
+.section-title{
+  margin: 0;
+  font-size: 18px;
+  font-weight: 650;
+  color: rgba(229,238,247,.90);
+}
+
+/* Horizontal scroll container */
+.overview-grid{
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Hide scrollbar (optional but clean) */
+.overview-grid::-webkit-scrollbar{
+  height: 6px;
+}
+.overview-grid::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,.15);
+  border-radius: 999px;
+}
+
+/* Cards */
+.overview-card{
+  flex: 0 0 320px; /* fixed card width */
+  scroll-snap-align: start;
+
+  border-radius: 14px;
+  background: rgba(17, 22, 27, .45);
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 16px 60px rgba(0,0,0,.35);
+  padding: 18px;
+
+  /* Smooth elevation animation */
+  transition:
+    transform .28s cubic-bezier(.22,.61,.36,1),
+    box-shadow .28s ease,
+    border-color .28s ease,
+    background .28s ease;
+
+  will-change: transform;
+}
+
+/* Hover Elevation */
+.overview-card:hover{
+  transform: translateY(-8px);
+
+  box-shadow:
+    0 28px 90px rgba(0,0,0,.45),
+    0 0 0 1px rgba(18,209,142,.12);
+
+  border-color: rgba(255,255,255,.16);
+  background: rgba(17, 22, 27, .55);
+}
+
+/* Subtle icon glow on hover */
+.overview-card:hover .overview-icon{
+  box-shadow: 0 0 18px rgba(18,209,142,.35);
+}
+
+/* ============================================================
+   [HOME:ABOUT]
+============================================================ */
+
+.about-grid{
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.about-title{
+  margin: 0;
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 700;
+  color: rgba(229,238,247,.92);
+}
+
+.about-text{
+  margin: 0;
+  font-size: clamp(14px, 1.6vw, 16px);
+  line-height: 1.7;
+  color: rgba(229,238,247,.75);
+  max-width: 60ch;
+}
+
+.about-media{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.about-media__placeholder{
+  width: 100%;
+  max-width: 420px;
+  height: 320px;
+  border-radius: 18px;
+  background: rgba(17, 22, 27, .45);
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 30px 80px rgba(0,0,0,.45);
+}
+
+/* Responsive */
+@media (max-width: 900px){
+  .about-grid{
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .about-media{
+    justify-content: center;
+  }
+}
