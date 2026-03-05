@@ -1,0 +1,126 @@
+<!-- ============================================================
+  HiveOS Website — Contact
+  File: contact.html
+  Rev: 0.1.1
+  Purpose: Contact form + direct email
+============================================================ -->
+<!doctype html>
+<html lang="en">
+
+<!-- ============================================================
+  [HTML:HEAD]
+============================================================ -->
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact — HiveOS</title>
+
+  <!-- Global Styles -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/background.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <!-- Page Specific -->
+  <link rel="stylesheet" href="css/pages/contact.css">
+</head>
+
+<body>
+
+<!-- ============================================================
+  [HTML:NAV-PLACEHOLDER]
+============================================================ -->
+<div data-include="partials/nav.html"></div>
+
+<!-- ============================================================
+  [HTML:MAIN]
+============================================================ -->
+<main class="site-main">
+
+  <!-- ==========================================================
+    [HTML:SECTION-CONTACT-HERO]
+  =========================================================== -->
+  <section class="section section--tight">
+    <div class="container stack stack--lg">
+      <h1>Contact HiveOS</h1>
+      <p>
+        For partnerships, pilot deployments, firmware licensing, or technical
+        discussions, reach out below.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+    [HTML:SECTION-CONTACT-FORM]
+  =========================================================== -->
+  <section class="section">
+    <div class="container">
+
+      <div class="contact-grid">
+
+        <!-- Contact Form -->
+        <form class="contact-form stack stack--lg" action="#" method="POST">
+
+          <div class="form-row">
+            <label class="label" for="name">Name</label>
+            <input class="input" type="text" id="name" name="name" required>
+          </div>
+
+          <div class="form-row">
+            <label class="label" for="email">Email</label>
+            <input class="input" type="email" id="email" name="email" required>
+          </div>
+
+          <div class="form-row">
+            <label class="label" for="company">Company (Optional)</label>
+            <input class="input" type="text" id="company" name="company">
+          </div>
+
+          <div class="form-row">
+            <label class="label" for="message">Message</label>
+            <textarea class="textarea" id="message" name="message" rows="5" required></textarea>
+          </div>
+
+          <div>
+            <button type="submit" class="btn btn--primary">Send Message</button>
+          </div>
+
+        </form>
+
+        <!-- Direct Contact Info -->
+        <div class="contact-alt stack stack--lg">
+          <div class="card card--padded">
+            <h3 class="card__title">Direct Email</h3>
+            <p class="card__muted">
+              <a href="mailto:hello@hiveos.com">hello@hiveos.com</a>
+            </p>
+          </div>
+
+          <div class="card card--padded">
+            <h3 class="card__title">Response Time</h3>
+            <p class="card__muted">
+              Typical response within 24–48 hours.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+  [HTML:FOOTER-PLACEHOLDER]
+============================================================ -->
+<div data-include="partials/footer.html"></div>
+
+<!-- ============================================================
+  [HTML:SCRIPTS]
+============================================================ -->
+<script src="js/include.js"></script>
+
+</body>
+</html>
