@@ -1,0 +1,42 @@
+/* ============================================================
+  HiveOS Website — Base Styles
+  File: css/base.css
+  Rev: 0.1.1
+  Purpose: Resets, typography defaults, global element styling
+
+  QUICK JUMPS (Search These Tags):
+    [BASE:RESET]
+    [BASE:TYPE]
+    [BASE:LINKS]
+    [BASE:ACCESSIBILITY]
+	 [BASE:MEDIA]
+============================================================ */
+
+/* [BASE:RESET] */
+*{ box-sizing: border-box; }
+img{ max-width: 100%; display: block; }
+body{ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+/* [BASE:TYPE] */
+h1,h2,h3{ margin: 0; letter-spacing: -.02em; }
+p{ margin: 0; color: rgba(229,238,247,.75); line-height: 1.6; }
+
+/* [BASE:LINKS] */
+a{ color: inherit; }
+
+/* [BASE:ACCESSIBILITY] */
+:focus-visible{ outline: 2px solid rgba(18,209,142,.35); outline-offset: 4px; }
+
+/* [BASE:MEDIA] */
+
+img{
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+video{
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
