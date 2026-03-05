@@ -1,0 +1,492 @@
+/* ============================================================
+  HiveOS Website — Components
+  File: css/components.css
+  Rev: 0.1.2
+  Purpose: Buttons, cards, chips, tables, badges, nav/footer styling
+
+  QUICK JUMPS (Search These Tags):
+    [CMP:BUTTONS]
+    [CMP:CARDS]
+    [CMP:BADGES]
+    [CMP:TABLES]
+    [CMP:FORMS]
+    [CMP:NAV]
+    [CMP:FOOTER]
+    [CMP:MODALS-TOASTS]
+	 [CMP:MEDIA]
+============================================================ */
+
+
+/* ============================================================
+   [CMP:BUTTONS]
+   Buttons + Button Groups
+============================================================ */
+.btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(17, 22, 27, .55);
+  color: rgba(229,238,247,.92);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .12s ease, background .12s ease, border-color .12s ease, opacity .12s ease;
+  user-select: none;
+}
+
+.btn:hover{
+  transform: translateY(-1px);
+  background: rgba(17, 22, 27, .70);
+  border-color: rgba(255,255,255,.14);
+}
+
+.btn:active{
+  transform: translateY(0px);
+  opacity: .95;
+}
+
+.btn:focus-visible{
+  outline: 2px solid rgba(18, 209, 142, .35);
+  outline-offset: 4px;
+}
+
+.btn--primary{
+  background: rgba(18, 209, 142, .14);
+  border-color: rgba(18, 209, 142, .35);
+}
+
+.btn--primary:hover{
+  background: rgba(18, 209, 142, .18);
+  border-color: rgba(18, 209, 142, .45);
+}
+
+.btn--ghost{
+  background: transparent;
+  border-color: rgba(255,255,255,.10);
+}
+
+.btn-row{
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+
+/* ============================================================
+   [CMP:CARDS]
+   Generic Card + Section Blocks
+============================================================ */
+.card{
+  border-radius: 14px;
+  background: rgba(17, 22, 27, .55);
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 12px 40px rgba(0,0,0,.35);
+}
+
+.card--padded{
+  padding: 20px;
+}
+
+.card__title{
+  margin: 0 0 8px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  color: rgba(229,238,247,.92);
+}
+
+.card__muted{
+  margin: 0;
+  color: rgba(229,238,247,.70);
+  line-height: 1.6;
+}
+
+
+/* ============================================================
+   [CMP:BADGES]
+   Pills / Status Tags
+============================================================ */
+.badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(17, 22, 27, .45);
+  color: rgba(229,238,247,.80);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge--ok{
+  border-color: rgba(18, 209, 142, .35);
+  background: rgba(18, 209, 142, .10);
+}
+
+.badge--warn{
+  border-color: rgba(255, 196, 0, .35);
+  background: rgba(255, 196, 0, .08);
+}
+
+
+/* ============================================================
+   [CMP:TABLES]
+   Minimal Tables (Fault logs, metrics, etc.)
+============================================================ */
+.table{
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(17, 22, 27, .40);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.table th,
+.table td{
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  color: rgba(229,238,247,.82);
+  font-size: 13px;
+}
+
+.table th{
+  color: rgba(229,238,247,.90);
+  font-weight: 700;
+  background: rgba(0,0,0,.18);
+}
+
+.table tr:last-child td{
+  border-bottom: none;
+}
+
+
+/* ============================================================
+   [CMP:FORMS]
+   Inputs / Selects / Textareas
+============================================================ */
+.input,
+.select,
+.textarea{
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(17, 22, 27, .55);
+  color: rgba(229,238,247,.90);
+  font-size: 14px;
+  outline: none;
+}
+
+.input::placeholder,
+.textarea::placeholder{
+  color: rgba(229,238,247,.55);
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus{
+  border-color: rgba(18, 209, 142, .40);
+  box-shadow: 0 0 0 4px rgba(18, 209, 142, .10);
+}
+
+.label{
+  display: block;
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 650;
+  color: rgba(229,238,247,.82);
+}
+
+.form-row{
+  display: grid;
+  gap: 12px;
+}
+
+
+/* ============================================================
+   [CMP:NAV]
+   Top Navigation — FORCE SINGLE ROW (no wrapping on any size)
+============================================================ */
+.site-nav{
+  position: relative;
+  padding: 18px 24px;
+  /* subtle “top fade” like the reference */
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,.28) 0%,
+    rgba(0,0,0,.12) 55%,
+    rgba(0,0,0,0) 100%
+  );
+}
+
+.site-nav__inner{
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  /* ✅ critical: never allow nav to wrap */
+  flex-wrap: nowrap;
+  gap: 14px;
+}
+
+/* Brand (left) */
+.site-nav__brand{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: rgba(229,238,247,.92);
+
+  /* ✅ keep HiveOS on one line */
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.brand__mark{
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: rgba(18, 209, 142, .16);
+  border: 1px solid rgba(18, 209, 142, .35);
+  box-shadow: 0 10px 24px rgba(0,0,0,.25);
+}
+
+.brand__name{
+  font-size: clamp(14px, 2vw, 16px);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+/* Links (right) */
+.site-nav__links{
+  display: flex;
+  align-items: center;
+
+  /* ✅ critical: never allow links to wrap */
+  flex-wrap: nowrap;
+  white-space: nowrap;
+
+  justify-content: flex-end;
+  gap: 22px;
+  flex: 1 1 auto;
+
+  /* ✅ allows links to stay on one line by shrinking within header */
+  min-width: 0;
+}
+
+.nav-link{
+  text-decoration: none;
+  font-size: 14px;
+  color: rgba(229,238,247,.78);
+  letter-spacing: 0.02em;
+  padding: 8px 2px;
+  border-bottom: 1px solid transparent;
+  transition: color .15s ease, border-color .15s ease, opacity .15s ease;
+}
+
+.nav-link:hover{
+  color: rgba(229,238,247,.92);
+  border-bottom-color: rgba(229,238,247,.18);
+}
+
+.nav-link:focus-visible{
+  outline: 2px solid rgba(18, 209, 142, .35);
+  outline-offset: 4px;
+  border-bottom-color: transparent;
+  border-radius: 8px;
+}
+
+/* ✅ Responsive: reduce spacing + font size so it fits on one line */
+@media (max-width: 720px){
+  .site-nav{
+    padding: 14px 18px;
+  }
+
+  .site-nav__links{
+    gap: 14px;
+  }
+
+  .nav-link{
+    font-size: 13px;
+    padding: 6px 2px;
+  }
+}
+
+@media (max-width: 420px){
+  .site-nav__links{
+    gap: 10px;
+  }
+  .nav-link{
+    font-size: 12px;
+  }
+}
+
+
+/* ============================================================
+   [CMP:FOOTER]
+   Enterprise Footer
+============================================================ */
+
+.site-footer{
+  padding: 48px 24px;
+  margin-top: 72px;
+  border-top: 1px solid rgba(255,255,255,.08);
+
+  background: linear-gradient(
+    0deg,
+    rgba(0,0,0,.20) 0%,
+    rgba(0,0,0,.10) 55%,
+    rgba(0,0,0,0) 100%
+  );
+}
+
+.site-footer__inner{
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  gap: 28px;
+}
+
+.site-footer__top{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.site-footer__brand{
+  max-width: 360px;
+}
+
+.footer-brand__row{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-brand__mark{
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  background: rgba(18, 209, 142, .14);
+  border: 1px solid rgba(18, 209, 142, .35);
+}
+
+.footer-brand__name{
+  font-weight: 650;
+  color: rgba(229,238,247,.92);
+  letter-spacing: -0.01em;
+}
+
+.site-footer__tagline{
+  margin: 10px 0 0;
+  color: rgba(229,238,247,.62);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.site-footer__links{
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.site-footer__links a{
+  color: rgba(229,238,247,.72);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.site-footer__links a:hover{
+  color: rgba(229,238,247,.92);
+}
+
+.site-footer__bottom{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  border-top: 1px solid rgba(255,255,255,.06);
+  padding-top: 20px;
+}
+
+.site-footer__legal{
+  font-size: 12px;
+  color: rgba(229,238,247,.55);
+}
+
+.version-stamp{
+  font-size: 12px;
+  color: rgba(229,238,247,.55);
+}
+
+/* Responsive */
+@media (max-width: 720px){
+  .site-footer__top{
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .site-footer__links{
+    justify-content: flex-start;
+  }
+
+  .site-footer__bottom{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ============================================================
+   [CMP:MODALS-TOASTS]
+   Optional containers for later (kept minimal)
+============================================================ */
+.toast{
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  max-width: 360px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(17, 22, 27, .80);
+  color: rgba(229,238,247,.90);
+  box-shadow: 0 18px 60px rgba(0,0,0,.45);
+  display: none; /* enable later via JS */
+}
+
+/* ============================================================
+   [CMP:MEDIA]
+   Images + Video Wrappers
+============================================================ */
+
+.media{
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(17,22,27,.55);
+  box-shadow: 0 12px 40px rgba(0,0,0,.35);
+}
+
+.media--shadow{
+  box-shadow: 0 18px 60px rgba(0,0,0,.55);
+}
+
+.media--hero{
+  max-width: 720px;
+}
+
+.media--dashboard{
+  max-width: 960px;
+}
