@@ -1,0 +1,125 @@
+/* ============================================================
+  HiveOS Website — Page Styles: About
+  File: css/pages/about.css
+  Rev: 0.1.0
+  Purpose: About page layout + software-first credibility blocks
+
+  QUICK JUMPS:
+    [ABOUT:HERO]
+    [ABOUT:DIFF]
+    [ABOUT:SPLIT]
+    [ABOUT:FOUNDER]
+    [ABOUT:CTA]
+    [ABOUT:RESPONSIVE]
+============================================================ */
+
+/* [ABOUT:HERO] */
+.about-hero__grid{
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.about-title{
+  margin: 0;
+  font-size: clamp(30px, 4.6vw, 52px);
+  letter-spacing: -.03em;
+}
+
+.about-subtitle{
+  margin: 0;
+  max-width: 680px;
+  color: rgba(229,238,247,.75);
+  line-height: 1.6;
+}
+
+.about-pills{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+/* [ABOUT:DIFF] */
+.about-lead{
+  max-width: 780px;
+  color: rgba(229,238,247,.72);
+  line-height: 1.6;
+}
+
+/* [ABOUT:SPLIT] */
+.about-split{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.about-text{
+  margin: 0;
+  color: rgba(229,238,247,.75);
+  line-height: 1.6;
+}
+
+.about-bullets{
+  margin: 0;
+  padding-left: 18px;
+  color: rgba(229,238,247,.78);
+  line-height: 1.6;
+}
+
+.about-bullets li{
+  margin: 8px 0;
+}
+
+/* [ABOUT:FOUNDER] */
+.about-founder__grid{
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.about-founder__facts{
+  display: grid;
+  gap: 12px;
+}
+
+.about-fact{
+  padding: 12px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(0,0,0,.12);
+}
+
+.about-fact__k{
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(229,238,247,.55);
+  margin-bottom: 6px;
+}
+
+.about-fact__v{
+  color: rgba(229,238,247,.86);
+  font-weight: 650;
+}
+
+/* [ABOUT:CTA] */
+.about-cta__grid{
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 18px;
+  align-items: center;
+}
+
+/* [ABOUT:RESPONSIVE] */
+@media (max-width: 900px){
+  .about-hero__grid,
+  .about-split,
+  .about-founder__grid,
+  .about-cta__grid{
+    grid-template-columns: 1fr;
+  }
+}
