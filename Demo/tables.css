@@ -1,0 +1,146 @@
+/*
+  HiveOS Results Dashboard
+  cards.css
+  Metric cards, content cards, section headings, and processing summary blocks
+*/
+
+/* =========================
+   SHARED CARD BASE
+   ========================= */
+
+.metric-card,
+.content-card,
+.info-box {
+  min-width: 0;
+
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* =========================
+   METRIC CARDS
+   ========================= */
+
+.metric-card {
+  min-height: 140px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-3);
+
+  padding: var(--space-5);
+}
+
+.metric-card p {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-semibold);
+}
+
+.metric-card h3 {
+  color: var(--text);
+  font-size: var(--text-2xl);
+  letter-spacing: -0.04em;
+
+  overflow-wrap: anywhere;
+}
+
+.metric-card small {
+  display: block;
+}
+
+/* =========================
+   CONTENT CARDS
+   ========================= */
+
+.content-card {
+  overflow: hidden;
+
+  padding: var(--space-5);
+}
+
+.content-card h2 {
+  margin-bottom: var(--space-4);
+
+  font-size: var(--text-lg);
+}
+
+.content-card h2 span {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-medium);
+}
+
+/* =========================
+   SECTION HEADINGS
+   ========================= */
+
+.section-heading {
+  min-width: 0;
+
+  padding: var(--space-5);
+
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.section-heading h2 {
+  margin-bottom: var(--space-2);
+
+  font-size: var(--text-xl);
+}
+
+.section-heading p {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+/* =========================
+   PROCESSING SUMMARY
+   ========================= */
+
+.processing-grid div {
+  min-width: 0;
+
+  padding: var(--space-4);
+
+  background: var(--card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+}
+
+.processing-grid span {
+  display: block;
+
+  margin-bottom: var(--space-2);
+
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+.processing-grid strong {
+  color: var(--text);
+  font-size: var(--text-sm);
+
+  overflow-wrap: anywhere;
+}
+
+/* =========================
+   RESPONSIVE CARDS
+   ========================= */
+
+@media (max-width: 820px) {
+  .metric-card {
+    min-height: 120px;
+  }
+
+  .content-card,
+  .section-heading {
+    padding: var(--space-4);
+  }
+}

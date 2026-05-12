@@ -1,0 +1,105 @@
+"""
+Project: HiveOS Core
+File: audit.py
+Purpose: Build traceable audit output for HiveOS Core processing.
+Key Constraints:
+- Do not modify DataFrames
+- Do not clean, match, normalize, or convert data
+- Only explain what already happened
+- Keep behavior deterministic
+"""
+
+
+def build_field_trace(
+    original_columns: list[str],
+    cleaned_columns: list[str],
+    normalized_columns: list[str],
+    mapped_fields: dict[str, str],
+    unmapped_fields: list[str],
+) -> list[dict]:
+    """
+    Build a column-by-column trace showing how each field changed.
+
+    Returns:
+    - list of trace records
+    """
+    if not (
+        len(original_columns)
+        == len(cleaned_columns)
+        == len(normalized_columns)
+    ):
+        raise ValueError("Column trace inputs must have matching lengths.")
+
+    field_trace = []
+
+    for original, cleaned, normalized in zip(
+        original_columns,
+        cleaned_columns,
+        normalized_columns,
+    ):
+        if cleaned in mapped_fields:
+            status = "mapped"
+        elif cleaned in unmapped_fields:
+            status = "unmapped"
+        else:
+            status = "unknown"
+
+        field_trace.append({
+            "original": original,
+            "cleaned": cleaned,
+            "normalized": normalized,
+            "status": status,
+        })
+
+    return field_trace
+
+
+def build_audit_summary(
+    field_trace: list[dict],
+    conversion_audit: list[dict] | None = None,
+) -> dict:
+    """
+    Build a simple count summary from field trace and conversion records.
+    """
+    conversions = conversion_audit or []
+
+    mapped_count = sum(1 for item in field_trace if item["status"] == "mapped")
+    unmapped_count = sum(1 for item in field_trace if item["status"] == "unmapped")
+
+    return {
+        "total_columns": len(field_trace),
+        "mapped_count": mapped_count,
+        "unmapped_count": unmapped_count,
+        "conversion_count": len(conversions),
+    }
+
+
+def build_audit_payload(
+    original_columns: list[str],
+    cleaned_columns: list[str],
+    normalized_columns: list[str],
+    mapped_fields: dict[str, str],
+    unmapped_fields: list[str],
+    conversion_audit: list[dict] | None = None,
+) -> dict:
+    """
+    Build the full audit payload for HiveOS Core.
+    """
+    conversions = conversion_audit or []
+
+    field_trace = build_field_trace(
+        original_columns=original_columns,
+        cleaned_columns=cleaned_columns,
+        normalized_columns=normalized_columns,
+        mapped_fields=mapped_fields,
+        unmapped_fields=unmapped_fields,
+    )
+
+    return {
+        "field_trace": field_trace,
+        "conversions": conversions,
+        "summary": build_audit_summary(
+            field_trace=field_trace,
+            conversion_audit=conversions,
+        ),
+    }
