@@ -1,0 +1,171 @@
+/*
+  HiveOS Results Dashboard
+  tokens.css
+  Centralized design tokens and responsive sizing system
+*/
+
+:root {
+
+  /* =========================
+     COLORS
+     ========================= */
+
+  --bg: #f4f7fb;
+
+  --panel: #ffffff;
+  --panel-2: #fcfdff;
+  --card: #f8fafc;
+
+  --border: #dbe4ee;
+  --border-soft: #e9eef5;
+
+  --text: #111827;
+  --muted: #6b7280;
+
+  --primary: #12b981;
+  --primary-soft: rgba(18, 185, 129, 0.12);
+
+  --gold: #c89d2a;
+  --gold-soft: rgba(200, 157, 42, 0.12);
+
+  --blue: #2563eb;
+  --blue-soft: rgba(37, 99, 235, 0.12);
+
+  --orange: #f59e0b;
+  --orange-soft: rgba(245, 158, 11, 0.12);
+
+  --red: #ef4444;
+  --red-soft: rgba(239, 68, 68, 0.12);
+
+  --purple: #8b5cf6;
+  --purple-soft: rgba(139, 92, 246, 0.12);
+
+  --success: #10b981;
+  --success-soft: rgba(16, 185, 129, 0.12);
+
+  /* =========================
+     TYPOGRAPHY
+     ========================= */
+
+  --font-main:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  /*
+    Clamp values help maintain
+    consistent visual scaling across:
+    - desktop
+    - tablet
+    - mobile
+    - browser zoom changes
+  */
+
+  --text-xs: clamp(10px, 0.7vw, 11px);
+  --text-sm: clamp(12px, 0.8vw, 13px);
+  --text-md: clamp(14px, 0.9vw, 15px);
+  --text-lg: clamp(17px, 1vw, 18px);
+  --text-xl: clamp(22px, 1.5vw, 24px);
+  --text-2xl: clamp(28px, 2vw, 32px);
+
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-heavy: 800;
+
+  /* =========================
+     SPACING
+     ========================= */
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+
+  /* =========================
+     RADIUS
+     ========================= */
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+
+  /* =========================
+     SHADOWS
+     ========================= */
+
+  --shadow-sm:
+    0 1px 2px rgba(15, 23, 42, 0.04);
+
+  --shadow-md:
+    0 6px 18px rgba(15, 23, 42, 0.06);
+
+  --shadow-lg:
+    0 18px 40px rgba(15, 23, 42, 0.08);
+
+  /* =========================
+     TRANSITIONS
+     ========================= */
+
+  --transition-fast: 120ms ease;
+  --transition-normal: 180ms ease;
+  --transition-slow: 260ms ease;
+
+  /* =========================
+     LAYOUT
+     ========================= */
+
+  /*
+    Sidebar shrinks slightly on smaller screens
+    to preserve dashboard proportions.
+  */
+
+  --sidebar-width:
+    clamp(250px, 22vw, 300px);
+
+  --header-height: 76px;
+
+  /*
+    Prevents ultra-wide stretching
+    on massive monitors.
+  */
+
+  --max-content-width: 1800px;
+
+  /*
+    Controls overall dashboard spacing
+    responsively.
+  */
+
+  --page-padding:
+    clamp(12px, 2vw, 24px);
+
+  /* =========================
+     TABLES
+     ========================= */
+
+  /*
+    Helps tables scale more gracefully
+    before horizontal scrolling begins.
+  */
+
+  --table-min-width: 880px;
+
+  /* =========================
+     Z-INDEX
+     ========================= */
+
+  --z-tabs: 10;
+  --z-sticky: 20;
+  --z-overlay: 100;
+}

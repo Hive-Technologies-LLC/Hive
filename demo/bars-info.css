@@ -1,0 +1,117 @@
+/*
+  HiveOS Results Dashboard
+  buttons.css
+  Button styles, action controls, and small interactive buttons
+*/
+
+/* =========================
+   BASE BUTTON GROUP
+   ========================= */
+
+.primary-btn,
+.secondary-btn,
+.mini-btn,
+.table-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+
+  min-width: 0;
+
+  border-radius: var(--radius-md);
+
+  font-weight: var(--fw-semibold);
+  line-height: 1.2;
+
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+/* =========================
+   PRIMARY BUTTON
+   ========================= */
+
+.primary-btn {
+  width: 100%;
+  padding: 12px 14px;
+
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.primary-btn:hover {
+  opacity: 0.9;
+}
+
+/* =========================
+   SECONDARY BUTTON
+   ========================= */
+
+.secondary-btn {
+  padding: 10px 14px;
+
+  background: var(--card);
+  color: var(--text);
+
+  border: 1px solid var(--border);
+}
+
+.secondary-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.secondary-btn.full {
+  width: 100%;
+}
+
+/* =========================
+   MINI BUTTON
+   ========================= */
+
+.mini-btn {
+  padding: 6px 10px;
+
+  background: var(--gold-soft);
+  color: var(--gold);
+
+  border: 1px solid rgba(200, 157, 42, 0.35);
+
+  font-size: var(--text-sm);
+}
+
+/* =========================
+   TABLE ACTION BUTTON
+   ========================= */
+
+.table-action-btn {
+  padding: 7px 12px;
+
+  background: var(--card);
+  color: var(--text);
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+
+  font-size: 12px;
+}
+
+.table-action-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* =========================
+   RESPONSIVE BUTTONS
+   ========================= */
+
+@media (max-width: 820px) {
+  .top-header .secondary-btn {
+    width: 100%;
+  }
+}
